@@ -6,8 +6,8 @@ Feature: getContext Feature
     
   # @QAP
   # Examples:
-  #   |PROFILE              |request            |
-  #   |USER_QA        |getContextRequest  |
+  #   |request            |
+  #   |getContextRequest  |
 
   Scenario: getContext
   When I try to hit getContext Service with request
