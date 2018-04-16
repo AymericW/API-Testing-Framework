@@ -48,7 +48,7 @@ var GetContextTest = function () {
   });
 
   this.Then(/^I should be able to get the correct country list$/, function (callback) {
-    console.log("response:   "+ stringify(queryResponse));
+    //console.log("response:   "+ stringify(queryResponse));
     validateResponse(queryResponse);
     callback();
   });

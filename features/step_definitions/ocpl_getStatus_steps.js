@@ -131,18 +131,18 @@ var ValidateNewCustomerTest = function () {
       validateNewCustomerReqOptions.body.gsn = getContextResponse.body.value.gsn;
       createCustomerAccountReqOptions.body.gsn = getContextResponse.body.value.gsn;
       getStatusUrlReqOptions.body.gsn = getContextResponse.body.value.gsn;
-      console.log("getContextResponse****** " + stringify(getContextResponse));
+      //console.log("getContextResponse****** " + stringify(getContextResponse));
       request(validateNewCustomerReqOptions)
       .then(function (validateNewCustomerResponse) {
-        console.log("validateNewCustomerResponse------- " + stringify(validateNewCustomerResponse));
+        //console.log("validateNewCustomerResponse------- " + stringify(validateNewCustomerResponse));
         //callback();
         request(createCustomerAccountReqOptions)
         .then(function (createCustomerAccountResponse) {
-          console.log("createCustomerAccountResponse------- " + stringify(createCustomerAccountResponse));
+          //console.log("createCustomerAccountResponse------- " + stringify(createCustomerAccountResponse));
           //callback();
           request(getStatusUrlReqOptions)
           .then(function (getStatusResponse) {
-            console.log("getStatusResponse------- " + stringify(getStatusResponse));
+            //console.log("getStatusResponse------- " + stringify(getStatusResponse));
             queryResponse = getStatusResponse.body;
             callback();
           })
@@ -156,7 +156,7 @@ var ValidateNewCustomerTest = function () {
   });
 
   this.Then(/^I should be able to get the status$/, function (callback) {
-    console.log("response:   "+ stringify(queryResponse));
+    //console.log("response:   "+ stringify(queryResponse));
     validateResponse(queryResponse);
     callback();
   });

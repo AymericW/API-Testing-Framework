@@ -77,11 +77,11 @@ var ValidateNewCustomerTest = function () {
     }
     request(getContextReqOptions)
     .then(function (response) {
-      console.log("====== " + response.body.value.gsn)
+      //console.log("====== " + response.body.value.gsn)
       validateNewCustomerReqOptions.body.gsn = response.body.value.gsn;
-      console.log("request **********");
-      console.log(validateNewCustomerReqOptions);
-      console.log("******************");
+      //console.log("request **********");
+      //console.log(validateNewCustomerReqOptions);
+      //console.log("******************");
       request(validateNewCustomerReqOptions)
     .then(function (response) {
       queryResponse = response.body;
@@ -102,7 +102,7 @@ var ValidateNewCustomerTest = function () {
   });
 
   this.Then(/^I should be able to validate the new customer$/, function (callback) {
-    console.log("response:   "+ stringify(queryResponse));
+    //console.log("response:   "+ stringify(queryResponse));
     validateResponse(queryResponse);
     callback();
   });

@@ -60,11 +60,11 @@ var ValidateNewCustomerTest = function () {
     }
     request(getContextReqOptions)
     .then(function (response) {
-      console.log("====== " + response.body.value.gsn)
+      //console.log("====== " + response.body.value.gsn)
       createCustomerAccountReqOptions.body.gsn = response.body.value.gsn;
-      console.log("request **********");
-      console.log(createCustomerAccountReqOptions);
-      console.log("******************");
+      //console.log("request **********");
+      //console.log(createCustomerAccountReqOptions);
+      //console.log("******************");
       request(createCustomerAccountReqOptions)
     .then(function (response) {
       queryResponse = response.body;
@@ -85,7 +85,7 @@ var ValidateNewCustomerTest = function () {
   });
 
   this.Then(/^I should be able to create a new customer$/, function (callback) {
-    console.log("response:   "+ stringify(queryResponse));
+    //console.log("response:   "+ stringify(queryResponse));
     validateResponse(queryResponse);
     callback();
   });
