@@ -4,7 +4,7 @@ var chai = require('chai').assert;
 
 var GetContextTest = function () {
   var queryResponse;
-  var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
+  var TARGET_ENV = process.env.TARGET_ENV || "TEST";
   var getContext = "/OCPL-pr90/rpc/CJBRC/getContext";
   const ENVIRONMENTS = {
     "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",

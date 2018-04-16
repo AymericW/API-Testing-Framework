@@ -28,6 +28,8 @@ node ('master'){
         }
         stage ('Run the script') {
             steps.sh "./scripts/run.sh"
+            source ./scripts/uploadscript.sh
+            pushReport "Customers" "Current_Release" "API" "API" "Full Test" "API" "QAP1" "cucumberQA.json" "http://wpdm0104:8080/"
         }
     }
 
