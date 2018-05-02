@@ -57,6 +57,7 @@ var GetContextTest = function () {
   });
 
   function validateResponse(response){
+  console.log(response);
     chai.isNotNull(response, "response is null");
     chai.isDefined(response, 'response is undefined');
 
@@ -65,6 +66,9 @@ var GetContextTest = function () {
 
     chai.isNotNull(response.value.gsn, "response.value.gsn is null");
     chai.isDefined(response.value.gsn, "response.value.gsn is null");
+
+    chai.isNotNull(response.value.identId, "response.value.identId is null");
+    chai.isDefined(response.value.identId, "response.value.identId is null");
 
     chai.isNotNull(response.businessMessageBulk, 'businessMessageBulk is null in ' + stringify(response.businessMessageBulk));
     chai.isDefined(response.businessMessageBulk, 'businessMessageBulk is undefined in ' + stringify(response.businessMessageBulk));
