@@ -30,9 +30,9 @@ node ('master'){
             steps.sh "./scripts/run.sh"
         }
         
-        //stage ('Upload the Report') {
-        //    steps.sh './scripts/uploadscript.sh "CUSTOMERS" "1.0" "API Testing - TEST" "CUSTOMERS" "1.0" "API" "cucumberTEST.json" "http://wpdm0006:8080"'
-        //}
+        stage ('Upload the Report') {
+            steps.sh './scripts/uploadscript.sh "CUSTOMERS" "1.0" "API Testing - TEST" "CUSTOMERS" "1.0" "API" "cucumberTEST.json" "http://wpdm0006:8080"'
+        }
     }
 
     stage ('End pipeline') {println "End pipeline"}
