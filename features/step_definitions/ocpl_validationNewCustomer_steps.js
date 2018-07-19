@@ -35,10 +35,11 @@ var ValidateNewCustomerTest = function () {
       "lastName" : "Cueto",
       "nationality": "Belge",
       "birthPlace": "uccle",
-      "birthDate" :"18NOV1990",
+      "birthDate" :"1990-11-18",
       "gender": "M",
+      "civilStatus": "2",
       "idCardNumber" : "590123457380",
-      "idCardExpirationDate": "02.03.2027",
+      "idCardExpirationDate": "2027-03-02",
       "nationalRegistryNumber": "90111865197"
     },
     json: true,
