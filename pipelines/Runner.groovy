@@ -31,7 +31,7 @@ node ('master'){
         }
         
         stage ('Upload the Report') {
-            steps.sh './scripts/uploadscript.sh "CUSTOMERS" "1.0" "API Testing - TEST" "CUSTOMERS" "1.0" "API" "cucumberTEST.json" "http://wpdm0006:8080"'
+            steps.sh 'sh ./scripts/uploadscript.sh "PFM" "Current_Release" "API" "API" "Full Test" "API" "QAP1" "cucumberQA.json" "http://wpdm0104.be.fortis.bank:8000/"'
         }
     }
 
