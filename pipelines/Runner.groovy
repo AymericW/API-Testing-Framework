@@ -31,7 +31,7 @@ node ('master'){
         }
         
         stage ('Upload the Report') {
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "API Testing Consent" "CUSTOMERS" "1.0" "API" "cucumber.json" "http://wpdm0104.be.fortis.bank:8000/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "API Testing Consent" "CUSTOMERS" "1.0" "API" "cucumberQA.json" "http://wpdm0104.be.fortis.bank:8000/"'
         }
     }
 
