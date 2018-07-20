@@ -31,7 +31,7 @@ node ('master'){
         }
         
         stage ('Upload the Report') {
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "API" "API Testing Consent" "Full Test" "API" "QAP1" "cucumberQA.json" "http://wpdm0006:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "ACCOUNTS" "Current_Release" "API" "API Testing Consent" "Full Test" "API" "QAP1" "cucumberQA.json" "http://wpdm0006:8080/"'
         }
     }
 
