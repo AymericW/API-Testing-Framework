@@ -31,7 +31,7 @@ var GetContextTest = function () {
         'brand':'FB',
         'language':'fr',
         'personalDetailsDTO':{
-          'dateOfBirth': '01010111'
+          'dateOfBirth': '1990-11-23'
         }
       },
       json: true,
