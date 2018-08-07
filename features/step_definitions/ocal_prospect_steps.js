@@ -48,55 +48,23 @@ var prospectTest = function () {
         callback.pending();
     });
 
-    // function generateName(){
-    //     var nameLength = Math.random() * (2 - 15) + 15;
-    //     var firstLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    //     var bodyLetter = "abcdefghijklmnopqrstuvwxyz";
-
-    //     var generateRandom = firstLetter.charAt(Math.floor(Math.random() * firstLetter.length));
-        
-    //     for (var i = 1; i < nameLength; i++){
-    //         generateRandom += bodyLetter.charAt(Math.floor(Math.random() * bodyLetter.length));
-    //     }
-
-    //     return generateRandom;
-    // }
-
-    // var firstName = generateName();
-    // var lastName = generateName();
-    // var Email = firstName.toLowerCase() + "." + lastName.toLowerCase() + "@hotmail.com";
-
-    var generateRandomName = function getRandomName(){
+    function generateName(){
         var nameLength = Math.random() * (2 - 15) + 15;
         var firstLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         var bodyLetter = "abcdefghijklmnopqrstuvwxyz";
 
-        
-        var generateRandomF = firstLetter.charAt(Math.floor(Math.random() * firstLetter.length));
-        
-        for (var i = 1; i < nameLength; i++){
-            generateRandomF += bodyLetter.charAt(Math.floor(Math.random() * bodyLetter.length));
-        }
-
-        var generateRandomL = firstLetter.charAt(Math.floor(Math.random() * firstLetter.length));
+        var generateRandom = firstLetter.charAt(Math.floor(Math.random() * firstLetter.length));
         
         for (var i = 1; i < nameLength; i++){
-            generateRandomL += bodyLetter.charAt(Math.floor(Math.random() * bodyLetter.length));
+            generateRandom += bodyLetter.charAt(Math.floor(Math.random() * bodyLetter.length));
         }
 
-        var generatedEmail = generateRandomF.toLowerCase() + "." + generateRandomL.toLowerCase() + "@hotmail.com";
+        return generateRandom;
+    }
 
-        return {
-            firstName: generateRandomF,
-            lastName: generateRandomL,
-            generatedEmail: generatedEmail
-        }
-    };
-
-    var generateRandom = generateRandomName();
-    var randomFirstName = generateRandom.firstName;
-    var randomLastName = generateRandom.lastName;
-    var randomEmail = generateRandom.generatedEmail;
+    var randomFirstName = generateName();
+    var randomLastName = generateName();
+    var randomEmail = randomFirstName.toLowerCase() + "." + randomLastName.toLowerCase() + "@hotmail.com";
 
 };
   module.exports = prospectTest;
