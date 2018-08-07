@@ -44,8 +44,22 @@ var prospectTest = function () {
     });
     
     this.Then(/^I should be able to get the correct prospect$/, function (callback) {
-        // Write code here that turns the phrase above into concrete actions
-        callback.pending();
+        var errorList = [];
+        if(queryResponse.id === null || queryResponse.id === undefined || typeof(queryResponse.id) != "string"){
+            errorList.push("id : " + queryResponse.id);
+        }
+        if(queryResponse.identId === null || queryResponse.identId === undefined || typeof(queryResponse.identId) != "string"){
+            errorList.push("identId : " + queryResponse.identId);
+        }
+        if(errorList.length !== 0){
+            var errors = "";
+            errorList.forEach(element => {
+                errors += element + "\n";
+            });
+            callback(new Error("The Following Fields were incorrect \n" + errors));
+        }else{
+            callback();
+        }
     });
 
     function generateName(){
