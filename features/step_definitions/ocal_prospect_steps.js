@@ -44,6 +44,7 @@ var prospectTest = function () {
     });
     
     this.Then(/^I should be able to get the correct prospect$/, function (callback) {
+        // Fields validated
         var errorList = [];
         if(queryResponse.id === null || queryResponse.id === undefined || typeof(queryResponse.id) != "string"){
             errorList.push("id : " + queryResponse.id);
@@ -51,6 +52,17 @@ var prospectTest = function () {
         if(queryResponse.identId === null || queryResponse.identId === undefined || typeof(queryResponse.identId) != "string"){
             errorList.push("identId : " + queryResponse.identId);
         }
+        if(queryResponse.lastName === null || queryResponse.lastName === undefined || typeof(queryResponse.lastName) != "string"){
+            errorList.push("lastName : " + queryResponse.lastName);
+        }
+        if(queryResponse.firstName === null || queryResponse.firstName === undefined || typeof(queryResponse.firstName) != "string"){
+            errorList.push("firstName : " + queryResponse.firstName);
+        }
+        if(queryResponse.email === null || queryResponse.email === undefined || typeof(queryResponse.email) != "string"){
+            errorList.push("email : " + queryResponse.email);
+        }
+
+        // Throw error
         if(errorList.length !== 0){
             var errors = "";
             errorList.forEach(element => {
