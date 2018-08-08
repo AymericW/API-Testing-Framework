@@ -1,5 +1,5 @@
 var request = require('request-promise');
-
+var chai = require('chai').assert;
 
 var prospectTest = function () {
     var queryResponse;
@@ -52,17 +52,17 @@ var prospectTest = function () {
         if(queryResponse.identId === null || queryResponse.identId === undefined || typeof(queryResponse.identId) != "string"){
             errorList.push("identId : " + queryResponse.identId);
         }
-        if(queryResponse.lastName === null || queryResponse.lastName === undefined || typeof(queryResponse.lastName) != "string"){
+        if(queryResponse.lastName !== randomLastName || queryResponse.lastName === undefined || typeof(queryResponse.lastName) != "string"){
             errorList.push("lastName : " + queryResponse.lastName);
         }
-        if(queryResponse.firstName === null || queryResponse.firstName === undefined || typeof(queryResponse.firstName) != "string"){
+        if(queryResponse.firstName !== randomFirstName || queryResponse.firstName === undefined || typeof(queryResponse.firstName) != "string"){
             errorList.push("firstName : " + queryResponse.firstName);
         }
-        if(queryResponse.email === null || queryResponse.email === undefined || typeof(queryResponse.email) != "string"){
+        if(queryResponse.email !== randomEmail || queryResponse.email === undefined || typeof(queryResponse.email) != "string"){
             errorList.push("email : " + queryResponse.email);
         }
 
-        // Throw error
+        // // Throw error
         if(errorList.length !== 0){
             var errors = "";
             errorList.forEach(element => {
@@ -73,7 +73,7 @@ var prospectTest = function () {
             callback();
         }
     });
-
+    
     function generateName(){
         var nameLength = Math.random() * (2 - 15) + 15;
         var firstLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
