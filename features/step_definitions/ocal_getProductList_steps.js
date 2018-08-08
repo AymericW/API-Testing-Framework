@@ -14,17 +14,15 @@
         //   "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
         // };
     
-        this.When(/^I try get try to get a product according to my age (.*)$/, function (callback) {
-            function chooseAnswer(){
-                var Answer = "";
-                if under28 = "YES"
-                    Answer = "y";
-                 else under28 = "NO";
-                    Answer = "n";
-                }
+        this.When(/^I try get try to get a product according to my age (.*)$/, function (under28, callback) {
+            console.log("under28 : " + under28);
+            var choosenAnswer = "y";
+            if (under28 === "YES"){
+                choosenAnswer = "y";
+            }else{
+                choosenAnswer = "n";
             }
-            var choosenAnswer = chooseAnswer();
-            
+
             var reqOptions = {
                 url: "http://sdwl0314:9092"+getProductList+choosenAnswer,
                 method: 'GET',
@@ -37,6 +35,8 @@
                 resolveWithFullResponse: true,
                 simple: false
             };
+            console.log("Request URL : " + reqOptions.url);
+
             if (process.env.HTTP_PROXY){
                 reqOptions.proxy = process.env.HTTP_PROXY;
             }
