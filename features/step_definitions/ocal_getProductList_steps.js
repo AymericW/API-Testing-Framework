@@ -86,6 +86,11 @@
             if(product.accountProductName === null || product.accountProductName === undefined || typeof(product.accountProductName) != 'string'){
                 errorList.push(productIndex + "-accountProductName : " + product.accountProductName);
             }
+            if(ageParam === "YES"){
+                console.log("accType expected for under 28:  'CDIGPK' \n" + "accType fetched are: " + product.accType);
+            }else{
+                console.log("accType expected for above 28:  'CCOMF' or 'CPREMI' \n" + "accType fetched are: " + product.accType);
+            }
         });
         return errorList;
     }
