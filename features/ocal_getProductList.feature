@@ -2,8 +2,8 @@
 Feature: Get product list Feature
   
   Scenario Outline: getProductList
-  When I try get try to get a product according to my age <under28>
-  Then I should be able to get product list <under28>
+  When I try to get a product according to my age <under28>
+  Then I should be able to get the correct products
 
         Examples:
         |    under28    | 
