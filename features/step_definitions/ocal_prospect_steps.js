@@ -44,6 +44,16 @@ var prospectTest = function () {
     });
     
     this.Then(/^I should be able to get the correct prospect$/, function (callback) {
+        //yaml validation
+        var yamlValidationResult = this.validateApiDefinition(queryResponse,"addProspect");
+        if(yamlValidationResult.isValid){
+            validateProspect(callback);
+        }else{
+            callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message));
+        }
+    });
+
+    function validateProspect(callback){
         // Fields validated
         var errorList = [];
         if(queryResponse.id === null || queryResponse.id === undefined || typeof(queryResponse.id) != "string"){
@@ -72,7 +82,7 @@ var prospectTest = function () {
         }else{
             callback();
         }
-    });
+    }
     
     function generateName(){
         var nameLength = Math.random() * (2 - 15) + 15;
