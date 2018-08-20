@@ -48,9 +48,14 @@ var GetContextTest = function () {
   });
 
   this.Then(/^I should be able to get the correct country list$/, function (callback) {
-    //console.log("response:   "+ stringify(queryResponse));
-    validateResponse(queryResponse);
-    callback();
+
+    var yamlValidationResult = this.validateApiDefinition(queryResponse,"getCountryList");
+    if(yamlValidationResult.isValid){
+      validateResponse(queryResponse);
+      callback();
+    }else{
+      callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message));
+    }
   });
 
   function validateResponse(response){

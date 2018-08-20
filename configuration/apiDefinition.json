@@ -1,0 +1,142 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Become A Retail Customer",
+    "description": "yaml definition of all the services used in Become a Retail Customer Journey",
+    "contact": {
+      "name": "Name of API owner"
+    }
+  },
+  "host": "wddm0075.be.fortis.bank:4000",
+  "basePath": "/OCPL-pr90/rpc",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "definitions": {
+    "BusinessMessages": {
+      "description": "Request of the service GetCountryList.",
+      "required": [
+        "messages",
+        "pewCode",
+        "globalIndicator",
+        "text"
+      ],
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "description": "...add a description..."
+          }
+        },
+        "pewCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "globalIndicator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "GetCountryListRequest": {
+      "description": "Request of the service GetCountryList.",
+      "required": [
+        "language",
+        "brand"
+      ],
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "language"
+        },
+        "brand": {
+          "type": "string",
+          "description": "brand"
+        }
+      }
+    },
+    "GetCountryListResponse": {
+      "description": "GetCountryList Response schema",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "description": "...add a description...",
+          "required": [
+            "countryLists"
+          ],
+          "properties": {
+            "countryLists": {
+              "description": "countryLists",
+              "type": "array",
+              "items": {
+                "description": "...add a description...",
+                "required": [
+                  "countryCode",
+                  "countryLabel"
+                ],
+                "properties": {
+                  "countryCode": {
+                    "type": "string",
+                    "description": "countryCode"
+                  },
+                  "countryLabel": {
+                    "type": "string",
+                    "description": "countryLabel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "businessMessageBulk": {
+          "$ref": "#/definitions/BusinessMessages"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/CJBRC/getCountryList": {
+      "post": {
+        "operationId": "getCountryList",
+        "summary": "list of Countries for SMO",
+        "description": "This aims to get list of Countries for SMO",
+        "parameters": [
+          {
+            "name": "requestParameters",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/GetCountryListRequest"
+            },
+            "description": "...Get Countrylist Request...",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "...Get Countrylist Response...",
+            "schema": {
+              "$ref": "#/definitions/GetCountryListResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+}
