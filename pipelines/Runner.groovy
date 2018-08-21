@@ -33,7 +33,7 @@ node ('master'){
         stage ('Upload the Report') {
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "postProspect (TEST)" "API" "Full Test" "API" "TEST" "ocal_prospect.json" "http://wpdm0006.be.fortis.bank:8080/"'
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getProductList (TEST)" "API" "Full Test" "API" "TEST" "ocal_getProductList.json" "http://wpdm0006.be.fortis.bank:8080/"'
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getCountryList (TEST)" "API" "Full Test" "API" "TEST" "ocpl_getCountryList.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getCountryList (QA+1)" "API" "Full Test" "API" "QA+1" "ocpl_getCountryList.json" "http://wpdm0006.be.fortis.bank:8080/"'
         }
     }
     stage ('End pipeline') {println "End pipeline"}
