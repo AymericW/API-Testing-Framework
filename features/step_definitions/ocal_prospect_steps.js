@@ -3,15 +3,15 @@ var chai = require('chai').assert;
 
 var prospectTest = function () {
     var queryResponse;
-    var TARGET_ENV = process.env.TARGET_ENV || "TEST";
+    // var TARGET_ENV = process.env.TARGET_ENV || "TEST";
     var getProspect = "/OCAL-ap90-war/rpc/prospects";
-    const ENVIRONMENTS = {
-      "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",
-      "TEST"  : "https://easybanking.testaccess.qabnpparibasfortis.be",
-      "QA"    : "https://easybanking.qabnpparibasfortis.be",
-      "QA+1"  : "https://p1.easybanking.qabnpparibasfortis.be",
-      "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
-    };
+    // const ENVIRONMENTS = {
+    //   "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",
+    //   "TEST"  : "https://easybanking.testaccess.qabnpparibasfortis.be",
+    //   "QA"    : "https://easybanking.qabnpparibasfortis.be",
+    //   "QA+1"  : "https://p1.easybanking.qabnpparibasfortis.be",
+    //   "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
+    // };
 
     this.When(/^I try create a prospect with some data$/, function (callback) {
         var reqOptions = {
