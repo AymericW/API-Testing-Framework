@@ -49,7 +49,7 @@ var prospectTest = function () {
         if(yamlValidationResult.isValid){
             validateProspect(callback);
         }else{
-            callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message));
+            callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message + " , " + yamlValidationResult.schemaPath));
         }
     });
 
