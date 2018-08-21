@@ -27,7 +27,7 @@ node ('master'){
             steps.sh "npm install"
         }
         stage ('Run the script') {
-            steps.sh "./scripts/run.sh 'features/ocal_getProductList.feature'"
+            steps.sh "./scripts/run.sh"
         }
         
         stage ('Upload the Report') {

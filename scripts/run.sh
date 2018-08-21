@@ -1,7 +1,4 @@
-Feature=$1
-kinit -k -t G27663.keytab G27663@INT.SYS.SHARED.FORTIS
 unset HTTP_PROXY
-#Whitelist wpdm0006 in your proxies
 npm config set registry http://wpdm0006:8081/nexus/content/groups/npm-public-and-private/
 npm install
 export HTTP_PROXY="http://nwbcproxy.res.sys.shared.fortis:8080"
