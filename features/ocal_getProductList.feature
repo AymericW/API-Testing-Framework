@@ -1,5 +1,5 @@
 @FID_2162
-Feature: Get product list Feature
+Feature: getProductList Feature
   
   Scenario Outline: getProductList
   When I try to get a product according to my age <under28>

@@ -1,5 +1,5 @@
 @FID_2162
-Feature: Create prospect Feature
+Feature: postProspect Feature
   
   Scenario: postProspect
   When I try create a prospect with some data
