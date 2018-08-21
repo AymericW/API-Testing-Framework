@@ -1,10 +1,11 @@
 var fs=require('fs');
 var tv4 = require('tv4');
 var _ = require('underscore');
+var path = require('path');
 
 var myBeforeHooks = function () {
     this.Before(function (scenario) {
-        var data=fs.readFileSync("./configuration/apiDefinition.json");
+        var data=fs.readFileSync(path.resolve("./configuration/apiDefinition.json"));
         var swaggerSpecs=JSON.parse(data);
         fixNullability(swaggerSpecs.definitions);
         this.setSwaggerSpecs(swaggerSpecs);
