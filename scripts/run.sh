@@ -1,3 +1,5 @@
+Feature=$1
+kinit -k -t g27663.keytab G27663@INT.SYS.SHARED.FORTIS
 unset HTTP_PROXY
 npm config set registry http://wpdm0006:8081/nexus/content/groups/npm-public-and-private/
 npm install

@@ -14,7 +14,7 @@ node ('master'){
 
 
     // Node image used in this pipeline 
-    def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.0"
+    def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
     def nodeImage = docker.image("${nodeImageName}")
 
     stage ('Start pipeline') {println "Start pipeline"}
