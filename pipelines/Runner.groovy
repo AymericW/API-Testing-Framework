@@ -21,15 +21,19 @@ node ('master'){
             steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
             steps.sh "npm install"
         }
-        stage ('Run the script') {
-            steps.sh "./scripts/run.sh 'features/ocal_prospect.feature'"
-            steps.sh "./scripts/run.sh 'features/ocal_getProductList.feature'"
-            steps.sh "./scripts/run.sh 'features/ocpl_getCountryList.feature'"
+        stage ('Run the script(ocal_prospect.feature)') {
+            steps.sh "./scripts/run.sh 'ocal_prospect'"
+        }
+        stage ('Run the script(ocal_prospect.feature)') {
+            steps.sh "./scripts/run.sh 'ocal_getProductList'"
+        }
+        stage ('Run the script(ocpl_getCountryList.feature)') {
+            steps.sh "./scripts/run.sh 'ocpl_getCountryList'"
         }
         stage ('Upload the Report') {
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "postProspect (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getProductList (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getCountryList (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "postProspect (TEST)" "API" "Full Test" "API" "TEST" "ocal_prospect.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getProductList (TEST)" "API" "Full Test" "API" "TEST" "ocal_getProductList.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getCountryList (TEST)" "API" "Full Test" "API" "TEST" "ocpl_getCountryList.json" "http://wpdm0006.be.fortis.bank:8080/"'
         }
     }
     stage ('End pipeline') {println "End pipeline"}
