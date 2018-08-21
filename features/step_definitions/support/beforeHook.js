@@ -4,7 +4,7 @@ var _ = require('underscore');
 
 var myBeforeHooks = function () {
     this.Before(function (scenario) {
-        var data=fs.readFileSync("/Users/admin/Documents/api-testing/configuration/apiDefinition.json");
+        var data=fs.readFileSync("../../../configuration/apiDefinition.json");
         var swaggerSpecs=JSON.parse(data);
         fixNullability(swaggerSpecs.definitions);
         this.setSwaggerSpecs(swaggerSpecs);
