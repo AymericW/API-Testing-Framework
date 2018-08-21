@@ -24,7 +24,7 @@ node ('master'){
         stage ('Run the script') {
             steps.sh "./scripts/run.sh 'features/ocal_prospect.feature'"
             steps.sh "./scripts/run.sh 'features/ocal_getProductList.feature'"
-            steps.sh "./scripts/run.sh 'features/ocal_getCountryList.feature'"
+            steps.sh "./scripts/run.sh 'features/ocpl_getCountryList.feature'"
         }
         stage ('Upload the Report') {
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "postProspect (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
