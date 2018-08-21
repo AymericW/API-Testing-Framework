@@ -3,15 +3,15 @@
 
     var getProductList = function () {        
         var ageFactor;
-        // var TARGET_ENV = process.env.TARGET_ENV || "TEST";
+        var TARGET_ENV = process.env.TARGET_ENV || "TEST";
         var getProductList = "/OCAL-ap90-war/rpc/products?ageUnder28=";
-        // const ENVIRONMENTS = {
-        //   "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",
-        //   "TEST"  : "https://easybanking.testaccess.qabnpparibasfortis.be",
-        //   "QA"    : "https://easybanking.qabnpparibasfortis.be",
-        //   "QA+1"  : "https://p1.easybanking.qabnpparibasfortis.be",
-        //   "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
-        // };
+        const ENVIRONMENTS = {
+          "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",
+          "TEST"  : "https://easybanking.testaccess.qabnpparibasfortis.be",
+          "QA"    : "https://easybanking.qabnpparibasfortis.be",
+          "QA+1"  : "https://p1.easybanking.qabnpparibasfortis.be",
+          "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
+        };
     
         this.When(/^I try to get a product according to my age (.*)$/, function (under28, callback) {
             let age = "n";
