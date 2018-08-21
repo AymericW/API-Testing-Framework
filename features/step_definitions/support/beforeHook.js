@@ -5,7 +5,24 @@ var path = require('path');
 
 var myBeforeHooks = function () {
     this.Before(function (scenario) {
-        var data=fs.readFileSync(path.resolve("./configuration/apiDefinition.json"));
+        var data;
+        switch (scenario.getName()) {
+            case 'getCountryList':
+                data=fs.readFileSync(path.resolve("./configuration/apiDefinition.json"));
+                break;
+
+            case 'getProductList':
+                data=fs.readFileSync(path.resolve("./configuration/productsApi.json"));
+                break;
+
+            case 'postProspect':
+                data=fs.readFileSync(path.resolve("./configuration/prospectsApi.json"));
+                break;
+        
+            default:
+                break;
+        }
+
         var swaggerSpecs=JSON.parse(data);
         fixNullability(swaggerSpecs.definitions);
         this.setSwaggerSpecs(swaggerSpecs);
