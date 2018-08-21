@@ -22,10 +22,14 @@ node ('master'){
             steps.sh "npm install"
         }
         stage ('Run the script') {
+            steps.sh "./scripts/run.sh 'features/ocal_prospect.feature'"
             steps.sh "./scripts/run.sh 'features/ocal_getProductList.feature'"
+            steps.sh "./scripts/run.sh 'features/ocal_getCountryList.feature'"
         }
         stage ('Upload the Report') {
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "postProspect (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getProductList (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "getCountryList (TEST)" "API" "Full Test" "API" "TEST" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
         }
     }
     stage ('End pipeline') {println "End pipeline"}
