@@ -109,11 +109,588 @@
           "$ref": "#/definitions/BusinessMessages"
         }
       }
+    },
+    "Status": {
+      "type": "object",
+      "properties": {
+        "pspStatus": {
+          "type": "string",
+          "enum": [
+            "INITAL",
+            "PSP_UGRADED",
+            "PSP_NOT_UPGRADED"
+          ]
+        },
+        "filesDeleted": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "eidCardValidation": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "zipFileStatus": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "proofOfAuthenticity": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "signaleticDocument": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "proofOfAddress": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "proofOfIdentity": {
+          "type": "string",
+          "enum": [
+            "INITIAL",
+            "SUCCESS",
+            "RETRY",
+            "ERROR"
+          ]
+        },
+        "remark": {
+          "type": "string"
+        },
+        "score": {
+          "type": "string"
+        },
+        "validation": {
+          "type": "string"
+        }
+      }
+    },
+    "Prospect": {
+      "required": [
+        "firstName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "accountNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "emailConsent": {
+          "type": "string",
+          "enum": [
+            "0",
+            "1"
+          ]
+        },
+        "id": {
+          "type": "string"
+        },
+        "identId": {
+          "type": "string"
+        },
+        "authToken": {
+          "type": "string",
+          "description": "authToken"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "phoneNumber"
+        },
+        "streetName": {
+          "type": "string",
+          "description": "streetName"
+        },
+        "houseNumber": {
+          "type": "string",
+          "description": "houseNumber"
+        },
+        "boxNumber": {
+          "type": "string",
+          "description": "boxNumber"
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "zipCode"
+        },
+        "city": {
+          "type": "string",
+          "description": "city"
+        },
+        "countryCode": {
+          "type": "string",
+          "description": "countryCode"
+        },
+        "civilStatus": {
+          "type": "string",
+          "description": "civilStatus"
+        },
+        "language": {
+          "type": "string",
+          "description": "language",
+          "enum": [
+            "FR",
+            "NL",
+            "EN",
+            "DE"
+          ]
+        },
+        "brand": {
+          "type": "string",
+          "description": "brand",
+          "enum": [
+            "HB",
+            "FR"
+          ]
+        },
+        "profession": {
+          "type": "string",
+          "description": "profession",
+          "enum": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+          ]
+        },
+        "countryOfActivity": {
+          "type": "string",
+          "description": "countryOfActivity"
+        },
+        "sectorOfActivity": {
+          "type": "string",
+          "description": "sectorOfActivity"
+        },
+        "subSectorOfActivity": {
+          "type": "string",
+          "description": "subSectorOfActivity"
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "dateOfBirth"
+        },
+        "packChosen": {
+          "type": "string",
+          "description": "packChosen"
+        },
+        "validation": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "packChosen"
+        },
+        "remark": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "packChosen"
+        },
+        "score": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "packChosen"
+        },
+        "belgianfiscalAddress": {
+          "type": "string",
+          "description": "belgianfiscalAddress",
+          "enum": [
+            "0",
+            "1"
+          ]
+        },
+        "americanCitizen": {
+          "type": "string",
+          "description": "americanCitizen",
+          "enum": [
+            "0",
+            "1"
+          ]
+        },
+        "americanAddress": {
+          "type": "string",
+          "description": "americanAddress",
+          "enum": [
+            "0",
+            "1"
+          ]
+        },
+        "PSP": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "PSP"
+        },
+        "SMID": {
+          "type": "string",
+          "description": "SMID"
+        },
+        "status": {
+          "description": "status of the whole CJBRC process",
+          "items": {
+            "$ref": "#/definitions/Status"
+          }
+        },
+        "product": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "eidCard": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "status of the whole CJBRC process",
+          "properties": {
+            "eidCardNumber": {
+              "type": "string"
+            },
+            "addressBin": {
+              "type": "string"
+            },
+            "birthDate": {
+              "type": "string"
+            },
+            "birthPlace": {
+              "type": "string"
+            },
+            "branchCode": {
+              "type": "string"
+            },
+            "branchName": {
+              "type": "string"
+            },
+            "brand": {
+              "type": "string"
+            },
+            "brcStatus": {
+              "type": "string"
+            },
+            "channel": {
+              "type": "string"
+            },
+            "commune": {
+              "type": "string"
+            },
+            "creationTimestamp": {
+              "type": "string"
+            },
+            "documentType": {
+              "type": "string"
+            },
+            "duplicata": {
+              "type": "string"
+            },
+            "eidBackPhoto": {
+              "type": "string"
+            },
+            "eidCommuneDelivered": {
+              "type": "string"
+            },
+            "eidFrontPhoto": {
+              "type": "string"
+            },
+            "eidValidEndDate": {
+              "type": "string"
+            },
+            "eidValidStartDate": {
+              "type": "string"
+            },
+            "eidXmlResMsg": {
+              "type": "string"
+            },
+            "firstInitial": {
+              "type": "string"
+            },
+            "firstNames": {
+              "type": "string"
+            },
+            "gender": {
+              "type": "string",
+              "enum": [
+                "M",
+                "F"
+              ]
+            },
+            "identityBin": {
+              "type": "string"
+            },
+            "lastUpdateTimestamp": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "nationalRegistryNumber": {
+              "type": "string"
+            },
+            "nationality": {
+              "type": "string"
+            },
+            "nobleCondition": {
+              "type": "string"
+            },
+            "otherDocsGeneratedTs": {
+              "type": "string"
+            },
+            "pdfGeneratedTimestamp": {
+              "type": "string"
+            },
+            "photo": {
+              "type": "string"
+            },
+            "postalCode": {
+              "type": "string"
+            },
+            "pspFound": {
+              "type": "string"
+            },
+            "pspLastSearchTimestamp": {
+              "type": "string"
+            },
+            "server": {
+              "type": "string"
+            },
+            "specialOrg": {
+              "type": "string"
+            },
+            "specialStatus": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "streetAndNumber": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "paths": {
+    "/prospects": {
+      "post": {
+        "tags": [
+          "CJBRC"
+        ],
+        "summary": "Add a new prospect",
+        "description": "",
+        "operationId": "addProspect",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Prospect object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Prospect"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Prospect"
+            }
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "prospect not found"
+          },
+          "500": {
+            "description": "Technical error"
+          }
+        }
+      }
+    },
+    "/prospect/{id}/status": {
+      "get": {
+        "tags": [
+          "CJBRC"
+        ],
+        "summary": "fetch all status of the prospect",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of pet to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          },
+          "404": {
+            "description": "Prospect not found"
+          },
+          "500": {
+            "description": "Technical error"
+          }
+        }
+      }
+    },
+    "/prospect/{id}": {
+      "get": {
+        "tags": [
+          "CJBRC"
+        ],
+        "summary": "Find prsopect by ID",
+        "description": "Returns a single prospect",
+        "operationId": "getProspecyById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of pet to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Prospect"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "prospect not found"
+          },
+          "500": {
+            "description": "Technical error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CJBRC"
+        ],
+        "summary": "Partially update the prospect",
+        "description": "",
+        "operationId": "updateProspect",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of pet to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Prospect object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Prospect"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "prospect not found"
+          },
+          "500": {
+            "description": "Technical error"
+          }
+        }
+      }
+    },
     "/CJBRC/getCountryList": {
       "post": {
+        "tags": [
+          "CJBRC"
+        ],
         "operationId": "getCountryList",
         "summary": "list of Countries for SMO",
         "description": "This aims to get list of Countries for SMO",
