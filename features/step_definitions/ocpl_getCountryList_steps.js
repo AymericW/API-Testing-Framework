@@ -2,7 +2,7 @@ var request = require('request-promise');
 var stringify = require('json-stringify-safe');
 var chai = require('chai').assert;
 
-var GetContextTest = function () {
+var GetCountryTest = function () {
   var queryResponse;
   var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
   var getCountry = "/OCPL-pr90/rpc/CJBRC/getCountryList";
@@ -79,4 +79,4 @@ var GetContextTest = function () {
     chai.isNull(response.businessMessageBulk.pewCode, "response.businessMessageBulk.pewCode is NOT null " + response.businessMessageBulk.pewCode);
   }
 };
-module.exports = GetContextTest;
+module.exports = GetCountryTest;
