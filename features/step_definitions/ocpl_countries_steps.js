@@ -45,7 +45,7 @@ var getCountriesTest = function () {
       validateResponse(queryResponse);
       callback();
     }else{
-      callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message));
+      callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message + " , " + yamlValidationResult.schema));
     }
   });
 
