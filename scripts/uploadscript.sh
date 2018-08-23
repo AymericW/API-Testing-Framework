@@ -3,7 +3,7 @@ set -e
 if [ "$#" -ne "9" ]; then
     echo "Error, incorrect syntax!"
     echo "Usage: $0 PROJECT_NAME PROJECT_VERSION REPORT_NAME APP_NAPE APP_VERSION APP_PLATFORM ENVIRONMENT \"PATH_TO_REPORT\" \"URL_OF_DASHBOARD\" "
-    exho "Example: $0 IMP 1.0 AndroidFullTestPhone IMPA 1.0 Android \"./report.json\" \"http://localhost:8080\" "
+    echo "Example: $0 IMP 1.0 AndroidFullTestPhone IMPA 1.0 Android \"./report.json\" \"http://localhost:8080\" "
     exit 1
 fi
 PROJECT="$1"

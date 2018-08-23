@@ -24,7 +24,7 @@ node ('master'){
         stage ('Run the script(ocal_prospect.feature)') {
             steps.sh "./scripts/run.sh 'ocal_prospect'"
         }
-        stage ('Run the script(ocal_prospect.feature)') {
+        stage ('Run the script(ocal_getProductList.feature)') {
             steps.sh "./scripts/run.sh 'ocal_getProductList'"
         }
         stage ('Run the script(ocpl_getCountryList.feature)') {

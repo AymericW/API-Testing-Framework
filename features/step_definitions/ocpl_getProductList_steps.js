@@ -46,17 +46,23 @@
         });
     
         this.Then(/^I should be able to get the correct products$/, function (callback) {
-            // Fields validated
-            var errorList = checkProducts(ageFactor);
-            // Throw error
-            if(errorList.length !== 0){
-                var errors = "";
-                errorList.forEach(element => {
-                    errors += element + "\n";
-                });
-                callback(new Error("The Following Fields were incorrect \n" + errors));
+            //yaml validation
+            var yamlValidationResult = this.validateApiDefinition(queryResponse,"getProducts");
+            if(yamlValidationResult.isValid){
+                // Fields validated
+                var errorList = checkProducts(ageFactor);
+                // Throw error
+                if(errorList.length !== 0){
+                    var errors = "";
+                    errorList.forEach(element => {
+                        errors += element + "\n";
+                    });
+                    callback(new Error("The Following Fields were incorrect \n" + errors));
+                }else{
+                    callback();
+                }
             }else{
-                callback();
+                callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message + " , " + yamlValidationResult.schemaPath));
             }
         });
     
