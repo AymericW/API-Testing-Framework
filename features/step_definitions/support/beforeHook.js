@@ -8,7 +8,7 @@ var myBeforeHooks = function () {
         var data;
         switch (scenario.getName()) {
             case 'getCountryList':
-                data=fs.readFileSync(path.resolve("./configuration/apiDefinition.json"));
+                data=fs.readFileSync(path.resolve("./configuration/countriesApi.json"));
                 break;
 
             case 'getProductList':
@@ -41,7 +41,6 @@ var myBeforeHooks = function () {
     var initializeValidationSchemaMap = function(world) {
         var map = {};
         var operations = _.keys(world.swaggerSpecs.paths);
-        console.log(operations.length);
         operations.forEach(function(operation) {
             // console.log(operation);
             // var call = world.swaggerSpecs.paths[operation].post.operationId,

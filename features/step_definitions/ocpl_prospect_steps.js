@@ -4,18 +4,11 @@ var chai = require('chai').assert;
 var prospectTest = function () {
     var queryResponse;
     // var TARGET_ENV = process.env.TARGET_ENV || "TEST";
-    var getProspect = "/OCAL-ap90-war/rpc/prospects";
-    // const ENVIRONMENTS = {
-    //   "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",
-    //   "TEST"  : "https://easybanking.testaccess.qabnpparibasfortis.be",
-    //   "QA"    : "https://easybanking.qabnpparibasfortis.be",
-    //   "QA+1"  : "https://p1.easybanking.qabnpparibasfortis.be",
-    //   "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
-    // };
+    var getProspect = "/OCPL-pr90/rpc/v1/prospects";
 
     this.When(/^I try create a prospect with some data$/, function (callback) {
         var reqOptions = {
-            url: "http://sdwl0314:9092"+getProspect,
+            url: this.ENVIRONMENTS.TEST+getProspect,
             method: 'POST',
             headers: {
             "Content-Type": "application/json",
@@ -29,6 +22,7 @@ var prospectTest = function () {
             resolveWithFullResponse: true,
             simple: false
         };
+        console.log("Environment : "+ reqOptions.url);
         if (process.env.HTTP_PROXY){
             reqOptions.proxy = process.env.HTTP_PROXY;
         }
@@ -44,6 +38,7 @@ var prospectTest = function () {
     });
     
     this.Then(/^I should be able to get the correct prospect$/, function (callback) {
+        console.log(queryResponse);
         //yaml validation
         var yamlValidationResult = this.validateApiDefinition(queryResponse,"addProspect");
         if(yamlValidationResult.isValid){

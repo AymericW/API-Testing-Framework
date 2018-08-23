@@ -97,13 +97,13 @@
           ]
         },
         "remark": {
-          "type": "string"
+          "type": [ "string", "null" ]
         },
         "score": {
-          "type": "string"
+          "type": [ "string", "null" ]
         },
         "validation": {
-          "type": "string"
+          "type": [ "string", "null" ]
         }
       }
     },
@@ -119,62 +119,58 @@
           "type": "string"
         },
         "accountNumber": {
-          "type": "string"
+          "type": [ "string", "null" ]
         },
         "email": {
           "type": "string"
         },
         "emailConsent": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "enum": [
             "0",
             "1"
           ]
         },
         "id": {
-          "type": "string"
+          "type": [ "string", "null" ]
         },
         "identId": {
-          "type": "string"
-        },
-        "authToken": {
-          "type": "string",
-          "description": "authToken"
+          "type": [ "string", "null" ]
         },
         "phoneNumber": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "phoneNumber"
         },
         "streetName": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "streetName"
         },
         "houseNumber": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "houseNumber"
         },
         "boxNumber": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "boxNumber"
         },
         "zipCode": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "zipCode"
         },
         "city": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "city"
         },
         "countryCode": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "countryCode"
         },
         "civilStatus": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "civilStatus"
         },
         "language": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "language",
           "enum": [
             "FR",
@@ -184,7 +180,7 @@
           ]
         },
         "brand": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "brand",
           "enum": [
             "HB",
@@ -192,43 +188,43 @@
           ]
         },
         "profession": {
-          "type": "integer",
+          "type": [ "integer", "null" ],
           "description": "profession",
           "enum": [
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9"
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
           ]
         },
         "countryOfActivity": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "countryOfActivity"
         },
         "sectorOfActivity": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "sectorOfActivity"
         },
         "subSectorOfActivity": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "subSectorOfActivity"
         },
         "dateOfBirth": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "dateOfBirth"
         },
         "packChosen": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "packChosen"
         },
         "belgianfiscalAddress": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "belgianfiscalAddress",
           "enum": [
             "0",
@@ -236,7 +232,7 @@
           ]
         },
         "americanCitizen": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "americanCitizen",
           "enum": [
             "0",
@@ -244,7 +240,7 @@
           ]
         },
         "americanAddress": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "americanAddress",
           "enum": [
             "0",
@@ -252,14 +248,11 @@
           ]
         },
         "PSP": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": [ "string", "null" ],
           "description": "PSP"
         },
         "SMID": {
-          "type": "string",
+          "type": [ "string", "null" ],
           "description": "SMID"
         },
         "status": {
@@ -272,134 +265,134 @@
           ]
         },
         "timestamp": {
-          "type": "number"
+          "type": ["integer", "null"]
         },
         "eidCard": {
           "type": [
-            "string"
+            [ "string", "null" ]
           ],
           "description": "status of the whole CJBRC process",
           "properties": {
             "eidCardNumber": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "addressBin": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "birthDate": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "birthPlace": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "branchCode": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "branchName": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "brand": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "brcStatus": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "channel": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "commune": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "creationTimestamp": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "documentType": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "duplicata": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "eidBackPhoto": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "eidCommuneDelivered": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "eidFrontPhoto": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "eidValidEndDate": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "eidValidStartDate": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "eidXmlResMsg": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "firstInitial": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "firstNames": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "gender": {
-              "type": "string",
+              "type": [ "string", "null" ],
               "enum": [
                 "M",
                 "F"
               ]
             },
             "identityBin": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "lastUpdateTimestamp": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "name": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "nationalRegistryNumber": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "nationality": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "nobleCondition": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "otherDocsGeneratedTs": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "pdfGeneratedTimestamp": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "photo": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "postalCode": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "pspFound": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "pspLastSearchTimestamp": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "server": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "specialOrg": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "specialStatus": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "status": {
-              "type": "string"
+              "type": [ "string", "null" ]
             },
             "streetAndNumber": {
-              "type": "string"
+              "type": [ "string", "null" ]
             }
           }
         }

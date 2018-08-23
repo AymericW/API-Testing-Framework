@@ -1,114 +1,106 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "description": "retrieve country codes and labels",
-      "version": "1.0.0",
-      "title": "Country"
-    },
-    "host": "petstore.swagger.io",
-    "basePath": "/CJBRC",
-    "tags": [
-      {
-        "name": "country",
-        "description": "retrieve country codes and labels"
-      }
-    ],
-    "schemes": [
-      "https",
-      "http"
-    ],
-    "paths": {
-      "/country": {
-        "get": {
-          "tags": [
-            "CJBRC"
-          ],
-          "summary": "fetch all list of countries",
-          "description": "fetch all list of countries",
-          "operationId": "retrieve",
-          "produces": [
-            "application/json"
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/countries"
-              }
-            },
-            "500": {
-              "description": "Technical error"
-            }
+  "swagger": "2.0",
+  "info": {
+    "description": "retrieve country codes and labels",
+    "version": "1.0.0",
+    "title": "Country"
+  },
+  "host": "easybanking.testaccess.qabnpparibasfortis.be",
+  "basePath": "/OCPL-pr90/rpc/v1",
+  "tags": [
+    {
+      "name": "countries",
+      "description": "retrieve country codes and labels"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/countries": {
+      "get": {
+        "tags": [
+          "CJBRC"
+        ],
+        "summary": "fetch all list of countries",
+        "description": "fetch all list of countries",
+        "operationId": "retrieve",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "description": "lang in which labels are to be returned",
+            "required": false,
+            "type": "string"
           }
-        }
-      },
-      "/country/{code}": {
-        "get": {
-          "tags": [
-            "CJBRC"
-          ],
-          "summary": "Find country by country code",
-          "description": "Returns a single country object prospect",
-          "operationId": "getcountrybyCode",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "in": "query",
-              "name": "lang",
-              "description": "lang in which labels are to be returned",
-              "required": false,
-              "type": "string"
-            },
-            {
-              "name": "code",
-              "in": "path",
-              "description": "country code",
-              "required": true,
-              "type": "string"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/countries"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "successful operation",
-              "schema": {
-                "$ref": "#/definitions/country"
-              }
-            },
-            "404": {
-              "description": "country not found"
-            },
-            "500": {
-              "description": "Technical error",
-              "schema": {
-                "$ref": "#/definitions/Error"
-              }
-            }
+          },
+          "500": {
+            "description": "Technical error"
           }
         }
       }
     },
-    "definitions": {
-      "countries": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "required": [
-            "label",
-            "code"
-          ],
-          "properties": {
-            "label": {
-              "type": "string"
-            },
-            "code": {
-              "type": "string"
+    "/countries/{code}": {
+      "get": {
+        "tags": [
+          "CJBRC"
+        ],
+        "summary": "Find country by country code",
+        "description": "Returns a single country object prospect",
+        "operationId": "getcountrybyCode",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lang",
+            "description": "lang in which labels are to be returned",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "path",
+            "description": "country code",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/country"
+            }
+          },
+          "404": {
+            "description": "country not found"
+          },
+          "500": {
+            "description": "Technical error",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
-      },
-      "country": {
+      }
+    }
+  },
+  "definitions": {
+    "countries": {
+      "type": "array",
+      "items": {
         "type": "object",
         "required": [
           "label",
@@ -122,17 +114,33 @@
             "type": "string"
           }
         }
-      },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "severity": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
+      }
+    },
+    "country": {
+      "type": "object",
+      "required": [
+        "label",
+        "code"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "severity": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
         }
       }
     }
   }
+}
