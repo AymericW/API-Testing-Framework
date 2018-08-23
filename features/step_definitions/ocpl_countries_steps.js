@@ -2,18 +2,20 @@ var request = require('request-promise');
 var stringify = require('json-stringify-safe');
 var chai = require('chai').assert;
 
-var GetCountryTest = function () {
+var getCountriesTest = function () {
+  var languageFactor;
   var queryResponse;
   var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
-  var getCountry = "/OCPL-pr90/rpc/v1/countries";
+  var getCountries = "/OCPL-pr90/rpc/v1/countries";
 
   // this.Given(/^I send a request to PBIA-pr90 CheckAppEnabled to check the forced upgrade$/, function(callback) {
   //   callback();
   // });
 
-  this.When(/^I try to hit getCountryList Service with request$/, function (callback) {
+  this.When(/^I try to hit getCountryList Service with request (.*)$/, function (language, callback) {
+    languageFactor = JSON.parse(language);
     var reqOptions = {
-      url:this.ENVIRONMENTS[TARGET_ENV]+getCountry+"?lang=fr",
+      url:this.ENVIRONMENTS[TARGET_ENV]+getCountries+"?lang="+languageFactor,
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -58,9 +60,28 @@ var GetCountryTest = function () {
     
     response.forEach(country => {
       if(country.code === 'BE')
-        chai.equal(country.label,'Belgique','Country Language is incorrect')
+        validateLanguage(country.label);
     });
+  }
 
+  function validateLanguage(countryLabel){
+    switch(languageFactor){
+        case 'en':
+          chai.equal(countryLabel,'Belgium','Country Language is incorrect')
+          break;
+        case 'fr':
+          chai.equal(countryLabel,'Belgique','Country Language is incorrect')
+          break;
+        case 'nl':
+          chai.equal(countryLabel,'Belgie','Country Language is incorrect')
+          break;
+        case 'de':
+          chai.equal(countryLabel,'Belgien','Country Language is incorrect')
+          break;
+        default:
+          callback(new Error("CountryLanguage InValid"));
+          break;
+    }
   }
 };
 module.exports = GetCountryTest;
