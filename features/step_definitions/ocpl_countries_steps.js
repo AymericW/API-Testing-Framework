@@ -84,4 +84,4 @@ var getCountriesTest = function () {
     }
   }
 };
-module.exports = GetCountryTest;
+module.exports = getCountriesTest;

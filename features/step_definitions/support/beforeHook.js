@@ -7,7 +7,7 @@ var myBeforeHooks = function () {
     this.Before(function (scenario) {
         var data;
         switch (scenario.getName()) {
-            case 'getCountryList':
+            case 'getCountries':
                 data=fs.readFileSync(path.resolve("./configuration/countriesApi.json"));
                 break;
 
