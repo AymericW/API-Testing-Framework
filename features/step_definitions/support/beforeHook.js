@@ -11,7 +11,7 @@ var myBeforeHooks = function () {
                 data=fs.readFileSync(path.resolve("./configuration/countriesApi.json"));
                 break;
 
-            case 'getProductList':
+            case 'getProducts':
                 data=fs.readFileSync(path.resolve("./configuration/productsApi.json"));
                 break;
 

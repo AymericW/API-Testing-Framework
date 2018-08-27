@@ -3,22 +3,15 @@
 
     var getProductList = function () {        
         var ageFactor;
-        // var TARGET_ENV = process.env.TARGET_ENV || "TEST";
-        var getProductList = "/OCAL-ap90-war/rpc/products?ageUnder28=";
-        // const ENVIRONMENTS = {
-        //   "TEST2"   : "https://app.easybanking.test2access.qabnpparibasfortis.be",
-        //   "TEST"  : "https://easybanking.testaccess.qabnpparibasfortis.be",
-        //   "QA"    : "https://easybanking.qabnpparibasfortis.be",
-        //   "QA+1"  : "https://p1.easybanking.qabnpparibasfortis.be",
-        //   "QA-1"  : "https://m1.easybanking.qabnpparibasfortis.be"
-        // };
-    
+        var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
+        var getProductList = "AC52-pr90/rpc/v1/products?ageUnder28=";
+
         this.When(/^I try to get a product according to my age (.*)$/, function (under28, callback) {
             let age = "n";
             ageFactor = JSON.parse(under28);
             age = (ageFactor == "NO") ? "n" : "y";
             var reqOptions = {
-                url: "http://sdwl0314:9092"+getProductList+age,
+                url: this.ENVIRONMENTS[TARGET_ENV]+getProductList+age,
                 method: 'GET',
                 headers: {
                 "Content-Type": "application/json",
