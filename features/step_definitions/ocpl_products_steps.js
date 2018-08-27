@@ -2,16 +2,34 @@
     var queryResponse;
 
     var getProductList = function () {        
-        var ageFactor;
         var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
-        var getProductList = "AC52-pr90/rpc/v1/products?ageUnder28=";
+        var getProductList = "/AC52-pr90/rpc/v1/products?ageUnder28=";
 
-        this.When(/^I try to get a product according to my age (.*)$/, function (under28, callback) {
+        this.When(/^I try to get a product according to my age (.*) (.*)$/, function (under28, language, callback) {
             let age = "n";
-            ageFactor = JSON.parse(under28);
-            age = (ageFactor == "NO") ? "n" : "y";
+            let ageFactor = JSON.parse(under28);
+            age = (ageFactor == "NO") ? "n" : "y&brand=hb";
+            
+            let languageSelected;
+            let languageFactor = JSON.parse(language);
+
+            switch(languageFactor){
+                case "en":
+                    languageSelected = "&lang=en";
+                    break;
+                case "de":
+                    languageSelected = "&lang=de";
+                    break;
+                case "nl":
+                    languageSelected = "&lang=nl";
+                    break;
+                default:
+                    languageSelected = "&lang=fr";
+                    break;
+            }
+
             var reqOptions = {
-                url: this.ENVIRONMENTS[TARGET_ENV]+getProductList+age,
+                url: this.ENVIRONMENTS[TARGET_ENV]+getProductList+age+languageSelected,
                 method: 'GET',
                 headers: {
                 "Content-Type": "application/json",

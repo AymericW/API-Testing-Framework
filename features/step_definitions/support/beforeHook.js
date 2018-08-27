@@ -49,19 +49,21 @@ var myBeforeHooks = function () {
             var call, responseDefinitionName, responseSchemaName;
             if(world.swaggerSpecs.paths[operation].post !== undefined){
                 call = world.swaggerSpecs.paths[operation].post.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].post.responses[200].schema.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].post.responses[200].schema.items.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
             }else if(world.swaggerSpecs.paths[operation].get !== undefined){
+                
                 call = world.swaggerSpecs.paths[operation].get.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].get.responses[200].schema.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].get.responses['200'].schema.items.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
+
             }else if (world.swaggerSpecs.paths[operation].delete !== undefined){
                 call = world.swaggerSpecs.paths[operation].delete.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].delete.responses[200].schema.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].delete.responses[200].schema.items.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
             }else if(world.swaggerSpecs.paths[operation].put !== undefined){
                 call = world.swaggerSpecs.paths[operation].put.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].put.responses[200].schema.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].put.responses[200].schema.items.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
             }
             map[call] = responseSchemaName;
