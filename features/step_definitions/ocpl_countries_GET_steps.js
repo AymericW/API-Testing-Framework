@@ -6,7 +6,7 @@ var getCountriesTest = function () {
   var languageFactor;
   var queryResponse;
   var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
-  var getCountries = "/OCPL-pr90/rpc/v1/countries";
+  var countriesLink = "/OCPL-pr90/rpc/v1/countries";
 
   // this.Given(/^I send a request to PBIA-pr90 CheckAppEnabled to check the forced upgrade$/, function(callback) {
   //   callback();
@@ -15,7 +15,7 @@ var getCountriesTest = function () {
   this.When(/^I try to hit getCountryList Service with request (.*)$/, function (language, callback) {
     languageFactor = JSON.parse(language);
     var reqOptions = {
-      url:this.ENVIRONMENTS[TARGET_ENV]+getCountries+"?lang="+languageFactor,
+      url:this.ENVIRONMENTS[TARGET_ENV]+countriesLink+"?lang="+languageFactor,
       method: 'GET',
       headers: {
         "Content-Type": "application/json",

@@ -3,7 +3,7 @@
 
     var getProductList = function () {        
         var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
-        var getProductList = "/AC52-pr90/rpc/v1/products?ageUnder28=";
+        var productListLink = "/AC52-pr90/rpc/v1/products?ageUnder28=";
 
         this.When(/^I try to get a product according to my age (.*) (.*)$/, function (under28, language, callback) {
             let age = "n";
@@ -29,7 +29,7 @@
             }
 
             var reqOptions = {
-                url: this.ENVIRONMENTS[TARGET_ENV]+getProductList+age+languageSelected,
+                url: this.ENVIRONMENTS[TARGET_ENV]+productListLink+age+languageSelected,
                 method: 'GET',
                 headers: {
                 "Content-Type": "application/json",
@@ -40,6 +40,7 @@
                 resolveWithFullResponse: true,
                 simple: false
             };
+            
             console.log("Request URL : " + reqOptions.url);
 
             if (process.env.HTTP_PROXY){
@@ -59,6 +60,7 @@
         this.Then(/^I should be able to get the correct products$/, function (callback) {
             //yaml validation
             var yamlValidationResult = this.validateApiDefinition(queryResponse,"getProducts");
+            
             if(yamlValidationResult.isValid){
                 // Fields validated
                 var errorList = checkProducts(ageFactor);

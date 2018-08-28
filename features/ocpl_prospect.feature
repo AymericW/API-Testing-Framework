@@ -7,7 +7,7 @@ Feature: Prospect Feature
 
   Scenario: getProspect with id
   When I try retrieve data from previously created prospect
-  Then I should be able to get the correct prospect
+  Then I should have both data matching
 
   # Scenario: getProspect with inexistant id
   # When I try retrieve prospect data without id that doesn't exist

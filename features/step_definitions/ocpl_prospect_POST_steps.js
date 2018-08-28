@@ -2,13 +2,12 @@ var request = require('request-promise');
 var chai = require('chai').assert;
 
 var prospectTest = function () {
-    var queryResponse;
     var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
-    var getProspect = "/OCPL-pr90/rpc/v1/prospects";
+    var prospectLink = "/OCPL-pr90/rpc/v1/prospects";
 
     this.When(/^I try create a prospect with some data$/, function (callback) {
         var reqOptions = {
-            url: this.ENVIRONMENTS[TARGET_ENV]+getProspect,
+            url: this.ENVIRONMENTS[TARGET_ENV]+prospectLink,
             method: 'POST',
             headers: {
             "Content-Type": "application/json",
@@ -22,28 +21,29 @@ var prospectTest = function () {
             resolveWithFullResponse: true,
             simple: false
         };
+
         console.log("Environment : "+ reqOptions.url);
+        
         if (process.env.HTTP_PROXY){
             reqOptions.proxy = process.env.HTTP_PROXY;
         }
         request(reqOptions)
         .then(function (response) {
-            queryResponse = response.body;
-            console.log(queryResponse);
+            global.POSTqueryResponse = response.body;
+            global.prospectID = POSTqueryResponse.id;
+            console.log(POSTqueryResponse);
             callback();
         })
         .catch(function (err) {
             throw "*** ERROR DUDE: "+err.toString();
         });
     });
-    
+
     this.Then(/^I should be able to get the correct prospect$/, function (callback) {
-        console.log(queryResponse);
-        this.createProspect = queryResponse.identId;
-        console.log(this.createProspect);
+        console.log("The created prospect ID is " + prospectID);
 
         //yaml validation
-        var yamlValidationResult = this.validateApiDefinition(queryResponse,"addProspect");
+        var yamlValidationResult = this.validateApiDefinition(POSTqueryResponse,"addProspect");
         if(yamlValidationResult.isValid){
             validateProspect(callback);
         }else{
@@ -54,20 +54,24 @@ var prospectTest = function () {
     function validateProspect(callback){
         // Fields validated
         var errorList = [];
-        if(queryResponse.id === null || queryResponse.id === undefined || typeof(queryResponse.id) != "string"){
-            errorList.push("id : " + queryResponse.id);
+        if(POSTqueryResponse.id === null || POSTqueryResponse.id === undefined || typeof(POSTqueryResponse.id) != "string"){
+            errorList.push("id : " + POSTqueryResponse.id);
         }
-        if(queryResponse.identId === null || queryResponse.identId === undefined || typeof(queryResponse.identId) != "string"){
-            errorList.push("identId : " + queryResponse.identId);
+
+        if(POSTqueryResponse.identId === null || POSTqueryResponse.identId === undefined || typeof(POSTqueryResponse.identId) != "string"){
+            errorList.push("identId : " + POSTqueryResponse.identId);
         }
-        if(queryResponse.lastName !== randomLastName || queryResponse.lastName === undefined || typeof(queryResponse.lastName) != "string"){
-            errorList.push("lastName : " + queryResponse.lastName);
+        
+        if(POSTqueryResponse.lastName !== randomLastName || POSTqueryResponse.lastName === undefined || typeof(POSTqueryResponse.lastName) != "string"){
+            errorList.push("lastName : " + POSTqueryResponse.lastName);
         }
-        if(queryResponse.firstName !== randomFirstName || queryResponse.firstName === undefined || typeof(queryResponse.firstName) != "string"){
-            errorList.push("firstName : " + queryResponse.firstName);
+        
+        if(POSTqueryResponse.firstName !== randomFirstName || POSTqueryResponse.firstName === undefined || typeof(POSTqueryResponse.firstName) != "string"){
+            errorList.push("firstName : " + POSTqueryResponse.firstName);
         }
-        if(queryResponse.email !== randomEmail || queryResponse.email === undefined || typeof(queryResponse.email) != "string"){
-            errorList.push("email : " + queryResponse.email);
+        
+        if(POSTqueryResponse.email !== randomEmail || POSTqueryResponse.email === undefined || typeof(POSTqueryResponse.email) != "string"){
+            errorList.push("email : " + POSTqueryResponse.email);
         }
 
         // // Throw error
@@ -101,4 +105,5 @@ var prospectTest = function () {
     var randomEmail = randomFirstName.toLowerCase() + "." + randomLastName.toLowerCase() + "@hotmail.com";
 
 };
-  module.exports = prospectTest;
+
+module.exports = prospectTest;
