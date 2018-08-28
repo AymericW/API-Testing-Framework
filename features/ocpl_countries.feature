@@ -1,5 +1,5 @@
 @FID_2162
-Feature: getCountries Feature
+Feature: Countries Feature
 
   Scenario Outline: getCountries
   When I try to hit getCountryList Service with request <language>

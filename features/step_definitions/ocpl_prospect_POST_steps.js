@@ -3,12 +3,12 @@ var chai = require('chai').assert;
 
 var prospectTest = function () {
     var queryResponse;
-    // var TARGET_ENV = process.env.TARGET_ENV || "TEST";
+    var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
     var getProspect = "/OCPL-pr90/rpc/v1/prospects";
 
     this.When(/^I try create a prospect with some data$/, function (callback) {
         var reqOptions = {
-            url: this.ENVIRONMENTS.TEST+getProspect,
+            url: this.ENVIRONMENTS[TARGET_ENV]+getProspect,
             method: 'POST',
             headers: {
             "Content-Type": "application/json",
@@ -39,6 +39,9 @@ var prospectTest = function () {
     
     this.Then(/^I should be able to get the correct prospect$/, function (callback) {
         console.log(queryResponse);
+        this.createProspect = queryResponse.identId;
+        console.log(this.createProspect);
+
         //yaml validation
         var yamlValidationResult = this.validateApiDefinition(queryResponse,"addProspect");
         if(yamlValidationResult.isValid){

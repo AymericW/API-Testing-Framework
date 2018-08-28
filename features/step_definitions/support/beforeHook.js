@@ -1,4 +1,4 @@
-var fs=require('fs');
+var fs = require('fs');
 var tv4 = require('tv4');
 var _ = require('underscore');
 var path = require('path');
@@ -16,13 +16,14 @@ var myBeforeHooks = function () {
                 break;
 
             case 'postProspect':
+            case 'getProspect with id':
                 data=fs.readFileSync(path.resolve("./configuration/prospectsApi.json"));
                 break;
         
             default:
                 break;
         }
-
+        
         var swaggerSpecs=JSON.parse(data);
         fixNullability(swaggerSpecs.definitions);
         this.setSwaggerSpecs(swaggerSpecs);
@@ -49,21 +50,19 @@ var myBeforeHooks = function () {
             var call, responseDefinitionName, responseSchemaName;
             if(world.swaggerSpecs.paths[operation].post !== undefined){
                 call = world.swaggerSpecs.paths[operation].post.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].post.responses[200].schema.items.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].post.responses[200].schema.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
             }else if(world.swaggerSpecs.paths[operation].get !== undefined){
-                
                 call = world.swaggerSpecs.paths[operation].get.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].get.responses['200'].schema.items.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].get.responses[200].schema.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
-
             }else if (world.swaggerSpecs.paths[operation].delete !== undefined){
                 call = world.swaggerSpecs.paths[operation].delete.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].delete.responses[200].schema.items.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].delete.responses[200].schema.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
             }else if(world.swaggerSpecs.paths[operation].put !== undefined){
                 call = world.swaggerSpecs.paths[operation].put.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].put.responses[200].schema.items.$ref;
+                responseDefinitionName = world.swaggerSpecs.paths[operation].put.responses[200].schema.$ref;
                 responseSchemaName = responseDefinitionName.substring(14);
             }
             map[call] = responseSchemaName;
