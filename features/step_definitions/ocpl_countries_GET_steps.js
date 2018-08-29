@@ -12,7 +12,9 @@ var getCountriesTest = function () {
   //   callback();
   // });
 
-  this.When(/^I try to hit getCountryList Service with request (.*)$/, function (language, callback) {
+/*############################################### GET countries according language ###############################################*/
+
+  this.When(/^I try to retrieve country list with request (.*)$/, function (language, callback) {
     languageFactor = JSON.parse(language);
     var reqOptions = {
       url:this.ENVIRONMENTS[TARGET_ENV]+countriesLink+"?lang="+languageFactor,
@@ -38,6 +40,8 @@ var getCountriesTest = function () {
     });
   });
 
+/*############################################## Validate GET countries response with yaml ##############################################*/
+
   this.Then(/^I should be able to get the correct country list$/, function (callback) {
 
     var yamlValidationResult = this.validateApiDefinition(queryResponse,"retrieve");
@@ -49,39 +53,45 @@ var getCountriesTest = function () {
     }
   });
 
-  function validateResponse(response){
-    chai.isNotNull(response, "response is null");
-    chai.isDefined(response, 'response is undefined');
-
-    chai.isNotNull(response[0].code, "countryCode is null");
-    chai.isDefined(response[0].label, "countryCode is undefined");
-
-    chai.isAbove(response.length, 200, 'Not all countries are returned');
-    
-    response.forEach(country => {
-      if(country.code === 'BE')
-        validateLanguage(country.label);
-    });
-  }
-
-  function validateLanguage(countryLabel){
-    switch(languageFactor){
-        case 'en':
-          chai.equal(countryLabel,'Belgium','Country Language is incorrect')
-          break;
-        case 'fr':
-          chai.equal(countryLabel,'Belgique','Country Language is incorrect')
-          break;
-        case 'nl':
-          chai.equal(countryLabel,'Belgie','Country Language is incorrect')
-          break;
-        case 'de':
-          chai.equal(countryLabel,'Belgien','Country Language is incorrect')
-          break;
-        default:
-          callback(new Error("CountryLanguage InValid"));
-          break;
-    }
-  }
 };
+
+/*######################################################### FUNCTIONS #########################################################*/
+
+// Fields validation
+function validateResponse(response){
+  chai.isNotNull(response, "response is null");
+  chai.isDefined(response, 'response is undefined');
+
+  chai.isNotNull(response[0].code, "countryCode is null");
+  chai.isDefined(response[0].label, "countryCode is undefined");
+
+  chai.isAbove(response.length, 200, 'Not all countries are returned');
+  
+  response.forEach(country => {
+    if(country.code === 'BE')
+      validateLanguage(country.label);
+  });
+}
+
+// Countries validation (in every language)
+function validateLanguage(countryLabel){
+  switch(languageFactor){
+      case 'en':
+        chai.equal(countryLabel,'Belgium','Country Language is incorrect')
+        break;
+      case 'fr':
+        chai.equal(countryLabel,'Belgique','Country Language is incorrect')
+        break;
+      case 'nl':
+        chai.equal(countryLabel,'Belgie','Country Language is incorrect')
+        break;
+      case 'de':
+        chai.equal(countryLabel,'Belgien','Country Language is incorrect')
+        break;
+      default:
+        callback(new Error("CountryLanguage InValid"));
+        break;
+  }
+}
+
 module.exports = getCountriesTest;

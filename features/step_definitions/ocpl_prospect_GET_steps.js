@@ -1,9 +1,12 @@
 var request = require('request-promise');
 var chai = require('chai').assert;
+var colors = require('colors');
 
 var prospectGET = function () {
     var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
     var prospectLink = "/OCPL-pr90/rpc/v1/prospects";
+
+/*######################################################### GET a prospect with an ID #########################################################*/
 
     this.When(/^I try retrieve data from previously created prospect$/, function (callback) {
         var reqOptions = {
@@ -33,25 +36,18 @@ var prospectGET = function () {
         });
     });
 
-    this.Then(/^I should have both data matching$/, function (callback) {
+/*######################################################### Compare GET and POST response #########################################################*/
+
+    this.Then(/^I should have both data matching$/, function (callback) { 
         objectEquals(GETqueryResponse, POSTqueryResponse);
 
-        // var resultCompare = function(){
-        //     console.log("Get response is ");
-        //     console.log(GETqueryResponse);
-        //     console.log("Post response is ");
-        //     console.log(POSTqueryResponse);
-
-        //     if(GETqueryResponse === POSTqueryResponse){
-        //         return "GET response same as POST response";
-        //     }else{
-        //         return "GET response doesn't match POST response";
-        //     }
-        // }
-        // console.log(resultCompare());
         callback();
     });
 };
+
+/*######################################################### FUNCTIONS #########################################################*/
+
+// Fields validation
 function objectEquals(a, b){
 
     for(let field in a){
@@ -69,8 +65,8 @@ function objectEquals(a, b){
             }
 
         } else {
-            
-            console.log("Comparing POST " + field + ": " +a[field] + " and GET " + field + ": " + b[field]);
+        
+            console.log("Comparing POST " + field .blue + ": " +a[field] .green + " and GET " + field .blue + ": " + b[field] .green);
             
             if(a[field] != b[field]){
                 return false;
