@@ -3,7 +3,7 @@ var stringify = require('json-stringify-safe');
 var chai = require('chai').assert;
 
 var getCountriesTest = function () {
-  var languageFactor;
+  let languageFactor;
   var queryResponse;
   var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
   var countriesLink = "/OCPL-pr90/rpc/v1/countries";
@@ -15,9 +15,25 @@ var getCountriesTest = function () {
 /*############################################### GET countries according language ###############################################*/
 
   this.When(/^I try to retrieve country list with request (.*)$/, function (language, callback) {
-    languageFactor = JSON.parse(language);
+    let languageFactor = JSON.parse(language);
+
+    switch(languageFactor){
+        case "en":
+            languageSelected = "&lang=en";
+            break;
+        case "de":
+            languageSelected = "&lang=de";
+            break;
+        case "nl":
+            languageSelected = "&lang=nl";
+            break;
+        default:
+            languageSelected = "&lang=fr";
+            break;
+    }
+
     var reqOptions = {
-      url:this.ENVIRONMENTS[TARGET_ENV]+countriesLink+"?lang="+languageFactor,
+      url:this.ENVIRONMENTS[TARGET_ENV]+countriesLink+languageSelected,
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -33,6 +49,7 @@ var getCountriesTest = function () {
     request(reqOptions)
     .then(function (response) {
       queryResponse = response.body;
+      // console.log(queryResponse);
       callback();
     })
     .catch(function (err) {

@@ -1,3 +1,4 @@
+    var fs = require('fs');
     var request = require('request-promise');
     var queryResponse;
 
@@ -10,9 +11,8 @@
         this.When(/^I try to get a product according to my age (.*) (.*)$/, function (under28, language, callback) {
             let age = "n";
             let ageFactor = JSON.parse(under28);
-            age = (ageFactor == "NO") ? "n" : "y&brand=hb";
+            age = (ageFactor == "NO") ? "n" : "y";
             
-            let languageSelected;
             let languageFactor = JSON.parse(language);
 
             switch(languageFactor){
@@ -36,8 +36,6 @@
                 headers: {
                 "Content-Type": "application/json",
                 },
-                body: {
-                },
                 json: true,
                 resolveWithFullResponse: true,
                 simple: false
@@ -51,7 +49,7 @@
             request(reqOptions)
             .then(function (response) {
                 queryResponse = response.body;
-                console.log(queryResponse);
+                fs.writeFileSync('productsResponse.json',JSON.stringify(queryResponse));
                 callback();
             })
             .catch(function (err) {
