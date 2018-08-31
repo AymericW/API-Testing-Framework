@@ -43,8 +43,8 @@ var myBeforeHooks = function () {
         var map = {};
         var operations = _.keys(world.swaggerSpecs.paths);
         operations.forEach(function(operation) {
-            // console.log(operation);
-
+            // console.log("operation is: " + operation);
+            // console.log("responseDefinitionName is: " + responseDefinitionName);
             var call, responseDefinitionName, responseSchemaName;
             const operationPaths = world.swaggerSpecs.paths[operation];
             if(operationPaths.post !== undefined){
@@ -87,8 +87,7 @@ function fetchSchemaReference(methodType, operationPaths){
         schemaPath = operationPaths.delete.responses[200].schema;
         break;
     }
-    return schemaPath.$ref;
-    // return (schemaPath.type === "array") ? schemaPath.items.$ref : schemaPath.$ref;
+    return (schemaPath.type === "array") ? schemaPath.items.$ref : schemaPath.$ref;
 }
 
 module.exports = myBeforeHooks;

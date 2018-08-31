@@ -102,7 +102,6 @@
   },
   "definitions": {
     "country": {
-      "type": "object",
       "required": [
         "label",
         "code"

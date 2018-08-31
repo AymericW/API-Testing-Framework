@@ -9,9 +9,8 @@
 /*############################################### GET products according to age and language ###############################################*/
 
         this.When(/^I try to get a product according to my age (.*) (.*)$/, function (under28, language, callback) {
-            let age = "n";
-            let ageFactor = JSON.parse(under28);
-            age = (ageFactor == "NO") ? "n" : "y";
+            global.ageFactor = JSON.parse(under28);
+            let age = (ageFactor == "NO") ? "n" : "y";
             
             let languageFactor = JSON.parse(language);
 
@@ -49,7 +48,8 @@
             request(reqOptions)
             .then(function (response) {
                 queryResponse = response.body;
-                fs.writeFileSync('productsResponse.json',JSON.stringify(queryResponse));
+                // console.log(queryResponse);
+                // fs.writeFileSync('productsResponse.json',JSON.stringify(queryResponse));
                 callback();
             })
             .catch(function (err) {
@@ -79,6 +79,8 @@
             }else{
                 callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message + " , " + yamlValidationResult.schemaPath));
             }
+
+            console.log(yamlValidationResult);
         });
     
     };
@@ -91,35 +93,36 @@ function checkProducts(ageParam){
     var productIndex = 0;
     // Age < 28 -> "CDIGPK"
     // Age >= 28 -> "CCOMF", "CPREMI"
+
     queryResponse.forEach(product => {
         productIndex ++;
         var isValidPack = false;
-        if(ageParam === "YES"){
-            isValidPack = validateAccountType(product.accType,["CDIGPK"]);
+        if(ageParam == "YES"){
+            isValidPack = validateAccountType(product.accountType,["CDIGPK"]);
             isValidPack = validateAccountType(product.accountProductName,["Compte à vue Hello4You"]);
         }else{
-            isValidPack = validateAccountType(product.accType,["CCOMF","CPREMI"]);
+            isValidPack = validateAccountType(product.accountType,["CCOMF","CPREMI"]);
             isValidPack = validateAccountType(product.accountProductName,["Comfort Pack","Premium Pack"]);
         }
         if(!isValidPack){
-            errorList.push(productIndex + "-accType :"+ product.accType + " is not permitted");
+            errorList.push(productIndex + "-accountType :"+ product.accountType + " is not permitted");
         }
-        if(product.accType === null || product.accType === undefined || typeof(product.accType) != 'string'){
-            errorList.push(productIndex + "-accType : " + product.accType);
+        if(product.accountType === null || product.accountType === undefined || typeof(product.accountType) != 'string'){
+            errorList.push(productIndex + "-accountType : " + product.accountType);;
         }
         if(product.accountProductName === null || product.accountProductName === undefined || typeof(product.accountProductName) != 'string'){
             errorList.push(productIndex + "-accountProductName : " + product.accountProductName);
         }
         if(ageParam === "YES"){
-            console.log("accType expected for under 28:  'CDIGPK' \n" + "accType fetched are: " + product.accType);
+            console.log("accountType expected for under 28:" .blue + "'CDIGPK' \n" .yellow + "accountType fetched are: " .blue + product.accountType .yellow);
         }else{
-            console.log("accType expected for above 28:  'CCOMF' or 'CPREMI' \n" + "accType fetched are: " + product.accType);
+            console.log("accountType expected for above 28:" .blue +  "'CCOMF' or 'CPREMI' \n" .yellow + "accountType fetched are: " .blue + product.accountType .yellow);
         }
     });
     return errorList;
 }
 
-function validateAccountType(accType,acceptedProducts){
+function validateAccountType(accType, acceptedProducts){
     var validationResult = false;
     acceptedProducts.forEach(acceptedAccountType => {
         if(acceptedAccountType === accType){

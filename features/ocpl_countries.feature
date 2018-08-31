@@ -3,11 +3,11 @@ Feature: Countries Feature
 
   Scenario Outline: getCountries
   When I try to retrieve country list with request <language>
-  Then I should be able to get the correct country list
+  Then I should be able to get the correct country list <language>
 
         Examples:
-        |    language   | 
-        |    "fr"       | 
-        |    "en"       |
-        |    "de"       |
-        |    "nl"       |
+        |   language  | 
+        |    fr       | 
+        |    en       |
+        |    de       |
+        |    nl       |

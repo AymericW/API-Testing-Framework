@@ -1,9 +1,11 @@
+var fs = require('fs');
 var request = require('request-promise');
 var stringify = require('json-stringify-safe');
 var chai = require('chai').assert;
+var path = require('path');
 
 var getCountriesTest = function () {
-  let languageFactor;
+  
   var queryResponse;
   var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
   var countriesLink = "/OCPL-pr90/rpc/v1/countries";
@@ -15,25 +17,9 @@ var getCountriesTest = function () {
 /*############################################### GET countries according language ###############################################*/
 
   this.When(/^I try to retrieve country list with request (.*)$/, function (language, callback) {
-    let languageFactor = JSON.parse(language);
-
-    switch(languageFactor){
-        case "en":
-            languageSelected = "&lang=en";
-            break;
-        case "de":
-            languageSelected = "&lang=de";
-            break;
-        case "nl":
-            languageSelected = "&lang=nl";
-            break;
-        default:
-            languageSelected = "&lang=fr";
-            break;
-    }
-
+    
     var reqOptions = {
-      url:this.ENVIRONMENTS[TARGET_ENV]+countriesLink+languageSelected,
+      url: this.ENVIRONMENTS[TARGET_ENV] + countriesLink + "?lang=" + language,
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -42,6 +28,8 @@ var getCountriesTest = function () {
       resolveWithFullResponse: true,
       simple: false
     };
+    
+    console.log(reqOptions.url);
     if (process.env.HTTP_PROXY){
       reqOptions.proxy = process.env.HTTP_PROXY;
     }
@@ -50,6 +38,7 @@ var getCountriesTest = function () {
     .then(function (response) {
       queryResponse = response.body;
       // console.log(queryResponse);
+      //fs.writeFileSync('countries.json',JSON.stringify(queryResponse));
       callback();
     })
     .catch(function (err) {
@@ -59,56 +48,41 @@ var getCountriesTest = function () {
 
 /*############################################## Validate GET countries response with yaml ##############################################*/
 
-  this.Then(/^I should be able to get the correct country list$/, function (callback) {
+  this.Then(/^I should be able to get the correct country list (.*)$/, (language, callback) => {
 
-    var yamlValidationResult = this.validateApiDefinition(queryResponse,"retrieve");
-    if(yamlValidationResult.isValid){
-      validateResponse(queryResponse);
-      callback();
-    }else{
-      callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message + " , " + yamlValidationResult.schema));
-    }
+    chai.deepEqual(queryResponse, loadCountriesReference(language));
+    callback();
+
   });
 
 };
 
 /*######################################################### FUNCTIONS #########################################################*/
 
-// Fields validation
-function validateResponse(response){
-  chai.isNotNull(response, "response is null");
-  chai.isDefined(response, 'response is undefined');
-
-  chai.isNotNull(response[0].code, "countryCode is null");
-  chai.isDefined(response[0].label, "countryCode is undefined");
-
-  chai.isAbove(response.length, 200, 'Not all countries are returned');
+function loadCountriesReference(language){
   
-  response.forEach(country => {
-    if(country.code === 'BE')
-      validateLanguage(country.label);
-  });
-}
-
-// Countries validation (in every language)
-function validateLanguage(countryLabel){
-  switch(languageFactor){
-      case 'en':
-        chai.equal(countryLabel,'Belgium','Country Language is incorrect')
-        break;
-      case 'fr':
-        chai.equal(countryLabel,'Belgique','Country Language is incorrect')
-        break;
-      case 'nl':
-        chai.equal(countryLabel,'Belgie','Country Language is incorrect')
-        break;
-      case 'de':
-        chai.equal(countryLabel,'Belgien','Country Language is incorrect')
-        break;
-      default:
-        callback(new Error("CountryLanguage InValid"));
-        break;
+  let filePath;
+  
+  switch(language){
+    case "en":
+      filePath = "./countryList/countriesEnglish.json";
+      break;
+    case "fr":
+      filePath= "./countryList/countriesFrench.json";
+      break;
+    case "nl":
+      filePath= "./countryList/countriesDutch.json";
+      break;
+    case "de":
+      filePath= "./countryList/countriesGerman.json";
+      break;
+    default:
+      callback(new Error("CountryLanguage InValid"));
+      break;
   }
+
+  return JSON.parse(fs.readFileSync(path.resolve(filePath)));
+
 }
 
 module.exports = getCountriesTest;
