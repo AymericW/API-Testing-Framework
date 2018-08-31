@@ -3,15 +3,15 @@ Feature: Products Feature
   
   Scenario Outline: getProducts
   When I try to get a product according to my age <under28> <language>
-  Then I should be able to get the correct products
+  Then I should be able to get the correct products <under28> <language>
 
         Examples:
         |    under28    |  language | 
-        |    "YES"      |    "fr"   | 
-        |    "YES"      |    "en"   | 
-        |    "YES"      |    "de"   | 
-        |    "YES"      |    "nl"   | 
-        |    "NO"       |    "fr"   | 
-        |    "NO"       |    "en"   | 
-        |    "NO"       |    "de"   | 
-        |    "NO"       |    "nl"   | 
+        |      y        |     fr    | 
+        |      y        |     en    | 
+        |      y        |     de    | 
+        |      y        |     nl    | 
+        |      n        |     fr    | 
+        |      n        |     en    | 
+        |      n        |     de    | 
+        |      n        |     nl    | 

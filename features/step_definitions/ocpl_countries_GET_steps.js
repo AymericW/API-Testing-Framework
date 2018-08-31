@@ -65,16 +65,16 @@ function loadCountriesReference(language){
   
   switch(language){
     case "en":
-      filePath = "./countryList/countriesEnglish.json";
+      filePath = "./references/countryList/countriesEnglish.json";
       break;
     case "fr":
-      filePath= "./countryList/countriesFrench.json";
+      filePath= "./references/countryList/countriesFrench.json";
       break;
     case "nl":
-      filePath= "./countryList/countriesDutch.json";
+      filePath= "./references/countryList/countriesDutch.json";
       break;
     case "de":
-      filePath= "./countryList/countriesGerman.json";
+      filePath= "./references/countryList/countriesGerman.json";
       break;
     default:
       callback(new Error("CountryLanguage InValid"));

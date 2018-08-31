@@ -1,5 +1,7 @@
     var fs = require('fs');
     var request = require('request-promise');
+    var chai = require('chai').assert;
+    var path = require('path');
     var queryResponse;
 
     var getProductList = function () {        
@@ -9,28 +11,11 @@
 /*############################################### GET products according to age and language ###############################################*/
 
         this.When(/^I try to get a product according to my age (.*) (.*)$/, function (under28, language, callback) {
-            global.ageFactor = JSON.parse(under28);
-            let age = (ageFactor == "NO") ? "n" : "y";
-            
-            let languageFactor = JSON.parse(language);
 
-            switch(languageFactor){
-                case "en":
-                    languageSelected = "&lang=en";
-                    break;
-                case "de":
-                    languageSelected = "&lang=de";
-                    break;
-                case "nl":
-                    languageSelected = "&lang=nl";
-                    break;
-                default:
-                    languageSelected = "&lang=fr";
-                    break;
-            }
+            this.ENVIRONMENTS[TARGET_ENV] + productListLink + under28 + "&lang=" + language
 
             var reqOptions = {
-                url: this.ENVIRONMENTS[TARGET_ENV]+productListLink+age+languageSelected,
+                url: this.ENVIRONMENTS[TARGET_ENV] + productListLink + under28 + "&lang=" + language,
                 method: 'GET',
                 headers: {
                 "Content-Type": "application/json",
@@ -59,28 +44,11 @@
 
 /*############################################## Validate GET products response with yaml ##############################################*/
 
-        this.Then(/^I should be able to get the correct products$/, function (callback) {
-            //yaml validation
-            var yamlValidationResult = this.validateApiDefinition(queryResponse,"getProducts");
+        this.Then(/^I should be able to get the correct products (.*) (.*)$/, function (under28, language, callback) {
 
-            if(yamlValidationResult.isValid){
-                // Fields validated
-                var errorList = checkProducts(ageFactor);
-                // Throw error
-                if(errorList.length !== 0){
-                    var errors = "";
-                    errorList.forEach(element => {
-                        errors += element + "\n";
-                    });
-                    callback(new Error("The Following Fields were incorrect \n" + errors));
-                }else{
-                    callback();
-                }
-            }else{
-                callback(new Error("Response doesnt respect the api definition with the Error : " + yamlValidationResult.message + " , " + yamlValidationResult.schemaPath));
-            }
-
-            console.log(yamlValidationResult);
+            chai.deepEqual(queryResponse, loadProductsReference(under28, language));
+            callback();
+     
         });
     
     };
@@ -88,48 +56,45 @@
 /*######################################################### FUNCTIONS #########################################################*/
 
 // Fields validation
-function checkProducts(ageParam){
-    var errorList = [];
-    var productIndex = 0;
-    // Age < 28 -> "CDIGPK"
-    // Age >= 28 -> "CCOMF", "CPREMI"
+function loadProductsReference(under28, language){
 
-    queryResponse.forEach(product => {
-        productIndex ++;
-        var isValidPack = false;
-        if(ageParam == "YES"){
-            isValidPack = validateAccountType(product.accountType,["CDIGPK"]);
-            isValidPack = validateAccountType(product.accountProductName,["Compte à vue Hello4You"]);
-        }else{
-            isValidPack = validateAccountType(product.accountType,["CCOMF","CPREMI"]);
-            isValidPack = validateAccountType(product.accountProductName,["Comfort Pack","Premium Pack"]);
+    let filePath;
+    
+    if(under28 == "y"){
+        switch(language){
+            case "en":
+                filePath = "./references/productList/under28English.json";
+                break;
+            case "fr":
+                filePath= "./references/productList/under28French.json";
+                break;
+            case "nl":
+                filePath= "./references/productList/under28Dutch.json";
+                break;
+            case "de":
+                filePath= "./references/productList/under28German.json";
+                break;
         }
-        if(!isValidPack){
-            errorList.push(productIndex + "-accountType :"+ product.accountType + " is not permitted");
+    }else{
+        switch(language){
+            case "en":
+                filePath = "./references/productList/above28English.json";
+                break;
+            case "fr":
+                filePath= "./references/productList/above28French.json";
+                break;
+            case "nl":
+                filePath= "./references/productList/above28Dutch.json";
+                break;
+            case "de":
+                filePath= "./references/productList/above28German.json";
+                break;
         }
-        if(product.accountType === null || product.accountType === undefined || typeof(product.accountType) != 'string'){
-            errorList.push(productIndex + "-accountType : " + product.accountType);;
-        }
-        if(product.accountProductName === null || product.accountProductName === undefined || typeof(product.accountProductName) != 'string'){
-            errorList.push(productIndex + "-accountProductName : " + product.accountProductName);
-        }
-        if(ageParam === "YES"){
-            console.log("accountType expected for under 28:" .blue + "'CDIGPK' \n" .yellow + "accountType fetched are: " .blue + product.accountType .yellow);
-        }else{
-            console.log("accountType expected for above 28:" .blue +  "'CCOMF' or 'CPREMI' \n" .yellow + "accountType fetched are: " .blue + product.accountType .yellow);
-        }
-    });
-    return errorList;
-}
+    }
 
-function validateAccountType(accType, acceptedProducts){
-    var validationResult = false;
-    acceptedProducts.forEach(acceptedAccountType => {
-        if(acceptedAccountType === accType){
-            validationResult = true;
-        }
-    });
-    return validationResult;
+  console.log(filePath);
+
+  return JSON.parse(fs.readFileSync(path.resolve(filePath)));
 }
 
 module.exports = getProductList;
