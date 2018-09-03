@@ -28,7 +28,7 @@ var prospectGET = function () {
         request(reqOptions)
         .then(function (response) {
             global.GETqueryResponse = response.body;
-            console.log(GETqueryResponse);
+            // console.log(GETqueryResponse);
             callback();
         })
         .catch(function (err) {
@@ -39,7 +39,8 @@ var prospectGET = function () {
 /*######################################################### Compare GET and POST response #########################################################*/
 
     this.Then(/^I should have both data matching$/, function (callback) { 
-        objectEquals(GETqueryResponse, POSTqueryResponse);
+        chai.deepEqual(GETqueryResponse, POSTqueryResponse);
+        // objectEquals(GETqueryResponse, POSTqueryResponse);
 
         callback();
     });
@@ -84,35 +85,35 @@ var prospectGET = function () {
     
 /*######################################################### FUNCTIONS #########################################################*/
 
-// Fields validation
-function objectEquals(a, b){
+// // Fields validation
+// function objectEquals(a, b){
 
-    for(let field in a){
-        if(typeof(b[field]) == 'undefined'){
-            return false;
-        }
-    }
+//     for(let field in a){
+//         if(typeof(b[field]) == 'undefined'){
+//             return false;
+//         }
+//     }
 
-    for(let field in a){
+//     for(let field in a){
 
-        if(typeof(a[field]) == 'object'){
+//         if(typeof(a[field]) == 'object'){
 
-            if(!objectEquals(a[field], b[field])){
-                return false;
-            }
+//             if(!objectEquals(a[field], b[field])){
+//                 return false;
+//             }
 
-        } else {
+//         } else {
         
-            console.log("Comparing POST " + field .blue + ": " +a[field] .green + " and GET " + field .blue + ": " + b[field] .green);
+//             console.log("Comparing POST " + field .blue + ": " +a[field] .green + " and GET " + field .blue + ": " + b[field] .green);
             
-            if(a[field] != b[field]){
-                return false;
-            }
+//             if(a[field] != b[field]){
+//                 return false;
+//             }
 
-        }
-    }
+//         }
+//     }
 
-    return true;
-}
+//     return true;
+// }
 
 module.exports = prospectGET;
