@@ -16,7 +16,7 @@ var getCountriesTest = function () {
 
 /*############################################### GET countries according language ###############################################*/
 
-  this.When(/^I try to retrieve country list with request (.*)$/, function (language, callback) {
+  When(/^I try to retrieve country list with request (.*)$/, function (language, callback) {
     
     var reqOptions = {
       url: this.ENVIRONMENTS[TARGET_ENV] + countriesLink + "?lang=" + language,
@@ -38,7 +38,7 @@ var getCountriesTest = function () {
     .then(function (response) {
       queryResponse = response.body;
       // console.log(queryResponse);
-      //fs.writeFileSync('countries.json',JSON.stringify(queryResponse));
+      //fs.writeFileSync('countries.json',JSON.stringify(queryResponse));l
       callback();
     })
     .catch(function (err) {
@@ -48,7 +48,7 @@ var getCountriesTest = function () {
 
 /*############################################## Validate GET countries response with yaml ##############################################*/
 
-  this.Then(/^I should be able to get the correct country list (.*)$/, (language, callback) => {
+  Then(/^I should be able to get the correct country list (.*)$/, (language, callback) => {
 
     chai.deepEqual(queryResponse, loadCountriesReference(language));
     callback();

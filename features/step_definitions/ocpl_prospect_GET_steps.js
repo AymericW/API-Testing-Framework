@@ -8,7 +8,7 @@ var prospectGET = function () {
 
 /*######################################################### GET a prospect with an ID #########################################################*/
 
-    this.When(/^I try retrieve data from previously created prospect$/, function (callback) {
+    When(/^I try retrieve data from previously created prospect$/, function (callback) {
         var reqOptions = {
             url: this.ENVIRONMENTS[TARGET_ENV]+prospectLink+"/"+prospectID,
             method: 'GET',
@@ -38,7 +38,7 @@ var prospectGET = function () {
 
 /*######################################################### Compare GET and POST response #########################################################*/
 
-    this.Then(/^I should have both data matching$/, function (callback) { 
+    Then(/^I should have both data matching$/, function (callback) { 
         chai.deepEqual(GETqueryResponse, POSTqueryResponse);
         // objectEquals(GETqueryResponse, POSTqueryResponse);
 
@@ -47,7 +47,7 @@ var prospectGET = function () {
     
 /*###################################################### GET a prospect without a correct ID ######################################################*/
     
-    this.When(/^I try retrieve prospect data without id that doesn't exist$/, function (callback) {
+    When(/^I try retrieve prospect data without id that doesn't exist$/, function (callback) {
         var reqOptions = {
             url: this.ENVIRONMENTS[TARGET_ENV]+prospectLink+"/"+prospectID,
             method: 'GET',
@@ -77,7 +77,7 @@ var prospectGET = function () {
     
 /*###################################################### Get error message for wrong ID input ######################################################*/
 
-    this.Then(/^I should be I should get a proper error message$/, function (callback) {
+    Then(/^I should be I should get a proper error message$/, function (callback) {
         // Write code here that turns the phrase above into concrete actions
         callback.pending();
     });

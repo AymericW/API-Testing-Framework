@@ -7,7 +7,7 @@ var prospectTest = function () {
 
 /*############################################## POST (create) a prospect with some random data ##############################################*/
 
-    this.When(/^I try create a prospect with some data$/, function (callback) {
+    When(/^I try create a prospect with some data$/, function (callback) {
         var reqOptions = {
             url: this.ENVIRONMENTS[TARGET_ENV]+prospectLink,
             method: 'POST',
@@ -43,7 +43,7 @@ var prospectTest = function () {
 
 /*############################################## Validate POST prospect response with yaml ##############################################*/
 
-    this.Then(/^I should be able to get the correct prospect$/, function (callback) {
+    Then(/^I should be able to get the correct prospect$/, function (callback) {
         console.log("The created prospect ID is " + prospectID);
 
         //yaml validation

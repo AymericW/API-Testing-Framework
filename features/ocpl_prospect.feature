@@ -1,4 +1,4 @@
-@FID_2162
+@FID_2162 @prospect
 Feature: Prospect Feature
   
   Scenario: postProspect
