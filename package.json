@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "description": "Test Client for API Integration Tests",
   "private": true,
+  "scripts": {
+    "test": "cucumber-js"
+  },
   "devDependencies": {
-    "cucumber": "0.8.1",
-    "swagger-client": "2.1.13",
+    "cucumber": "^4.2.1",
+    "chai": "3.5.0",
     "json-stringify-safe": "5.0.1",
-    "underscore": "~1.5.2",
-    "chai": "3.5.0"
+    "swagger-client": "2.1.13",
+    "underscore": "~1.5.2"
   },
   "dependencies": {
     "request-promise": "^3.0.0",
