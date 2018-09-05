@@ -1,88 +1,38 @@
-var fs = require('fs');
-var request = require('request-promise');
-var stringify = require('json-stringify-safe');
-var chai = require('chai').assert;
-var path = require('path');
+const { When, Then } = require('cucumber');
 
-var getCountriesTest = function () {
-  
-  var queryResponse;
-  var TARGET_ENV = process.env.TARGET_ENV || "QA+1";
-  var countriesLink = "/OCPL-pr90/rpc/v1/countries";
+const api = require('../../util/api');
+const file = require('../../util/file');
 
-  // this.Given(/^I send a request to PBIA-pr90 CheckAppEnabled to check the forced upgrade$/, function(callback) {
-  //   callback();
-  // });
+var assert = require('chai').assert;
 
-/*############################################### GET countries according language ###############################################*/
+const COUNTRIES_URL = '/OCPL-pr90/rpc/v1/countries';
 
-  When(/^I try to retrieve country list with request (.*)$/, function (language, callback) {
-    
-    var reqOptions = {
-      url: this.ENVIRONMENTS[TARGET_ENV] + countriesLink + "?lang=" + language,
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      json: true,
-      resolveWithFullResponse: true,
-      simple: false
-    };
-    
-    console.log(reqOptions.url);
-    if (process.env.HTTP_PROXY){
-      reqOptions.proxy = process.env.HTTP_PROXY;
-    }
+let data;
+let statusCode;
 
-    request(reqOptions)
-    .then(function (response) {
-      queryResponse = response.body;
-      // console.log(queryResponse);
-      //fs.writeFileSync('countries.json',JSON.stringify(queryResponse));l
-      callback();
-    })
-    .catch(function (err) {
-      throw "*** ERROR DUDE: "+err.toString();
-    });
-  });
+const callApi = (url) => api.get(url)
+.then((response) => {
+  data = response.body
+  statusCode = response.statusCode
+})
 
-/*############################################## Validate GET countries response with yaml ##############################################*/
+// Retrieves one country
+When('I retrieve the country {string} in {string}', (code, language) => callApi(COUNTRIES_URL + '/' + code + '?lang=' + language));
+When('I retrieve the country {string}', (code) => callApi(COUNTRIES_URL + '/' + code));
 
-  Then(/^I should be able to get the correct country list (.*)$/, (language, callback) => {
+// Retrieves all countries
+When('I retrieve the countries', () => callApi(COUNTRIES_URL));
+When('I retrieve the countries in {string}', (language) => callApi(COUNTRIES_URL + '?lang=' + language));
 
-    chai.deepEqual(queryResponse, loadCountriesReference(language));
-    callback();
+Then('I have the same countries as my reference in {string}', (language) => {
+  assert.deepEqual(file.read('expected/countries/get_countries_' + language + '.json'), data);
+});
 
-  });
+Then('the country code is {string} and label is {string}', (expectedCode, expectedLabel) => {
+  assert.equal(data.code, expectedCode);
+  assert.equal(data.label, expectedLabel);
+});
 
-};
-
-/*######################################################### FUNCTIONS #########################################################*/
-
-function loadCountriesReference(language){
-  
-  let filePath;
-  
-  switch(language){
-    case "en":
-      filePath = "./references/countryList/countriesEnglish.json";
-      break;
-    case "fr":
-      filePath= "./references/countryList/countriesFrench.json";
-      break;
-    case "nl":
-      filePath= "./references/countryList/countriesDutch.json";
-      break;
-    case "de":
-      filePath= "./references/countryList/countriesGerman.json";
-      break;
-    default:
-      callback(new Error("CountryLanguage InValid"));
-      break;
-  }
-
-  return JSON.parse(fs.readFileSync(path.resolve(filePath)));
-
-}
-
-module.exports = getCountriesTest;
+Then('the response status code is {string}', (code) => {
+  assert.equal(statusCode, code);
+});

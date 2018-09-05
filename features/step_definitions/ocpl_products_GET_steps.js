@@ -1,96 +1,31 @@
-    var fs = require('fs');
-    var request = require('request-promise');
-    var chai = require('chai').assert;
-    var path = require('path');
-    var queryResponse;
-    const {When, Then} = require('cucumber');
-    var productListLink = "/AC52-pr90/rpc/v1/products?ageUnder28=";
+const { When, Then } = require('cucumber');
+
+const api = require('../../util/api');
+const file = require('../../util/file');
+
+var assert = require('chai').assert;
+
+const COUNTRIES_URL = '/OCPL-pr90/rpc/v1/countries';
+const PRODUCTS_URL = "/AC52-pr90/rpc/v1/products?ageUnder28=";
+
+let data;
+let statusCode;
+
+const callApi = (url) => api.get(url)
+.then((response) => {
+  data = response.body
+  statusCode = response.statusCode
+})    
+
 
 /*############################################### GET products according to age and language ###############################################*/
-
-    When('I try to get a product according to my age {string} {string}', function (under28, string2) {
-
-        ENVIRONMENTS[TARGET_ENV] + productListLink + under28 + "&lang=" + language
-
-        var reqOptions = {
-            url: ENVIRONMENTS[TARGET_ENV] + productListLink + under28 + "&lang=" + language,
-            method: 'GET',
-            headers: {
-            "Content-Type": "application/json",
-            },
-            json: true,
-            resolveWithFullResponse: true,
-            simple: false
-        };
-        
-        console.log("Request URL : " + reqOptions.url);
-
-        if (process.env.HTTP_PROXY){
-            reqOptions.proxy = process.env.HTTP_PROXY;
-        }
-        request(reqOptions)
-        .then(function (response) {
-            queryResponse = response.body;
-            // console.log(queryResponse);
-            // fs.writeFileSync('productsResponse.json',JSON.stringify(queryResponse));
-            callback();
-        })
-        .catch(function (err) {
-            throw "*** ERROR DUDE: "+err.toString();
-        });
-    });
+  
+When('I try to get a product according to my age {string} {string}', (under28, language) => callApi(PRODUCTS_URL + under28 + '&lang=' + language));
 
 /*############################################## Validate GET products response with yaml ##############################################*/
 
-    Then('I should be able to get the correct products {string} {string}', function (string, string2) {
-
-        chai.deepEqual(queryResponse, loadProductsReference(under28, language));
-        callback();
-    
-    });
-    
-
+Then('I should be able to get the correct products {string} {string}', (under28, language) => {
+    assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '.json'), data);
+});
 
 /*######################################################### FUNCTIONS #########################################################*/
-
-// Fields validation
-function loadProductsReference(under28, language){
-
-    let filePath;
-    
-    if(under28 == "y"){
-        switch(language){
-            case "en":
-                filePath = "./references/productList/under28English.json";
-                break;
-            case "fr":
-                filePath= "./references/productList/under28French.json";
-                break;
-            case "nl":
-                filePath= "./references/productList/under28Dutch.json";
-                break;
-            case "de":
-                filePath= "./references/productList/under28German.json";
-                break;
-        }
-    }else{
-        switch(language){
-            case "en":
-                filePath = "./references/productList/above28English.json";
-                break;
-            case "fr":
-                filePath= "./references/productList/above28French.json";
-                break;
-            case "nl":
-                filePath= "./references/productList/above28Dutch.json";
-                break;
-            case "de":
-                filePath= "./references/productList/above28German.json";
-                break;
-        }
-    }
-
-  console.log(filePath);
-
-  return JSON.parse(fs.readFileSync(path.resolve(filePath)));
-}

@@ -8,10 +8,10 @@ Feature: Products Feature
         Examples:
         |    under28      |  language   | 
         |      "y"        |     "fr"    | 
-        # |      "y"        |     "en"    | 
-        # |      "y"        |     "de"    | 
-        # |      "y"        |     "nl"    | 
-        # |      "n"        |     "fr"    | 
-        # |      "n"        |     "en"    | 
-        # |      "n"        |     "de"    | 
-        # |      "n"        |     "nl"    | 
+        |      "y"        |     "en"    | 
+        |      "y"        |     "de"    | 
+        |      "y"        |     "nl"    | 
+        |      "n"        |     "fr"    | 
+        |      "n"        |     "en"    | 
+        |      "n"        |     "de"    | 
+        |      "n"        |     "nl"    | 
