@@ -43,36 +43,51 @@ var myBeforeHooks = function () {
         var map = {};
         var operations = _.keys(world.swaggerSpecs.paths);
         operations.forEach(function(operation) {
-            // console.log(operation);
-            // var call = world.swaggerSpecs.paths[operation].post.operationId,
-            //     responseDefinitionName = world.swaggerSpecs.paths[operation].post.responses[200].schema.$ref,
-            //     responseSchemaName = responseDefinitionName.substring(14);
+            // console.log("operation is: " + operation);
+            // console.log("responseDefinitionName is: " + responseDefinitionName);
             var call, responseDefinitionName, responseSchemaName;
-            if(world.swaggerSpecs.paths[operation].post !== undefined){
-                call = world.swaggerSpecs.paths[operation].post.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].post.responses[200].schema.$ref;
-                responseSchemaName = responseDefinitionName.substring(14);
-            }else if(world.swaggerSpecs.paths[operation].get !== undefined){
-                call = world.swaggerSpecs.paths[operation].get.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].get.responses[200].schema.$ref;
-                responseSchemaName = responseDefinitionName.substring(14);
-            }else if (world.swaggerSpecs.paths[operation].delete !== undefined){
-                call = world.swaggerSpecs.paths[operation].delete.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].delete.responses[200].schema.$ref;
-                responseSchemaName = responseDefinitionName.substring(14);
-            }else if(world.swaggerSpecs.paths[operation].put !== undefined){
-                call = world.swaggerSpecs.paths[operation].put.operationId;
-                responseDefinitionName = world.swaggerSpecs.paths[operation].put.responses[200].schema.$ref;
-                responseSchemaName = responseDefinitionName.substring(14);
+            const operationPaths = world.swaggerSpecs.paths[operation];
+            if(operationPaths.post !== undefined){
+                call = operationPaths.post.operationId;
+                responseDefinitionName = fetchSchemaReference('post', operationPaths);
+            }else if(operationPaths.get !== undefined){
+                call = operationPaths.get.operationId;
+                responseDefinitionName = fetchSchemaReference('get', operationPaths);
+            }else if (operationPaths.delete !== undefined){
+                call = operationPaths.delete.operationId;
+                responseDefinitionName = fetchSchemaReference('delete', operationPaths);
+            }else if(operationPaths.put !== undefined){
+                call = operationPaths.put.operationId;
+                responseDefinitionName = fetchSchemaReference('put', operationPaths);
             }
+            responseSchemaName = responseDefinitionName.substring(14);
             map[call] = responseSchemaName;
             tv4.addSchema(responseSchemaName, {definitions: world.swaggerSpecs.definitions});
         })
-
-            
 
         world.setSchemeMap(map);
     }
 
 };
+
+function fetchSchemaReference(methodType, operationPaths){
+    var schemaPath;
+    
+    switch(methodType){
+        case 'get':
+        schemaPath = operationPaths.get.responses[200].schema;
+        break;
+        case 'post':
+        schemaPath = operationPaths.post.responses[200].schema;
+        break;
+        case 'put':
+        schemaPath = operationPaths.put.responses[200].schema;
+        break;
+        case 'delete':
+        schemaPath = operationPaths.delete.responses[200].schema;
+        break;
+    }
+    return (schemaPath.type === "array") ? schemaPath.items.$ref : schemaPath.$ref;
+}
+
 module.exports = myBeforeHooks;

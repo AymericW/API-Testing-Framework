@@ -68,7 +68,6 @@
     },
     "definitions": {
       "Product": {
-        "type": "object",
         "properties": {
           "accountType": {
             "type": "string"
