@@ -3,7 +3,7 @@ Feature: Countries
 
   Scenario Outline: Retrieve all countries
     When I retrieve the countries in <language>
-    Then the response status code is "200"
+    Then the http status code is "200"
     And I have the same countries as my reference in <language>
 
     Examples:
@@ -24,15 +24,15 @@ Feature: Countries
     Then the http status code is "200"
     And the country code is "BE" and label is "Belgium"
 
-  Scenario: Retrieve Belgium in french
-    When I retrieve the country "BE" in "fr"
+  Scenario Outline: Retrieve a country in a specified language
+    When I retrieve the country <countryCode> in <language>
     Then the http status code is "200"
-    And the country code is "BE" and label is "Belgique"
+    And the country code is <countryCode> and label is <country>
 
-  Scenario: Retrieve India in german
-    When I retrieve the country "IN" in "de"
-    Then the http status code is "200"
-    And the country code is "IN" and label is "Indien"
+    Examples:
+    |    countryCode    |      language   |     country     |
+    |    "BE"           |      "fr"       |    "Belgique"   |
+    |    "IN"           |      "de"       |     "Indien"    |
 
   Scenario: Country not existing
     When I retrieve the country "XXX" in "de"
