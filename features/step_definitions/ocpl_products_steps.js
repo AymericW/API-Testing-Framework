@@ -5,7 +5,6 @@ const file = require('../../util/file');
 
 var assert = require('chai').assert;
 
-const COUNTRIES_URL = '/OCPL-pr90/rpc/v1/countries';
 const PRODUCTS_URL = "/AC52-pr90/rpc/v1/products?ageUnder28=";
 
 let data;

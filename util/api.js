@@ -15,6 +15,15 @@ module.exports = {
         json: true,
         resolveWithFullResponse: true,
         simple: false
+    }),
+
+    post: (url, body) => request({
+        url: ENV_URL[process.env.TARGET_ENV || "QA+1"] + url,
+        body,
+        method:'POST',
+        json: true,
+        resolveWithFullResponse: true,
+        simple: false
     })
 
 }
