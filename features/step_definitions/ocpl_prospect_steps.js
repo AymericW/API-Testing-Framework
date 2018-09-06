@@ -23,7 +23,7 @@ const callApiGet = (url) => api.get(url)
   statusCode = response.statusCode
 })
 
-/*############################################## POST (create) a prospect with some random data ##############################################*/
+/*############################################## POST (create) a prospect with generated random data ##############################################*/
 
 When('I try create a prospect with generated random data', function () {
     return callApiPost(PROSPECT_URL, {
