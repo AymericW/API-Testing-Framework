@@ -68,18 +68,18 @@
   Then the http status code is "500"
  
       Examples:
-      |    valid lastname                                                                     | 
-      |    " nicolascueto@hotmail.com"                                                        | 
-      |    "nicolascueto@hotmail.com "                                                        | 
-      |    " nicolascueto@hotmail.com "                                                       | 
-      |    "  nicolascueto@hotmail.com   "                                                    | 
-      |    "nicolas-cueto@hotmail.com"                                                        | 
-      |    "nicolas.cueto@hotmail.com"                                                        | 
-      |    "nicolas_cueto@hotmail.com"                                                        | 
-      |    "nicolas&cueto@hotmail.com"                                                        | 
-      |    "12039110cueto@hotmail.com"                                                        | 
-      |    "nicolas120391@hotmail.com"                                                        | 
-      |    "n@h.co"                                                                           | 
+      |    valid lastname                                                                                                    | 
+      |    " nicolascueto@hotmail.com"                                                                                       | 
+      |    "nicolascueto@hotmail.com "                                                                                       | 
+      |    " nicolascueto@hotmail.com "                                                                                      | 
+      |    "  nicolascueto@hotmail.com   "                                                                                   | 
+      |    "nicolas-cueto@hotmail.com"                                                                                       | 
+      |    "nicolas.cueto@hotmail.com"                                                                                       | 
+      |    "nicolas_cueto@hotmail.com"                                                                                       | 
+      |    "nicolas&cueto@hotmail.com"                                                                                       | 
+      |    "12039110cueto@hotmail.com"                                                                                       | 
+      |    "nicolas120391@hotmail.com"                                                                                       | 
+      |    "n@h.co"                                                                                                          | 
       |    "nicolascuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuetonico@hotmail.com"            | 
       |    "nicolascuetonicolascuetonicolascuetonicolas@cuetonicolascuetonicolascuetonicolascuetonicohotmail.com"            | 
       |    "cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuet@hotmail.com"                                    | 
@@ -133,9 +133,9 @@
  
      Examples:
      |    wrong lastname                                                                    | 
-     |    " "                                                                                | 
-     |    ""                                                                                 | 
-     |    "NicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasss"                |  
+     |    " "                                                                               | 
+     |    ""                                                                                | 
+     |    "NicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasss"               |  
      |    "cueto1"                                                                          |  
      |    "cueto'"                                                                          |  
      |    "cueto""                                                                          |  
@@ -197,50 +197,4 @@
      |    "cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto@hotmail.com"                                    | 
      |    "hotmail@cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto.com"                                    | 
  
-   # Scenario: Enter email without @
-   # When I try to create a prospect that doesn't have @
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email without last part of email
-   # When I try to create a prospect that doesn't have . something
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with incorrect part of email
-   # When I try to create a prospect that only have one character after .
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with blank inside email
-   # When I try to create a prospect that has blank space inside email
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with @ followed by .
-   # When I try to create a prospect that has @ followed by .
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email which is longer than 100 characters
-   # When I try to create a prospect that has more than 100 characters
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with less than 2 characters in the last part of the email
-   # When I try to create a prospect that has 1 or 0 character after .
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with more than 64 characters before or after @
-   # When I try to create a prospect that has more than 64 characters before or after @
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with @ at the begining of the email
-   # When I try to create a prospect that has @ at the begining of the email
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email that has more than 1 @ in email
-   # When I try to create a prospect that has more than 1 @ in email
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email that has double . before or after @ in email
-   # When I try to create a prospect that has double . before or after @ in email
-   # Then I should be I should get a proper error message
- 
-   # Scenario: Enter email with some unauthorized special characters
-   # When I try to create a prospect that has some unauthorized special charactersl
-   # Then I should be I should get a proper error message
+   
