@@ -4,7 +4,7 @@
   "description": "Test Client for API Integration Tests",
   "private": true,
   "scripts": {
-    "test": "cucumber-js"
+    "start": "cucumber-js"
   },
   "devDependencies": {
     "cucumber": "^4.2.1",

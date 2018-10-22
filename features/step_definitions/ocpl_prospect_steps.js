@@ -25,7 +25,7 @@ const callApiGet = (url) => api.get(url)
 
 /*############################################## POST (create) a prospect with generated random data ##############################################*/
 
-When('I try create a prospect with generated random data', function () {
+When('I try to create a prospect with generated random data', function () {
     return callApiPost(PROSPECT_URL, {
         firstName: randomFirstName,
         lastName: randomLastName,
@@ -35,7 +35,7 @@ When('I try create a prospect with generated random data', function () {
 
 /*############################################## GET a prospect with an ID ##############################################*/
 
-When('I try retrieve data from previously created prospect', () => callApiGet(PROSPECT_URL + "/" + postData.id));
+When('I try to retrieve data from previously created prospect', () => callApiGet(PROSPECT_URL + "/" + postData.id));
 
 /*############################################## Validate POST prospect response ##############################################*/
 
