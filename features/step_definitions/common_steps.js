@@ -5,18 +5,7 @@ const file = require('../../util/file');
 
 var assert = require('chai').assert;
 
-const COUNTRIES_URL = '/OCPL-pr90/rpc/v1/countries';
-
-let data;
-let statusCode;
-
-const callApi = (url) => api.get(url)
-.then((response) => {
-  data = response.body
-  statusCode = response.statusCode
-})
-
 // http status code validation
 Then('the http status code is {string}', (code) => {
-    assert.equal(statusCode, code);
+  assert.equal(global.statusCode, code);
 });

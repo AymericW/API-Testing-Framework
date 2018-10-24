@@ -12,8 +12,8 @@ let statusCode;
 
 const callApi = (url) => api.get(url)
 .then((response) => {
-  data = response.body
-  statusCode = response.statusCode
+  global.data = response.body
+  global.statusCode = response.statusCode
 })
 
 // Retrieves one country

@@ -43,8 +43,6 @@ Then('I should be able to get the correct prospect', function () {
     // console.log("the firstname is " + randomFirstName);
     // console.log("the lastname is " + randomLastName);
     // console.log("the email is " + randomEmail);
-    console.log("the response is " + getData);
-
 
     assert.equal(postData.firstName, randomFirstName, "Request and response firstname doesn't match");
     assert.equal(postData.lastName, randomLastName, "Request and response lastname doesn't match");
