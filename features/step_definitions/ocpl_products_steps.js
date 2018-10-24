@@ -23,7 +23,7 @@ When('I try to get a product according to my age {string} {string}', (under28, l
 
 /*############################################### Validate GET products response ###############################################*/
 
-Then('I should be able to get the correct products {string} {string}', (under28, language) => {
+And('I should be able to get the correct products {string} {string}', (under28, language) => {
     assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '.json'), data);
 });
 

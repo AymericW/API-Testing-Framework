@@ -43,6 +43,8 @@ Then('I should be able to get the correct prospect', function () {
     // console.log("the firstname is " + randomFirstName);
     // console.log("the lastname is " + randomLastName);
     // console.log("the email is " + randomEmail);
+    console.log("the response is " + getData);
+
 
     assert.equal(postData.firstName, randomFirstName, "Request and response firstname doesn't match");
     assert.equal(postData.lastName, randomLastName, "Request and response lastname doesn't match");
@@ -59,10 +61,31 @@ Then('I should be able to get the correct prospect', function () {
 /*############################################# Compare GET and POST response #########################################################*/
 
 Then('I should have both data matching', function () {
-    console.log("post response is " + JSON.stringify(postData));
-    console.log("get response is " + JSON.stringify(getData));
+    // console.log("post response is " + JSON.stringify(postData));
+    // console.log("get response is " + JSON.stringify(getData));
     assert.deepEqual(postData, getData);
 });
+
+/*############################################# Name input Validation #########################################################*/
+
+When('I try retrieve prospect data with id that doesn\'t exist', () => callApiGet(PROSPECT_URL + "/32"));
+
+// When('I try to create a prospect with {string}, {string} and <valid email>', function (string, string2) {
+//     return callApiPost(PROSPECT_URL, {
+//         firstName: string,
+//         lastName: string2,
+//         email: string3
+//     });
+// });
+
+When('I try to create a prospect with {string}, {string} and {string}', function (string, string2, string3) {
+    return callApiPost(PROSPECT_URL, {
+        firstName: string,
+        lastName: string2,
+        email: string3
+    });
+});
+
 
 /*######################################################### FUNCTIONS #########################################################*/
 
@@ -76,10 +99,10 @@ function generateName(){
     
     for (var i = 1; i < nameLength; i++){
         generateRandom += bodyLetter.charAt(Math.floor(Math.random() * bodyLetter.length));
-    }
+    };
 
     return generateRandom;
-}
+};
 
 var randomFirstName = generateName();
 var randomLastName = generateName();

@@ -33,8 +33,5 @@ Then('the country code is {string} and label is {string}', (expectedCode, expect
   assert.equal(data.label, expectedLabel);
 });
 
-// http status code validation
-Then('the http status code is {string}', (code) => {
-  assert.equal(statusCode, code);
-});
+
 
