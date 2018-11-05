@@ -13,14 +13,14 @@ let statusCode;
 
 const callApiPost = (url, body) => api.post(url, body)
 .then((response) => {
-  postData = response.body
-  statusCode = response.statusCode
+    postData = response.body
+    statusCode = response.statusCode
 })
 
 const callApiGet = (url) => api.get(url)
 .then((response) => {
-  getData = response.body
-  statusCode = response.statusCode
+    getData = response.body
+    statusCode = response.statusCode
 })
 
 /*############################################## POST (create) a prospect with generated random data ##############################################*/

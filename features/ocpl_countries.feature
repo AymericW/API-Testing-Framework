@@ -37,3 +37,8 @@ Feature: Countries
   Scenario: Country not existing
     When I retrieve the country "XXX" in "de"
     Then the http status code is "404"
+
+  # To be checked with alex
+  # Scenario: language not existing
+  #   When I retrieve the country "BE" in "xxx"
+  #   Then the http status code is "404"
