@@ -23,10 +23,11 @@ When('I try to get a product according to my age {string} {string} {string}', (u
 /*############################################### Validate GET products response ###############################################*/
 
 Then('I should be able to get the correct products {string} {string} {string}', (under28, language, brand) => {
-  if(brand == ''){
-    assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '.json'), data);
-  }else{
-    assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '_' + brand + '.json'), data);
-  };
+  assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '.json'), data);
+  // if(brand == ''){
+  //   assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '.json'), data);
+  // }else{
+  //   assert.deepEqual(file.read('expected/products/under28_' + under28 + '_' + language + '_' + brand + '.json'), data);
+  // };
 });
 
