@@ -8,14 +8,14 @@ Feature: Products Feature
 
         Examples:
         |    under28      |  language   | brand |
-        |      "y"        |     "fr"    | "FB"  |
-        |      "y"        |     "en"    | "HB"  |
-        |      "y"        |     "de"    | "FB"  |
-        |      "y"        |     "nl"    | "HB"  |
-        |      "n"        |     "fr"    | "FB"  |
-        |      "n"        |     "en"    | "HB"  |
-        |      "n"        |     "de"    | "FB"  |
-        |      "n"        |     "nl"    | "HB"  |
+        |      "y"        |     "fr"    | ""    |
+        |      "y"        |     "en"    | ""    |
+        |      "y"        |     "de"    | ""    |
+        |      "y"        |     "nl"    | ""    |
+        |      "n"        |     "fr"    | ""    |
+        |      "n"        |     "en"    | ""    |
+        |      "n"        |     "de"    | ""    |
+        |      "n"        |     "nl"    | ""    |
 
 
 #   Scenario Outline: getProducts
