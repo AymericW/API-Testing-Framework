@@ -64,17 +64,11 @@ Then('I should have both data matching', function () {
     assert.deepEqual(postData, getData);
 });
 
-/*############################################# Name input Validation #########################################################*/
+/*############################################# 404 error code validation #########################################################*/
 
 When('I try retrieve prospect data with id that doesn\'t exist', () => callApiGet(PROSPECT_URL + "/32"));
 
-// When('I try to create a prospect with {string}, {string} and <valid email>', function (string, string2) {
-//     return callApiPost(PROSPECT_URL, {
-//         firstName: string,
-//         lastName: string2,
-//         email: string3
-//     });
-// });
+/*############################################# Textfield input Validation #########################################################*/
 
 When('I try to create a prospect with {string}, {string} and {string}', function (string, string2, string3) {
     return callApiPost(PROSPECT_URL, {
