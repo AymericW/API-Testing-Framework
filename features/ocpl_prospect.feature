@@ -94,7 +94,7 @@
         |    "NicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasss"                |  
         |    "Nicola1"                                                                          |  
         |    "Nicola'"                                                                          |  
-        |    "Nicola""                                                                          |  
+        |    'Nicola"'                                                                          |  
         |    "Nicola("                                                                          |  
         |    "Nicola!"                                                                          |  
         |    "Nicola)"                                                                          |  
@@ -122,7 +122,7 @@
         |    "Nicola<"                                                                          |  
         |    "Nicola>"                                                                          |  
  
-    Scenario Outline: Enter invalid first name
+    Scenario Outline: Enter invalid last name
     When I try to create a prospect with "Nicolas", <wrong lastname> and "nicolascueto@hotmail.com"
     Then the http status code is "400"
  
@@ -133,7 +133,7 @@
         |    "NicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasss"               |  
         |    "cueto1"                                                                          |  
         |    "cueto'"                                                                          |  
-        |    "cueto""                                                                          |  
+        |    'cueto"'                                                                          |  
         |    "cueto("                                                                          |  
         |    "cueto!"                                                                          |  
         |    "cueto)"                                                                          |  
@@ -164,12 +164,12 @@
  
     # # Email validation
 
-    Scenario Outline: Enter invalid first name
+    Scenario Outline: Enter invalid email
     When I try to create a prospect with "Nicolas", "Cueto" and <wrong email>
     Then the http status code is "400"
 
         Examples:
-        |    wrong lastname                                                                                                     | 
+        |    wrong email                                                                                                     | 
         |    "nicolascuetohotmail.com"                                                                                          | 
         |    "@nicolascuetohotmail.com"                                                                                         | 
         |    "@nicolascueto@hotmail.com"                                                                                        | 
