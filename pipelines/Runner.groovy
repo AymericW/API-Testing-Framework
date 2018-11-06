@@ -1,7 +1,8 @@
 #!groovy
 @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
+
 node ('master'){
-//node ('IOS'){
+
     // Init CIPaaS Services
     def cipaas = new CIPaaServices(docker,steps,env)
     def cipaasDockerRegistryName = cipaas.getCIPaaSDockerRegistryName()
@@ -10,10 +11,14 @@ node ('master'){
     println "cipaasDockerRegistryName is ${cipaasDockerRegistryName}"
     println "centralNPMPublicGroupURL is ${centralNPMPublicGroupURL}"
     println "localNPMHostedRepositoryURL is ${localNPMHostedRepositoryURL}"
+
+
     // Node image used in this pipeline 
     def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
     def nodeImage = docker.image("${nodeImageName}")
+
     stage ('Start pipeline') {println "Start pipeline"}
+
     stage ('Checkout') {checkout scm}
     
     nodeImage.inside('-u root') {
