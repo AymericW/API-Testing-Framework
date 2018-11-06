@@ -25,12 +25,12 @@ When('I retrieve the countries', () => callApi(COUNTRIES_URL));
 When('I retrieve the countries in {string}', (language) => callApi(COUNTRIES_URL + '?lang=' + language));
 
 Then('I have the same countries as my reference in {string}', (language) => {
-  assert.deepEqual(file.read('expected/countries/get_countries_' + language + '.json'), data);
+  assert.deepEqual(file.read('expected/countries/get_countries_' + language + '.json'), global.data);
 });
 
 Then('the country code is {string} and label is {string}', (expectedCode, expectedLabel) => {
-  assert.equal(data.code, expectedCode);
-  assert.equal(data.label, expectedLabel);
+  assert.equal(global.data.code, expectedCode);
+  assert.equal(global.data.label, expectedLabel);
 });
 
 

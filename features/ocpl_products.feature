@@ -18,7 +18,7 @@ Feature: Products Feature
         |      "n"        |     "nl"    | ""    |
 
 
-  Scenario Outline: getProducts
+  Scenario Outline: getProducts error cases
   When I try to get a product according to my age <under28> <language> <brand>
   Then the http status code is "400"
   
