@@ -36,9 +36,9 @@ node ('master'){
             steps.sh "./scripts/run.sh 'ocpl_countries'"
         }
         stage ('Upload the Report') {
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Products API" "API" "Full Test" "API" "QA+1" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Countries API" "API" "Full Test" "API" "QA+1" "cucumberQA.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "ocpl_prospect.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Products API" "API" "Full Test" "API" "QA+1" "ocpl_products.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Countries API" "API" "Full Test" "API" "QA+1" "ocpl_countries.json" "http://wpdm0006.be.fortis.bank:8080/"'
         }
     }
     stage ('End pipeline') {println "End pipeline"}
