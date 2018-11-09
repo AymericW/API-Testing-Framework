@@ -70,11 +70,13 @@ When('I try retrieve prospect data with id that doesn\'t exist', () => callApiGe
 
 /*############################################# Textfield input Validation #########################################################*/
 
-When('I try to create a prospect with {string}, {string} and {string}', function (string, string2, string3) {
+When('I try to create a prospect with {string}, {string}, {string}, in {string} and in {string}', function (string, string2, string3, string4, string5) {
     return callApiPost(PROSPECT_URL, {
         firstName: string,
         lastName: string2,
-        email: string3
+        email: string3,
+        brand: string4,
+        language: string5
     });
 });
 

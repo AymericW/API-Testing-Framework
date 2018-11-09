@@ -11,16 +11,16 @@
     And I try to retrieve data from previously created prospect
     And I should have both data matching
  
-    #  To be automated
- 
     Scenario: getProspect with inexistant id
     When I try retrieve prospect data with id that doesn't exist
     Then the http status code is "404"
  
-    #  Name validation 500 success code
-    @test
+ ######################################## 200 success code scenarios ##########################################
+    
+    # First name validation
+    
     Scenario Outline: Enter valid first name
-    When I try to create a prospect with <valid firstname>, "Cueto" and "cuetoscueto@hotmail.com"
+    When I try to create a prospect with <valid firstname>, "Cueto", "cuetoscueto@hotmail.com", in "FB" and in "FR"
     Then the http status code is "200"
  
         Examples:
@@ -38,8 +38,10 @@
         |    "Jêëéèàùäâîïôöûü"                                                                  | 
         |    "NicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolass"                 | 
 
+    # Last name validation
+
     Scenario Outline: Enter valid last name
-    When I try to create a prospect with "Nicolas", <valid lastname> and "cuetoscueto@hotmail.com"
+    When I try to create a prospect with "Nicolas", <valid lastname>, "cuetoscueto@hotmail.com", in "FB" and in "FR"
     Then the http status code is "200"
  
         Examples:
@@ -58,8 +60,10 @@
         |    "NicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolasNicolass"                 |  
 
 
+    # Email validation
+
     Scenario Outline: Enter valid email
-    When I try to create a prospect with "Nicolas", "Cueto" and <valid email>
+    When I try to create a prospect with "Nicolas", "Cueto", <valid email>, in "FB" and in "FR"
     Then the http status code is "200"
  
         Examples:
@@ -80,11 +84,36 @@
         |    "cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuet@hotmail.com"                                    | 
         |    "hotmail@cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuet.com"                                    | 
 
+    # Brand validation
 
-    # Name validation 400 Bad request
+    Scenario Outline: Enter valid language
+    When I try to create a prospect with "Nicolas", "Cueto", "nicolascueto@hotmail.com", in "hb" and in <language>
+    Then the http status code is "200"
+
+        Examples:
+        |    language      | 
+        |    "FR"          | 
+        |    "EN"          | 
+        |    "DE"          | 
+        |    "NL"          | 
+        
+    # Language validation
+
+    Scenario Outline: Enter valid brand
+    When I try to create a prospect with "Nicolas", "Cueto", "nicolascueto@hotmail.com", in <brand> and in "EN"
+    Then the http status code is "200"
+
+        Examples:
+        |    brand         | 
+        |    "FB"          | 
+        |    "HB"          | 
+
+ ######################################## 400 error code scenarios ##########################################
+ 
+    # First name validation
 
     Scenario Outline: Enter invalid first name
-    When I try to create a prospect with <wrong firstname>, "Cueto" and " cuetoscueto@hotmail.com"
+    When I try to create a prospect with <wrong firstname>, "Cueto", " cuetoscueto@hotmail.com", in "FB" and in "FR"
     Then the http status code is "400"
  
         Examples:
@@ -113,7 +142,7 @@
         |    "Nicola/"                                                                          |  
         |    "Nicola:"                                                                          |  
         |    "Nicola;"                                                                          |  
-        |    "Nicola."                                                                          |  
+        # |    "Nicola."                                                                          |  
         |    "Nicola,"                                                                          |  
         |    "Nicola?"                                                                          |  
         |    "Nicola@"                                                                          |  
@@ -121,9 +150,11 @@
         |    "Nicola_"                                                                          |  
         |    "Nicola<"                                                                          |  
         |    "Nicola>"                                                                          |  
- 
+        
+    # Last name validation
+
     Scenario Outline: Enter invalid last name
-    When I try to create a prospect with "Nicolas", <wrong lastname> and "nicolascueto@hotmail.com"
+    When I try to create a prospect with "Nicolas", <wrong lastname>, "nicolascueto@hotmail.com", in "FB" and in "FR"
     Then the http status code is "400"
  
         Examples:
@@ -162,10 +193,10 @@
         |    "cueto>"                                                                          |  
  
  
-    # # Email validation
+    # Email validation
 
     Scenario Outline: Enter invalid email
-    When I try to create a prospect with "Nicolas", "Cueto" and <wrong email>
+    When I try to create a prospect with "Nicolas", "Cueto", <wrong email>, in "FB" and in "FR"
     Then the http status code is "400"
 
         Examples:
@@ -192,4 +223,42 @@
         |    "cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto@hotmail.com"                                    | 
         |    "hotmail@cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto.com"                                    | 
  
-   
+    # Brand validation
+
+    Scenario Outline: Enter valid language
+    When I try to create a prospect with "Nicolas", "Cueto", "nicolascueto@hotmail.com", in "hb" and in <language>
+    Then the http status code is "400"
+
+        Examples:
+        |    language      | 
+        |    "fr"          | 
+        |    "en"          | 
+        |    "de"          | 
+        |    "nl"          | 
+        |    "FR "         | 
+        |    "EN "         | 
+        |    "DE "         | 
+        |    "NL "         | 
+        |    "in"          | 
+        |    "IN"          | 
+        |    "23"          | 
+        |    "zzzzz"       | 
+        |    "$ù`"         | 
+        
+    # Language validation
+
+    Scenario Outline: Enter valid brand
+    When I try to create a prospect with "Nicolas", "Cueto", "nicolascueto@hotmail.com", in <brand> and in "EN"
+    Then the http status code is "400"
+
+        Examples:
+        |    brand         | 
+        |    "fb"          | 
+        |    "hb"          | 
+        |    "HB "         | 
+        |    "FB "         | 
+        |    "FT"          | 
+        |    "ft"          | 
+        |    "eeeee"       | 
+        |    "23"          | 
+        |    "$ù`"         | 
