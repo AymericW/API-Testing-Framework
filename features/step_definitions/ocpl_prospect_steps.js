@@ -13,8 +13,8 @@ let statusCode;
 
 const callApiPost = (url, body) => api.post(url, body)
 .then((response) => {
-    postData = response.body
-    statusCode = response.statusCode
+    global.postData = response.body
+    global.statusCode = response.statusCode
 })
 
 const callApiGet = (url) => api.get(url)
