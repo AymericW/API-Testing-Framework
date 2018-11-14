@@ -4,7 +4,7 @@ unset HTTP_PROXY
 npm config set registry http://wpdm0006:8081/nexus/content/groups/npm-public-and-private/
 npm install
 export HTTP_PROXY="http://cipcentral-prod.be.net.intra/nexus/repository/BNPPF_NPM"
-node_modules/cucumber/bin/cucumber.js features/$Feature.feature -f json:$Feature.json || true
+npm start features/$Feature.feature -f json:$Feature.json || true
 
 
 # unset HTTP_PROXY  
