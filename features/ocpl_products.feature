@@ -18,20 +18,20 @@ Feature: Products Feature
         |      "n"        |     "nl"    | ""    |
 
 
-  Scenario Outline: getProducts error cases
-  When I try to get a product according to my age <under28> <language> <brand>
-  Then the http status code is "400"
+#   Scenario Outline: getProducts error cases
+#   When I try to get a product according to my age <under28> <language> <brand>
+#   Then the http status code is "400"
   
 
-        Examples:
-        |    under28      |  language   | brand |
-        |      "y"        |     "fr"    | "15"  |
-        |      "y"        |     "bl"    | "àç"  |
-        |      "ç"        |     "è!"    | "25"  |
-        |      "q"        |     "bl"    | "HB"  |
-        |      "Q"        |     "fr"    | "1à"  |
-        |      "n"        |     "bl"    | "FB"  |
-        |      "!è"       |     "fr"    | "HB"  |
+#         Examples:
+#         |    under28      |  language   | brand |
+#         |      "y"        |     "fr"    | "15"  |
+#         |      "y"        |     "bl"    | "àç"  |
+#         |      "ç"        |     "è!"    | "25"  |
+#         |      "q"        |     "bl"    | "HB"  |
+#         |      "Q"        |     "fr"    | "1à"  |
+#         |      "n"        |     "bl"    | "FB"  |
+#         |      "!è"       |     "fr"    | "HB"  |
         
 
 

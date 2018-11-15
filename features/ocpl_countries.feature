@@ -34,26 +34,26 @@ Feature: Countries
     |    "BE"           |      "fr"       |    "Belgique"   |
     |    "IN"           |      "de"       |     "Indien"    |
 
-  Scenario Outline: Country or language not existing
-    When I retrieve the country <countryCode> in <language>
-    Then the http status code is "404"
+  # Scenario Outline: Country or language not existing
+  #   When I retrieve the country <countryCode> in <language>
+  #   Then the http status code is "404"
 
-    Examples:
-    |    countryCode    |      language   |    
-    |    "XXX"          |      "fr"       |    
-    |    "BLABLA"       |      "de"       |    
-    |    "56"           |      "en"       |    
-    |    "123"          |      "nl"       |    
-    |    "^$ù"          |      "fr"       |    
-    |    "  "           |      "de"       |    
-    |    ""             |      "nl"       |    
-    |    "IN"           |      "pl"       |    
-    |    "BE"           |      "cn"       |    
-    |    "GE"           |      "32"       |    
-    |    "AF"           |      "^$"       |    
-    |    "zzz"          |      ""         |    
-    |    "123"          |      "DZDDD"    |    
-    |    "^$ù"          |      "092108308"|    
+  #   Examples:
+  #   |    countryCode    |      language   |    
+  #   |    "XXX"          |      "fr"       |    
+  #   |    "BLABLA"       |      "de"       |    
+  #   |    "56"           |      "en"       |    
+  #   |    "123"          |      "nl"       |    
+  #   |    "^$ù"          |      "fr"       |    
+  #   |    "  "           |      "de"       |    
+  #   |    ""             |      "nl"       |    
+  #   |    "IN"           |      "pl"       |    
+  #   |    "BE"           |      "cn"       |    
+  #   |    "GE"           |      "32"       |    
+  #   |    "AF"           |      "^$"       |    
+  #   |    "zzz"          |      ""         |    
+  #   |    "123"          |      "DZDDD"    |    
+  #   |    "^$ù"          |      "092108308"|    
  
  
 
