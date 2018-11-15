@@ -14,7 +14,7 @@ When('I try to update prospect with generated random id card data', function () 
                 companyid: "fortispoc",
                 filename: "b9de0329-d1ef-457e-8b63-64b647a2a2a4.zip",
                 identificationtime: "2018-10-29T16:03:49+01:00",
-                id: "TS3-CJRXN",
+                id: global.postData.identId,
                 href: "/api/v1/fortispoc/identifications/b9de0329-d1ef-457e-8b63-64b647a2a2a4.zip",
                 type: "APP",
                 transactionnumber: global.postData.id
