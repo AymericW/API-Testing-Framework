@@ -27,7 +27,7 @@ When('I try to update prospect with generated random id card data', function () 
                 custom5: null
             },
             contactdata: {
-                mobilephone: null,
+                mobilephone: null,  
                 email: null
             },
             userdata: {
@@ -119,9 +119,8 @@ When('I try to update prospect with generated random id card data', function () 
     return request;
 });
 
-/*############################################## Verify prospect updated with ID card info ##############################################*/
+/*############################################## Verify prospect updated with ID card ##############################################*/
 
 Then('My prospect is updated with ID card information', function () {
-    // Write code here that turns the phrase above into concrete actions
     return 'pending';
-});
+});            

@@ -29,13 +29,15 @@ When('I try to create a prospect with generated random data', function () {
     return callApiPost(PROSPECT_URL, {
         firstName: randomFirstName,
         lastName: randomLastName,
-        email: randomEmail
+        email: randomEmail,
+        language: randomLanguage,
+        brand: randomBrand
     });
 });
 
 /*############################################## GET a prospect with an ID ##############################################*/
 
-When('I try to retrieve data from previously created prospect', () => callApiGet(PROSPECT_URL + "/" + postData.id));
+When('I try to retrieve data from previously created prospect', () => callApiGet(PROSPECT_URL + "/" + global.postData.id));
 
 /*############################################## Validate POST prospect response ##############################################*/
 
@@ -44,13 +46,13 @@ Then('I should be able to get the correct prospect', function () {
     // console.log("the lastname is " + randomLastName);
     // console.log("the email is " + randomEmail);
 
-    assert.equal(postData.firstName, randomFirstName, "Request and response firstname doesn't match");
-    assert.equal(postData.lastName, randomLastName, "Request and response lastname doesn't match");
-    assert.equal(postData.email, randomEmail, "Request and response email doesn't match");
-    assert.isNotNull(postData.id, "id is null");
-    assert.isDefined(postData.id, "id is not defined");
-    assert.isNotNull(postData.identId, "identId is null");
-    assert.isDefined(postData.identId, "identId is not defined");
+    assert.equal(global.postData.firstName, randomFirstName, "Request and response firstname doesn't match");
+    assert.equal(global.postData.lastName, randomLastName, "Request and response lastname doesn't match");
+    assert.equal(global.postData.email, randomEmail, "Request and response email doesn't match");
+    assert.isNotNull(global.postData.id, "id is null");
+    assert.isDefined(global.postData.id, "id is not defined");
+    assert.isNotNull(global.postData.identId, "identId is null");
+    assert.isDefined(global.postData.identId, "identId is not defined");
 
     // console.log(data.firstName);
     // console.log(randomFirstName);
@@ -61,7 +63,7 @@ Then('I should be able to get the correct prospect', function () {
 Then('I should have both data matching', function () {
     // console.log("post response is " + JSON.stringify(postData));
     // console.log("get response is " + JSON.stringify(getData));
-    assert.deepEqual(postData, getData);
+    assert.deepEqual(global.postData, getData);
 });
 
 /*############################################# 404 error code validation #########################################################*/
@@ -101,3 +103,18 @@ function generateName(){
 var randomFirstName = generateName();
 var randomLastName = generateName();
 var randomEmail = randomFirstName.toLowerCase() + "." + randomLastName.toLowerCase() + "@hotmail.com";
+
+function generateLanguage(){
+    var language = ["NL", "FR", "EN", "DE"][Math.floor(Math.random() * 4)];
+    return language;
+};
+
+var randomLanguage = generateLanguage();
+
+function generateBrand(){
+    var brand = ["FB", "HB"][Math.floor(Math.random() * 2)];
+    return brand;
+    
+    };
+    
+var randomBrand = generateBrand();
