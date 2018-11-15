@@ -32,13 +32,14 @@ node ('master'){
             steps.sh "npm config set registry http://wpdm0006:8081/nexus/content/groups/npm-public-and-private/"
             steps.sh "npm install"
             steps.sh "export HTTP_PROXY='http://cipcentral-prod.be.net.intra/nexus/repository/BNPPF_NPM'"
-            steps.sh "npm start features/ocpl_prospect.feature -f json:ocpl_prospect.json || true"
+            steps.sh "node_modules/cucumber/bin/cucumber-js features/ocpl_prospect.feature --format json:ocpl_prospect.json || true"
         }
         stage ('Run the script(ocpl_products.feature)') {
-            steps.sh "npm start features/ocpl_products.feature -f json:ocpl_products.json || true"
+            steps.sh "node_modules/cucumber/bin/cucumber-js features/ocpl_products.feature --format json:ocpl_products.json || true"
         }
         stage ('Run the script(ocpl_countries.feature)') {
-            steps.sh "npm start features/ocpl_countries.feature -f json:ocpl_countries.json || true"
+            steps.sh "node_modules/cucumber/bin/cucumber-js features/ocpl_countries.feature --format json:ocpl_countries.json || true"
+            steps.sh "ls"
         }
         stage ('Upload the Report') {
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "ocpl_prospect.json" "http://wpdm0006.be.fortis.bank:8080/"'
