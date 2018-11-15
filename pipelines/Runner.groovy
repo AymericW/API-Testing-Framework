@@ -27,13 +27,18 @@ node ('master'){
             steps.sh "npm install"
         }
         stage ('Run the script(ocpl_prospect.feature)') {
-            steps.sh "./scripts/run.sh 'ocpl_prospect'"
+            steps.sh "kinit -k -t g27663.keytab G27663@INT.SYS.SHARED.FORTIS"
+            steps.sh "unset HTTP_PROXY"
+            steps.sh "npm config set registry http://wpdm0006:8081/nexus/content/groups/npm-public-and-private/"
+            steps.sh "npm install"
+            steps.sh "export HTTP_PROXY='http://cipcentral-prod.be.net.intra/nexus/repository/BNPPF_NPM'"
+            steps.sh "npm start features/ocpl_prospect.feature -f json:ocpl_prospect.json || true"
         }
         stage ('Run the script(ocpl_products.feature)') {
-            steps.sh "./scripts/run.sh 'ocpl_products'"
+            steps.sh "npm start features/ocpl_products.feature -f json:ocpl_products.json || true"
         }
         stage ('Run the script(ocpl_countries.feature)') {
-            steps.sh "./scripts/run.sh 'ocpl_countries'"
+            steps.sh "npm start features/ocpl_countries.feature -f json:ocpl_countries.json || true"
         }
         stage ('Upload the Report') {
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "ocpl_prospect.json" "http://wpdm0006.be.fortis.bank:8080/"'
