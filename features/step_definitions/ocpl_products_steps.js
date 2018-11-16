@@ -4,7 +4,7 @@ const file = require('../../util/file');
 
 var assert = require('chai').assert;
 
-const PRODUCTS_URL = '/OCPL-pr90/rpc/v1/products?ageUnder28=';
+const PRODUCTS_URL = 'https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1/products?ageUnder28=';
 /*
 Change OCPL back to AC52 after it's complete
 */

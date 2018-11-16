@@ -5,7 +5,7 @@ const file = require('../../util/file');
 
 var assert = require('chai').assert;
 
-const COUNTRIES_URL = '/OCPL-pr90/rpc/v1/countries';
+const COUNTRIES_URL = 'https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1/countries';
 
 let data;
 let statusCode;

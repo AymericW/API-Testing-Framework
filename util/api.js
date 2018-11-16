@@ -11,19 +11,21 @@ const ENV_URL = {
 module.exports = {
 
     get: (url) =>  request({ 
-        url: ENV_URL[process.env.TARGET_ENV || "TEST"] + url,
+        url: url,
         json: true,
         resolveWithFullResponse: true,
-        simple: false
+        simple: false,
+        rejectUnauthorized: false
     }),
 
     post: (url, body) => request({
-        url: ENV_URL[process.env.TARGET_ENV || "TEST"] + url,
+        url: url,
         body,
         method:'POST',
         json: true,
         resolveWithFullResponse: true,
-        simple: false
+        simple: false,
+        rejectUnauthorized: false
     })
 
 }

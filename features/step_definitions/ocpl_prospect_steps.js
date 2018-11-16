@@ -5,7 +5,7 @@ const file = require('../../util/file');
 
 var assert = require('chai').assert;
 
-const PROSPECT_URL = "/OCPL-pr90/rpc/v1/prospects";
+const PROSPECT_URL = "https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1/prospects";
 
 let postData;
 let getData;
@@ -86,6 +86,7 @@ When('I try to create a prospect with {string}, {string}, {string}, in {string} 
 /*######################################################### FUNCTIONS #########################################################*/
 
 // Random name/email generator
+
 function generateName(){
     var nameLength = Math.random() * (2 - 15) + 15;
     var firstLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -96,13 +97,15 @@ function generateName(){
     for (var i = 1; i < nameLength; i++){
         generateRandom += bodyLetter.charAt(Math.floor(Math.random() * bodyLetter.length));
     };
-
     return generateRandom;
 };
 
 var randomFirstName = generateName();
 var randomLastName = generateName();
 var randomEmail = randomFirstName.toLowerCase() + "." + randomLastName.toLowerCase() + "@hotmail.com";
+
+
+// Random language generator
 
 function generateLanguage(){
     var language = ["NL", "FR", "EN", "DE"][Math.floor(Math.random() * 4)];
@@ -111,10 +114,11 @@ function generateLanguage(){
 
 var randomLanguage = generateLanguage();
 
+// Random brand generator
+
 function generateBrand(){
     var brand = ["FB", "HB"][Math.floor(Math.random() * 2)];
     return brand;
-    
-    };
+};
     
 var randomBrand = generateBrand();
