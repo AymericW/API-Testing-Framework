@@ -1,6 +1,3 @@
-"use strict";
+var {setDefaultTimeout} = require('cucumber');
 
-module.exports = function () {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
-  this.setDefaultTimeout(80 * 1000);
-};
+setDefaultTimeout(30 * 1000);

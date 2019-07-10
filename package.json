@@ -7,15 +7,17 @@
     "start": "cucumber-js"
   },
   "devDependencies": {
-    "cucumber": "^5.0.2",
     "chai": "3.5.0",
+    "cucumber": "^5.0.2",
+    "json-find": "^2.0.5",
     "json-stringify-safe": "5.0.1",
+    "jsonschema": "^1.2.4",
     "swagger-client": "2.1.13",
+    "tv4": "^1.2.7",
     "underscore": "~1.5.2"
   },
   "dependencies": {
     "request-promise": "^3.0.0",
-    "superagent": "^2.0.0",
-    "tv4": "1.2.7"
+    "superagent": "^2.0.0"
   }
 }

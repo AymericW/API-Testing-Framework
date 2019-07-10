@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Product API",
+    "description": "retrieves the list of products a user can pick depending on his age",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8085/OCPL-pr90/rpc/v1",
+      "description": "Local instance of OCPL-pr90"
+    },
+    {
+      "url": "https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1",
+      "description": "Test OCPL-pr90"
+    },
+    {
+      "url": "https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr90/rpc/v1",
+      "description": "QA+1 OCPL-pr90"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "returns a list of products",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ageUnder28",
+            "schema": {
+              "enum": [
+                "y",
+                "n"
+              ]
+            },
+            "description": "search for products available for age under or over 28"
+          },
+          {
+            "in": "query",
+            "name": "brand",
+            "schema": {
+              "enum": [
+                "fb",
+                "hb"
+              ]
+            },
+            "description": "set the brand to search for"
+          },
+          {
+            "in": "query",
+            "name": "lang",
+            "schema": {
+              "enum": [
+                "en",
+                "fr",
+                "nl",
+                "de"
+              ]
+            },
+            "description": "set product description and title language"
+          },
+          {
+            "in": "query",
+            "name": "birthdate",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "set the birthdate to retrieve available products"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "accountType",
+                      "accountProductName",
+                      "price",
+                      "publicityLines"
+                    ],
+                    "properties": {
+                      "accountType": {
+                        "type": "string",
+                        "example": "CCOMF"
+                      },
+                      "accountProductName": {
+                        "type": "string",
+                        "example": "Comfort Pack"
+                      },
+                      "price": {
+                        "type": "string",
+                        "example": 3
+                      },
+                      "publicityLines": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "display": {
+                              "type": "string",
+                              "enum": [
+                                "ORD",
+                                "SEL",
+                                "PUB",
+                                "BON"
+                              ],
+                              "example": "ORD"
+                            },
+                            "line": {
+                              "type": "string",
+                              "example": "Current account and bank card"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

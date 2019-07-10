@@ -6,6 +6,6 @@ const file = require('../../util/file');
 var assert = require('chai').assert;
 
 // http status code validation
-Then('the http status code is {string}', (code) => {
+Then('the response status is {string}', (code) => {
   assert.equal(global.statusCode, code);
 });

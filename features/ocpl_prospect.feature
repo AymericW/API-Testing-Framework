@@ -1,15 +1,82 @@
- @FID_2162 @prospect
+ @FID_2162
  Feature: Prospect Feature
    
-    Scenario: Create a prospect
-    When I try to create a prospect with generated random data
-    Then I should be able to get the correct prospect
+    Scenario Outline: Create a prospect
+    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    Then I get the correct prospect details in the response <firstName> <lastName> <email> <language> <brand>
 
-    Scenario: Create a prospect and retrieve it
-    When I try to create a prospect with generated random data
-    Then I should be able to get the correct prospect
-    And I try to retrieve data from previously created prospect
-    And I should have both data matching
+        Examples:
+        |   firstName   |    lastName       |              email                |   language   |  brand  |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   |
+     
+
+    Scenario Outline: Retrieve the prospect details
+    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    When I retrieve the prospect with the id received from the creation
+    Then I get the correct prospect details in the response <firstName> <lastName> <email> <language> <brand>
+
+    Examples:
+        |   firstName   |    lastName       |              email                |   language   |  brand  |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   |
+
+
+    Scenario Outline: Create the prospect with invalid email address
+    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    Then the response status is "400"
+
+    Examples:
+        |   firstName   |    lastName       |              email                |   language   |  brand  |
+        |   "Simon"     |    "Pin"          |              ""                   |   "FR"       |  "FB"   |
+        |   "Simon"     |    "Pin"          |              "s"                  |   "FR"       |  "FB"   |
+        |   "Simon"     |    "Pin"          |              "çà"                 |   "FR"       |  "FB"   |
+        |   "Simon"     |    "Pin"          |              "287"                |   "FR"       |  "FB"   |
+        |   "Simon"     |    "Pin"          |              "simon@pin"          |   "FR"       |  "FB"   |
+
+    Scenario Outline: Save the scanned Identity details of the prospect
+    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+        And I save his identity details
+    When I retrieve the prospect with the id received from the creation
+    Then I get the prospect status as identity "ID_RECEIVED"
+
+    Examples:
+        |   firstName   |    lastName       |              email                |   language   |  brand  |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   |
+
+
+    Scenario Outline: Create a psp for a new Customer
+    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+        And I save his identity details
+        And I set the <product> <phoneNumber> and address <street> <number> <city> <postalCode>
+    When I retrieve the prospect with the id received from the creation
+    Then I get the prospect status as identity "CUSTOMER_CREATED"
+
+    Examples:
+        |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   phoneNumber  |   street             |   number  |   city                    |   postalCode  |   
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |  "CCOMF" |   "0468609721" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # When I try to retrieve a prospect with the id created
+    # Then I should be able to get the correct prospect
+    # And I try to retrieve data from previously created prospect
+    # And I should have both data matching
  
     # Scenario: getProspect with inexistant id
     # When I try retrieve prospect data with id that doesn't exist
