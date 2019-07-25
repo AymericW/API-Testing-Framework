@@ -49,13 +49,13 @@
     Scenario Outline: Create a psp for a new Customer
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
         And I save his identity details
-        And I set the <product> <phoneNumber> and address <street> <number> <city> <postalCode>
+        And I set the <product> and address <street> <number> <city> <postalCode>
     When I retrieve the prospect with the id received from the creation
-    Then I get the prospect status as identity "CUSTOMER_CREATED"
+    Then I get the prospect status as identity "CUSTOMER_VALIDATED"
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   phoneNumber  |   street             |   number  |   city                    |   postalCode  |   
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |  "CCOMF" |   "0468609721" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      |
+        |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   street             |   number  |   city                    |   postalCode  |   
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |  "CCOMF" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      |
 
 
 
