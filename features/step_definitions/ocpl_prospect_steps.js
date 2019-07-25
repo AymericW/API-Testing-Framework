@@ -4,13 +4,13 @@ const api = require('../../util/api');
 const file = require('../../util/file');
 const JsonFind = require('json-find');
 const assert = require('chai').assert;
-const validator = require('../../util/schemaValidator');
 
 const PROSPECT_URL = "https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1/prospects";
 const IDENTIFICATION_URL = "https://i-net1938a-test.be.fortis.bank:51088/OCAL-ap55-war/api/scan-id/identifications";
 
-const callApiPost = (url, body, callback) => api.post(url, body)
-    .then((response) => {
+const callApiPost = (url, body, callback) => {
+   return api.post(url, body)
+   .then((response) => {
         if(response.body !== undefined){
             global.data = response.body;
             global.statusCode = response.statusCode;
@@ -20,6 +20,7 @@ const callApiPost = (url, body, callback) => api.post(url, body)
     .catch(function (err) {
         callback(err);
     });
+   }
 
 const callApiGet = (url, callback) => api.get(url)
    .then((response) => {
@@ -33,29 +34,18 @@ const callApiGet = (url, callback) => api.get(url)
 
 /*############################################## POST (create) a prospect with generated random data ##############################################*/
 
-Given('I create a prospect with {string} {string} {string} {string} {string}', (firstName, lastName, email, language, brand, callback) => {
-    callApiPost(PROSPECT_URL, {
-        firstName,
-        lastName,
-        email,
-        language,
-        brand
-    }, callback);
-});
+Given('I create a prospect with empty fields {string} {string} {string} {string} {string}', (firstName, lastName, email, language, brand, callback) => {
+   
+   let body = {};
+   
+   if(firstName != '') body.firstName = firstName;
+   if(lastName != '') body.lastName = lastName;
+   if(email != '') body.email = email;
+   if(language != '') body.language = language;
+   if(brand != '') body.brand = brand;
 
-Given('I create a prospect with {string}', function (firstName, callback) {
-   callApiPost(PROSPECT_URL,{
-       firstName
-   }, callback);
-});
 
-Given('I create a propspect with {string} {string} {string} {string}', function (firstName, lastName, email, product, callback) {
-    callApiPost(PROSPECT_URL,{
-        firstName,
-        lastName,
-        email,
-        product
-    }, callback);
+   callApiPost(PROSPECT_URL, body, callback);
 });
 
 /*############################################## GET a prospect with an ID ##############################################*/
@@ -199,5 +189,12 @@ Then('I get the prospect status as identity {string}', function (status) {
 });
 
 Then('I get a message with the missing required fields', function () {
-   assert.include(file.read('expected/prospect/prospect.json'), global.data);
+   var actual = global.data;
+   var expected = file.read('expected/prospect/prospect.json');
+
+   const expectedErrorCodes = expected.map((error) => error.code)
+   const actualErrorCodes = actual.map((error) => error.code)
+   const matchingErrorCodes = expectedErrorCodes.filter((errorCode) => actualErrorCodes.includes(errorCode));
+
+   assert.isTrue(matchingErrorCodes.length === actualErrorCodes.length);
 });

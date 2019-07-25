@@ -62,10 +62,26 @@
 ######################################## 400 error code scenarios ##########################################
  
 
-Scenario: Create a prospect with missing required fields
-Given I create a prospect with "Simon"
+Scenario Outline: Create a prospect with missing required fields
+Given I create a prospect with empty fields <firstName> <lastName> "" <language> <brand>
 Then the response status is "400"
 And I get a message with the missing required fields
+
+Examples:
+|   firstName   |    lastName       |   language   |  brand     |   
+|   "Simon"     |    "Pin"          |   "FR"       |  ""        |
+|   "Simon"     |    "Pin"          |   ""         |  ""        |
+|   "Simon"     |    ""             |   ""         |  ""        |
+|   ""          |    "Pin"          |   ""         |  ""        |
+|   ""          |    ""             |   "FR"       |  ""        |
+|   ""          |    ""             |   ""         |  "FB"      |
+|   ""          |    "Pin"          |   "FR"       |  "FB"      |
+|   ""          |    ""             |   "FR"       |  "FB"      |
+|   ""          |    ""             |   ""         |  "FB"      |
+|   "Simon"     |    ""             |   "FR"       |  "FB"      |
+|   "Simon"     |    "Pin"          |   ""         |  "FB"      |
+|   ""          |    "Pin"          |   ""         |  "FB"      |
+|   "Simon"     |    ""             |   "FR"       |  ""        |
 
     
 
