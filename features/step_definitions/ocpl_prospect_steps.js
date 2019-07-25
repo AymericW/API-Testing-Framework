@@ -160,7 +160,7 @@ When('I save his identity details', (callback) => {
     callApiPost(IDENTIFICATION_URL, requestParams, callback);
 });
 
-When('I set the {string} {string} and address {string} {string} {string} {string}', (product, phoneNumber, street, number, city, postalCode, callback) => {
+When('I set the {string} and address {string} {string} {string} {string}', (product, street, number, city, postalCode, callback) => {
    const requestParams = {
       "address": {
          "street": street,
@@ -168,9 +168,10 @@ When('I set the {string} {string} and address {string} {string} {string} {string
          "city": city,
          "postalCode": postalCode
       },
-      "phoneNumber": phoneNumber,
       "product": product
    }
+
+   console.log(requestParams);
 
    callApiPost(PROSPECT_URL + "/" + global.data.id, requestParams, callback);
 });
@@ -191,6 +192,7 @@ Then('I get the correct prospect details in the response {string} {string} {stri
 });
 
 Then('I get the prospect status as identity {string}', function (status) {
+   console.log(global.data);
    assert.equal(global.data.status, status, "eID Update failed");
    assert.isDefined(global.data.idCard, "eidCard is not defined");
    assert.isDefined(global.data.idCard.number, "eidCardNumber is not defined");
