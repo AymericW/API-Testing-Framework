@@ -15,7 +15,8 @@ module.exports = {
         json: true,
         resolveWithFullResponse: true,
         simple: false,
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
     }),
 
     post: (url, body) => request({
@@ -25,7 +26,8 @@ module.exports = {
         json: true,
         resolveWithFullResponse: true,
         simple: false,
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
     })
 
 }

@@ -1,7 +1,10 @@
 const { Given, When, Then } = require('cucumber');
 
 const api = require('../../util/api');
+const file = require('../../util/file');
+const JsonFind = require('json-find');
 const assert = require('chai').assert;
+const validator = require('../../util/schemaValidator');
 
 const PROSPECT_URL = "https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1/prospects";
 const IDENTIFICATION_URL = "https://i-net1938a-test.be.fortis.bank:51088/OCAL-ap55-war/api/scan-id/identifications";
@@ -38,6 +41,12 @@ Given('I create a prospect with {string} {string} {string} {string} {string}', (
         language,
         brand
     }, callback);
+});
+
+Given('I create a prospect with {string}', function (firstName, callback) {
+   callApiPost(PROSPECT_URL,{
+       firstName
+   }, callback);
 });
 
 Given('I create a propspect with {string} {string} {string} {string}', function (firstName, lastName, email, product, callback) {
@@ -148,7 +157,6 @@ When('I save his identity details', (callback) => {
            "livenessright":"93ab0b24-23a3-48b9-bdee-bc89dfb21c8b_liveness_right.jpg"
         }
     };
-
     callApiPost(IDENTIFICATION_URL, requestParams, callback);
 });
 
@@ -169,18 +177,25 @@ When('I set the {string} {string} and address {string} {string} {string} {string
 
 /*############################################## Validate POST prospect response ##############################################*/
 
-Then('I get the correct prospect details in the response {string} {string} {string} {string} {string}', function (firstName, lastName, email, language, brand) {
-    assert.equal(global.data.firstName, firstName, "Request and response firstname doesn't match");
-    assert.equal(global.data.lastName, lastName, "Request and response lastname doesn't match");
-    assert.equal(global.data.email, email, "Request and response email doesn't match");
-    assert.isNotNull(global.data.id, "id is null");
-    assert.isDefined(global.data.id, "id is not defined");
-    assert.isNotNull(global.data.identId, "identId is null");
-    assert.isDefined(global.data.identId, "identId is not defined");
+Then('I get the correct prospect details in the response {string} {string} {string} {string} {string}', function (firstName, lastName, email, language, brand) { 
+   assert.equal(global.data.firstName, firstName, "Request and response firstname doesn't match");
+   assert.equal(global.data.lastName, lastName, "Request and response lastname doesn't match");
+   assert.equal(global.data.email, email, "Request and response email doesn't match");
+   assert.isNotNull(global.data.id, "id is null");
+   assert.isDefined(global.data.id, "id is not defined");
+   assert.isNotNull(global.data.identId, "identId is null");
+   assert.isDefined(global.data.identId, "identId is not defined");
+   assert.equal(global.data.status, "ID_PENDING", "status is null");
+   assert.isNotNull(global.data.status, "status is null");
+   assert.isDefined(global.data.status, "status is not defined");
 });
 
 Then('I get the prospect status as identity {string}', function (status) {
    assert.equal(global.data.status, status, "eID Update failed");
-   assert.isDefined(global.data.eidCard, "eidCard is not defined");
-   assert.isDefined(global.data.eidCard.eidCardNumber, "eidCardNumber is not defined");
+   assert.isDefined(global.data.idCard, "eidCard is not defined");
+   assert.isDefined(global.data.idCard.number, "eidCardNumber is not defined");
+});
+
+Then('I get a message with the missing required fields', function () {
+   assert.include(file.read('expected/prospect/prospect.json'), global.data);
 });

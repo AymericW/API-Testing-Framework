@@ -36,7 +36,7 @@
 
     Scenario Outline: Save the scanned Identity details of the prospect
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
-        And I save his identity details
+    And I save his identity details
     When I retrieve the prospect with the id received from the creation
     Then I get the prospect status as identity "ID_RECEIVED"
 
@@ -48,10 +48,10 @@
 
     Scenario Outline: Create a psp for a new Customer
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
-        And I save his identity details
-        And I set the <product> <phoneNumber> and address <street> <number> <city> <postalCode>
+    And I save his identity details
+    And I set the <product> <phoneNumber> and address <street> <number> <city> <postalCode>
     When I retrieve the prospect with the id received from the creation
-    Then I get the prospect status as identity "CUSTOMER_CREATED"
+    Then I get the prospect status as identity "CUSTOMER_VALIDATED"
 
     Examples:
         |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   phoneNumber  |   street             |   number  |   city                    |   postalCode  |   
@@ -59,8 +59,17 @@
 
 
 
+######################################## 400 error code scenarios ##########################################
+ 
 
+Scenario: Create a prospect with missing required fields
+Given I create a prospect with "Simon"
+Then the response status is "400"
+And I get a message with the missing required fields
 
+    
+
+     
 
 
 
