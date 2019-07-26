@@ -34,6 +34,16 @@ const callApiGet = (url, callback) => api.get(url)
 
 /*############################################## POST (create) a prospect with generated random data ##############################################*/
 
+Given('I create a prospect with {string} {string} {string} {string} {string}', (firstName, lastName, email, language, brand, callback) => {
+   callApiPost(PROSPECT_URL, {
+      firstName,
+      lastName,
+      email,
+      language,
+      brand
+   }, callback);
+});
+
 Given('I create a prospect with empty fields {string} {string} {string} {string} {string}', (firstName, lastName, email, language, brand, callback) => {
    
    let body = {};
@@ -193,8 +203,12 @@ Then('I get a message with the missing required fields', function () {
    var expected = file.read('expected/prospect/prospect.json');
 
    const expectedErrorCodes = expected.map((error) => error.code)
+   const expectedErrorMsg = expected.map((error) => error.message)
    const actualErrorCodes = actual.map((error) => error.code)
+   const actualErrorMsg = actual.map((error) => error.message)
    const matchingErrorCodes = expectedErrorCodes.filter((errorCode) => actualErrorCodes.includes(errorCode));
+   const matchingErrorMsg = expectedErrorMsg.filter((errorMsg) => actualErrorMsg.includes(errorMsg));
 
    assert.isTrue(matchingErrorCodes.length === actualErrorCodes.length);
+   assert.isTrue(matchingErrorMsg.length === actualErrorMsg.length);
 });

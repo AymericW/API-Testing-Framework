@@ -23,17 +23,38 @@
 
 
     Scenario Outline: Create the prospect with invalid email address
-    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    Given I create a prospect with "Simon" "Pin" <email> "FR" "FB"
     Then the response status is "400"
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |
-        |   "Simon"     |    "Pin"          |              ""                   |   "FR"       |  "FB"   |
-        |   "Simon"     |    "Pin"          |              "s"                  |   "FR"       |  "FB"   |
-        |   "Simon"     |    "Pin"          |              "çà"                 |   "FR"       |  "FB"   |
-        |   "Simon"     |    "Pin"          |              "287"                |   "FR"       |  "FB"   |
-        |   "Simon"     |    "Pin"          |              "simon@pin"          |   "FR"       |  "FB"   |
-
+        |    email                                                                                                    |
+        |    ""                                                                                                       |
+        |    "s"                                                                                                      |
+        |    "çà"                                                                                                     |
+        |    "287"                                                                                                    |
+        |    "simon@pin"                                                                                              |
+        |    "nicolascuetohotmail.com"                                                                                          | 
+        |    "@nicolascuetohotmail.com"                                                                                         | 
+        |    "@nicolascueto@hotmail.com"                                                                                        | 
+        |    "nicolascueto@hotm@ail.com"                                                                                        | 
+        |    "nicolascueto@hotmail..com"                                                                                        | 
+        |    "nicolascueto@@hotmail.com"                                                                                        | 
+        |    "nicolas@cueto@hotmail.com"                                                                                        | 
+        |    ".nicolascueto@hotmail.com"                                                                                        | 
+        |    "nicolascueto@hotmail"                                                                                             | 
+        |    "nicolascueto@hotmail."                                                                                            | 
+        |    "nicolascueto@hotmail.c"                                                                                           | 
+        |    "nicolas cueto@hotmail.com"                                                                                        | 
+        |    "nicolas cueto @hotmail.com"                                                                                       | 
+        |    "nicolascueto@hotmail.@com"                                                                                        | 
+        |    "nicolascueto@hotmail.c@com"                                                                                       | 
+        |    "nicolascueto@hotmail.co@com"                                                                                      | 
+        |    "nicolascueto@.com"                                                                                                | 
+        |    "nicolascuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascuetonicol@hotmail.com"            | 
+        |    "nicolascuetonicolascuetonicolascuetonicolas@cuetonicolascuetonicolascuetonicolascuetonicolhotmail.com"            | 
+        |    "cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto@hotmail.com"                                    | 
+        |    "hotmail@cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto.com"                                    | 
+        
     Scenario Outline: Save the scanned Identity details of the prospect
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
     And I save his identity details
@@ -48,8 +69,8 @@
 
     Scenario Outline: Create a psp for a new Customer
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
-        And I save his identity details
-        And I set the <product> and address <street> <number> <city> <postalCode>
+    And I save his identity details
+    And I set the <product> and address <street> <number> <city> <postalCode>
     When I retrieve the prospect with the id received from the creation
     Then I get the prospect status as identity "CUSTOMER_VALIDATED"
 
