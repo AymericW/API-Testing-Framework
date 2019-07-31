@@ -82,27 +82,53 @@
 
 ######################################## 400 error code scenarios ##########################################
  
+# ---------------------------------    Missing brand field    -------------------------------------------
 
-Scenario Outline: Create a prospect with missing required fields
-Given I create a prospect with empty fields <firstName> <lastName> "" <language> <brand>
+@error_missing_field
+Scenario: Create a prospect with missing first name field
+When I create a prospect with empty fields "" "Pin" "" "FR" "FB"
 Then the response status is "400"
-And I get a message with the missing required fields
+And I have 1 error code "BRC0001" with the message "First name (firstName) is required."
 
-Examples:
-|   firstName   |    lastName       |   language   |  brand     |   
-|   "Simon"     |    "Pin"          |   "FR"       |  ""        |
-|   "Simon"     |    "Pin"          |   ""         |  ""        |
-|   "Simon"     |    ""             |   ""         |  ""        |
-|   ""          |    "Pin"          |   ""         |  ""        |
-|   ""          |    ""             |   "FR"       |  ""        |
-|   ""          |    ""             |   ""         |  "FB"      |
-|   ""          |    "Pin"          |   "FR"       |  "FB"      |
-|   ""          |    ""             |   "FR"       |  "FB"      |
-|   ""          |    ""             |   ""         |  "FB"      |
-|   "Simon"     |    ""             |   "FR"       |  "FB"      |
-|   "Simon"     |    "Pin"          |   ""         |  "FB"      |
-|   ""          |    "Pin"          |   ""         |  "FB"      |
-|   "Simon"     |    ""             |   "FR"       |  ""        |
+@error_missing_field
+Scenario: Create a prospect with missing last name field
+When I create a prospect with empty fields "Simon" "" "" "FR" "FB"
+Then the response status is "400"
+And I have 1 error code "BRC0002" with the message "Last name (lastName) is required."
+
+@error_missing_field
+Scenario: Create a prospect with missing brand field
+When I create a prospect with empty fields "Simon" "Pin" "" "FR" ""
+Then the response status is "400"
+And I have 1 error code "BRC0003" with the message "Brand (brand) is required."
+
+@error_missing_field
+Scenario: Create a prospect with missing language field
+When I create a prospect with empty fields "Simon" "Pin" "" "" "FB"
+Then the response status is "400"
+And I have 1 error code "BRC0004" with the message "Language (language)  is required."
+
+
+# Scenario Outline: Create a prospect with missing required fields
+# Given I create a prospect with empty fields <firstName> <lastName> "" <language> <brand>
+# Then the response status is "400"
+# And I get a message with the missing required fields
+
+# Examples:
+# |   firstName   |    lastName       |   language   |  brand     |   
+# |   "Simon"     |    "Pin"          |   "FR"       |  ""        |
+# |   "Simon"     |    "Pin"          |   ""         |  ""        |
+# |   "Simon"     |    ""             |   ""         |  ""        |
+# |   ""          |    "Pin"          |   ""         |  ""        |
+# |   ""          |    ""             |   "FR"       |  ""        |
+# |   ""          |    ""             |   ""         |  "FB"      |
+# |   ""          |    "Pin"          |   "FR"       |  "FB"      |
+# |   ""          |    ""             |   "FR"       |  "FB"      |
+# |   ""          |    ""             |   ""         |  "FB"      |
+# |   "Simon"     |    ""             |   "FR"       |  "FB"      |
+# |   "Simon"     |    "Pin"          |   ""         |  "FB"      |
+# |   ""          |    "Pin"          |   ""         |  "FB"      |
+# |   "Simon"     |    ""             |   "FR"       |  ""        |
 
     
 

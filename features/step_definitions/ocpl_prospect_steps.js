@@ -198,17 +198,12 @@ Then('I get the prospect status as identity {string}', function (status) {
    assert.isDefined(global.data.idCard.number, "eidCardNumber is not defined");
 });
 
-Then('I get a message with the missing required fields', function () {
-   var actual = global.data;
-   var expected = file.read('expected/prospect/prospect.json');
+Then('I have {int} error code {string} with the message {string}', function (int, code, message) {
+   let response = file.read('expected/prospect/prospect.json');
+   
+   const validateCode = (response, code) => response.filter(error => (error.code)===code).length == 1;
+   const validateMessage = (response, message) => response.filter(error => (error.message)===message).length == 1;
 
-   const expectedErrorCodes = expected.map((error) => error.code)
-   const expectedErrorMsg = expected.map((error) => error.message)
-   const actualErrorCodes = actual.map((error) => error.code)
-   const actualErrorMsg = actual.map((error) => error.message)
-   const matchingErrorCodes = expectedErrorCodes.filter((errorCode) => actualErrorCodes.includes(errorCode));
-   const matchingErrorMsg = expectedErrorMsg.filter((errorMsg) => actualErrorMsg.includes(errorMsg));
-
-   assert.isTrue(matchingErrorCodes.length === actualErrorCodes.length);
-   assert.isTrue(matchingErrorMsg.length === actualErrorMsg.length);
+   assert.isTrue(validateCode(response, code));
+   assert.isTrue(validateMessage(response, message));
 });
