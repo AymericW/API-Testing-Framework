@@ -57,26 +57,26 @@
         
     Scenario Outline: Save the scanned Identity details of the prospect
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
-    And I save his identity details
+    And I save his identity details with result <result>
     When I retrieve the prospect with the id received from the creation
     Then I get the prospect status as identity "ID_RECEIVED"
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |
-        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   |
+        |   firstName   |    lastName       |              email                |   language   |  brand  | result           |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   | "REVIEW_PENDING" |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   | "REVIEW_PENDING" |
 
 
     Scenario Outline: Create a psp for a new Customer
     Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
-    And I save his identity details
+    And I save his identity details with result <result>
     And I set the <product> and address <street> <number> <city> <postalCode>
     When I retrieve the prospect with the id received from the creation
     Then I get the prospect status as identity "CUSTOMER_VALIDATED"
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   street             |   number  |   city                    |   postalCode  |   
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |  "CCOMF" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      |
+        |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   street             |   number  |   city                    |   postalCode  | result           |  
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |  "CCOMF" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      | "REVIEW_PENDING" |
 
 
 
@@ -107,6 +107,25 @@ Scenario: Create a prospect with missing language field
 When I create a prospect with empty fields "Simon" "Pin" "" "" "FB"
 Then the response status is "400"
 And I have 1 error code "BRC0004" with the message "Language (language)  is required."
+
+
+@error_missing_two_fields
+Scenario: Create a prospect with missing first name and last name
+When I create a prospect with empty fields "" "" "" "NL" "FB"
+Then the response status is "400"
+And I have 2 error codes "BRC0001" and "BRC0002"
+And I have 2 messages "First name (firstName) is required." and "Last name (lastName) is required."
+
+@error_missing_two_fields
+Scenario: Create a prospect with missing language and brand
+When I create a prospect with empty fields "Simon" "Pin" "" "" ""
+Then the response status is "400"
+And I have 2 error codes "BRC0004" and "BRC0003"
+And I have 2 messages "Language (language)  is required." and "Brand (brand) is required."
+
+
+
+
 
 
 # Scenario Outline: Create a prospect with missing required fields

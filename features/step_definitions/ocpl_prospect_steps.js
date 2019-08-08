@@ -11,6 +11,7 @@ const IDENTIFICATION_URL = "https://i-net1938a-test.be.fortis.bank:51088/OCAL-ap
 const callApiPost = (url, body, callback) => {
    return api.post(url, body)
    .then((response) => {
+         console.log(JSON.stringify(response.body));
         if(response.body !== undefined){
             global.data = response.body;
             global.statusCode = response.statusCode;
@@ -24,6 +25,7 @@ const callApiPost = (url, body, callback) => {
 
 const callApiGet = (url, callback) => api.get(url)
    .then((response) => {
+      console.log(JSON.stringify(response.body));
       global.data = response.body;
       global.statusCode = response.statusCode;
       callback();
@@ -64,10 +66,10 @@ When('I retrieve the prospect with the id received from the creation', (callback
     callApiGet(PROSPECT_URL + "/" + global.data.id, callback)
 });
 
-When('I save his identity details', (callback) => {
+When('I save his identity details with result {string}', (result, callback) => {
     const requestParams = {
         "identificationprocess":{
-           "result":"REVIEW_PENDING",
+           "result": result,
            "companyid":"fortispoc",
            "filename":"93ab0b24-23a3-48b9-bdee-bc89dfb21c8b.zip",
            "identificationtime":"2019-07-04T14:41:40+02:00",
@@ -168,7 +170,7 @@ When('I set the {string} and address {string} {string} {string} {string}', (prod
          "city": city,
          "postalCode": postalCode
       },
-      "product": product
+      "product": product                             
    }
 
    console.log(requestParams);
@@ -192,18 +194,37 @@ Then('I get the correct prospect details in the response {string} {string} {stri
 });
 
 Then('I get the prospect status as identity {string}', function (status) {
-   console.log(global.data);
    assert.equal(global.data.status, status, "eID Update failed");
    assert.isDefined(global.data.idCard, "eidCard is not defined");
    assert.isDefined(global.data.idCard.number, "eidCardNumber is not defined");
 });
 
 Then('I have {int} error code {string} with the message {string}', function (int, code, message) {
-   let response = file.read('expected/prospect/prospect.json');
-   
+   const response = global.data;
+
    const validateCode = (response, code) => response.filter(error => (error.code)===code).length == 1;
    const validateMessage = (response, message) => response.filter(error => (error.message)===message).length == 1;
 
    assert.isTrue(validateCode(response, code));
    assert.isTrue(validateMessage(response, message));
 });
+
+
+Then('I have {int} error codes {string} and {string}', function (int, error1, error2) {
+   const response = global.data;
+
+   const validateCode = (response, errorCode) => response.filter(error => (error.code)==errorCode).length == 1;
+
+   assert.isTrue(validateCode(response, error1));
+   assert.isTrue(validateCode(response, error2));
+ });
+
+ Then('I have {int} messages {string} and {string}', function (int, message1, message2) {
+   const response = global.data;
+
+   const validateMessage = (response, message) => response.filter(error => (error.message)==message).length == 1;
+
+   assert.isTrue(validateMessage(response, message1));
+   assert.isTrue(validateMessage(response, message2));
+   // assert.isTrue(validateMessage(response, message2));
+ });
