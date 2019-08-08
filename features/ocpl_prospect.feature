@@ -123,7 +123,27 @@ Then the response status is "400"
 And I have 2 error codes "BRC0004" and "BRC0003"
 And I have 2 messages "Language (language)  is required." and "Brand (brand) is required."
 
+@error_missing_field
+Scenario: Create a prospect with missing first name field
+When I create a prospect with empty fields "" "Pin" "" "" "FB"
+Then the response status is "400"
+And I have 2 error code "BRC0001, BRC0004" with the message "First name (firstName) is required., Language (language)  is required."
 
+# Add product to Prospect
+Scenario: Add Product to Prospect
+Given I create a prospect with "Simon" "Pin" "simon@bbc.com" "EN" "FB"
+And I save his identity details with result "REVIEW_PENDING"
+When I add a product "CCOMF" to the prospect 
+Then the response status is "200"
+And I see the product "CCOMF" in the prospect
+
+
+Scenario: Add Hellobank product to Prospect older than 28 years - Error case
+Given I create a prospect with "simon" "pin" "simon@bbc.com" "EN" "FB"
+And I save his identity details with result "REVIEW_PENDING"
+When I add a product "CDIGPK" to the prospect
+Then the response status is "400"
+And I have 1 error code "BRC0002" with the message "The chosen pack is not valid for this prospect"
 
 
 
