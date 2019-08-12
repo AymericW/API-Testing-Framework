@@ -2,28 +2,28 @@
  Feature: Prospect Feature
    
     Scenario Outline: Create a prospect
-    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
-    Then I get the correct prospect details in the response <firstName> <lastName> <email> <language> <brand>
+    Given I create a prospect with <firstName> <lastName> <email> <brand> <language>
+    Then I get the correct prospect details in the response <firstName> <lastName> <email> <brand> <language>
 
         Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |
-        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   |
+        |   firstName   |    lastName       |              email                |  brand  |   language   |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |  "FB"   |   "FR"       |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |  "FB"   |   "EN"       |
      
 
     Scenario Outline: Retrieve the prospect details
-    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    Given I create a prospect with <firstName> <lastName> <email> <brand> <language>
     When I retrieve the prospect with the id received from the creation
-    Then I get the correct prospect details in the response <firstName> <lastName> <email> <language> <brand>
+    Then I get the correct prospect details in the response <firstName> <lastName> <email> <brand> <language>
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |
-        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   |
+        |   firstName   |    lastName       |              email                |  brand  |   language   |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |  "FB"   |   "FR"       |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |  "FB"   |   "EN"       |
 
 
     Scenario Outline: Create the prospect with invalid email address
-    Given I create a prospect with "Simon" "Pin" <email> "FR" "FB"
+    Given I create a prospect with "Simon" "Pin" <email> "FB" "FR"
     Then the response status is "400"
 
     Examples:
@@ -56,28 +56,35 @@
         |    "hotmail@cuetonicolascuetonicolascuetonicolascuetonicolascuetonicolascueto.com"                                    | 
         
     Scenario Outline: Save the scanned Identity details of the prospect
-    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    Given I create a prospect with <firstName> <lastName> <email> <brand> <language>
     And I save his identity details with result <result>
     When I retrieve the prospect with the id received from the creation
     Then I get the prospect status as identity "ID_RECEIVED"
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  | result           |
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   | "REVIEW_PENDING" |
-        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |   "EN"       |  "FB"   | "REVIEW_PENDING" |
+        |   firstName   |    lastName       |              email                |  brand  |   language   | result           |
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |  "FB"   |   "FR"       | "REVIEW_PENDING" |
+        |   "Naveen"    |    "Anandhan"     |    "naveen.anandhan@gmail.com"    |  "FB"   |   "EN"       | "REVIEW_PENDING" |
 
 
     Scenario Outline: Create a psp for a new Customer
-    Given I create a prospect with <firstName> <lastName> <email> <language> <brand>
+    Given I create a prospect with <firstName> <lastName> <email> <brand> <language>
     And I save his identity details with result <result>
     And I set the <product> and address <street> <number> <city> <postalCode>
     When I retrieve the prospect with the id received from the creation
     Then I get the prospect status as identity "CUSTOMER_VALIDATED"
 
     Examples:
-        |   firstName   |    lastName       |              email                |   language   |  brand  |  product |   street             |   number  |   city                    |   postalCode  | result           |  
-        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |   "FR"       |  "FB"   |  "CCOMF" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      | "REVIEW_PENDING" |
+        |   firstName   |    lastName       |              email                |  brand  |   language   |  product |   street             |   number  |   city                    |   postalCode  | result           |  
+        |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |  "FB"   |   "FR"       |  "CCOMF" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      | "REVIEW_PENDING" |
 
+
+    Scenario: Add Product to Prospect
+    Given I create a prospect with "Simon" "Pin" "simon@bbc.com" "FB" "EN"
+    And I save his identity details with result "REVIEW_PENDING"
+    When I add a product "CCOMF" to the prospect 
+    Then the response status is "200"
+    And I see the product "CCOMF" in the prospect
 
 
 ######################################## 400 error code scenarios ##########################################
@@ -85,61 +92,61 @@
 # ---------------------------------    Missing brand field    -------------------------------------------
 
 @error_missing_field
-Scenario: Create a prospect with missing first name field
-When I create a prospect with empty fields "" "Pin" "" "FR" "FB"
+Scenario Outline: Create a prospect with one missing field
+When I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 Then the response status is "400"
-And I have 1 error code "BRC0001" with the message "First name (firstName) is required."
+And I have 1 error code <code>
+And I have 1 error message <message>
+
+Examples:
+|   firstName   |    lastName    |   brand      |   language    |   code            |   message                                 |
+|   ""          |    "Pin"       |   "FB"       |  "FR"         |   "BRC0001"       |   "First name (firstName) is required."   |
+|   "Simon"     |    ""          |   "FB"       |  "FR"         |   "BRC0002"       |   "Last name (lastName) is required."     |
+|   "Simon"     |    "Pin"       |   ""         |  "FR"         |   "BRC0003"       |   "Brand (brand) is required."            |
+|   "Simon"     |    "Pin"       |   "FB"       |  ""           |   "BRC0004"       |   "Language (language)  is required."     |
 
 @error_missing_field
-Scenario: Create a prospect with missing last name field
-When I create a prospect with empty fields "Simon" "" "" "FR" "FB"
+Scenario Outline: Create a prospect with two missing fields
+When I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 Then the response status is "400"
-And I have 1 error code "BRC0002" with the message "Last name (lastName) is required."
+And I have 2 error code <code>
+And I have 2 error message <message>
+
+Examples:
+|   firstName   |    lastName    |   brand      |   language    |   code                     |   message                                                                    |
+|   ""          |    ""          |   "FB"       |  "FR"         |   "BRC0001, BRC0002"       |   "First name (firstName) is required., Last name (lastName) is required."   |
+|   ""          |    "Pin"       |   ""         |  "FR"         |   "BRC0001, BRC0003"       |   "First name (firstName) is required., Brand (brand) is required."   |
+|   ""          |    "Pin"       |   "FB"       |  ""           |   "BRC0001, BRC0004"       |   "First name (firstName) is required., Language (language)  is required."   |
+|   "Simon"     |    ""          |   ""         |  "FR"         |   "BRC0002, BRC0003"       |   "Last name (lastName) is required., Brand (brand) is required."   |
+|   "Simon"     |    ""          |   "FB"       |  ""           |   "BRC0002, BRC0004"       |   "Last name (lastName) is required., Language (language)  is required."   |
+|   "Simon"     |    "Pin"       |   ""         |  ""           |   "BRC0003, BRC0004"       |   "Brand (brand) is required., Language (language)  is required."   |
 
 @error_missing_field
-Scenario: Create a prospect with missing brand field
-When I create a prospect with empty fields "Simon" "Pin" "" "FR" ""
+Scenario Outline: Create a prospect with three missing fields
+When I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 Then the response status is "400"
-And I have 1 error code "BRC0003" with the message "Brand (brand) is required."
+And I have 3 error code <code>
+And I have 3 error message <message>
+
+Examples:
+|   firstName   |    lastName    |   brand      |   language      |   code                              |   message                                                                                                      |
+|   ""          |    ""          |   ""         |  "FR"           |   "BRC0001, BRC0002, BRC0003"       |   "First name (firstName) is required., Last name (lastName) is required., Brand (brand) is required."         |
+|   ""          |    ""          |   "FB"       |  ""             |   "BRC0001, BRC0002, BRC0004"       |   "First name (firstName) is required., Last name (lastName) is required., Language (language)  is required."  |
+|   "Simon"     |    ""          |   ""         |  ""             |   "BRC0002, BRC0003, BRC0004"       |   "Last name (lastName) is required., Brand (brand) is required., Language (language)  is required."           |
 
 @error_missing_field
-Scenario: Create a prospect with missing language field
-When I create a prospect with empty fields "Simon" "Pin" "" "" "FB"
+Scenario: Create a prospect with four missing fields
+When I create a prospect with empty fields "" "" "" "" ""
 Then the response status is "400"
-And I have 1 error code "BRC0004" with the message "Language (language)  is required."
+And I have 4 error code "BRC0001, BRC0002, BRC0003, BRC0004"
+And I have 4 error message "First name (firstName) is required., Last name (lastName) is required., Brand (brand) is required., Language (language)  is required."
 
 
-@error_missing_two_fields
-Scenario: Create a prospect with missing first name and last name
-When I create a prospect with empty fields "" "" "" "NL" "FB"
-Then the response status is "400"
-And I have 2 error codes "BRC0001" and "BRC0002"
-And I have 2 messages "First name (firstName) is required." and "Last name (lastName) is required."
 
-@error_missing_two_fields
-Scenario: Create a prospect with missing language and brand
-When I create a prospect with empty fields "Simon" "Pin" "" "" ""
-Then the response status is "400"
-And I have 2 error codes "BRC0004" and "BRC0003"
-And I have 2 messages "Language (language)  is required." and "Brand (brand) is required."
-
-@error_missing_field
-Scenario: Create a prospect with missing first name field
-When I create a prospect with empty fields "" "Pin" "" "" "FB"
-Then the response status is "400"
-And I have 2 error code "BRC0001, BRC0004" with the message "First name (firstName) is required., Language (language)  is required."
-
-# Add product to Prospect
-Scenario: Add Product to Prospect
-Given I create a prospect with "Simon" "Pin" "simon@bbc.com" "EN" "FB"
-And I save his identity details with result "REVIEW_PENDING"
-When I add a product "CCOMF" to the prospect 
-Then the response status is "200"
-And I see the product "CCOMF" in the prospect
-
+# ---------------------------------    Unmatching age and product    -------------------------------------------
 
 Scenario: Add Hellobank product to Prospect older than 28 years - Error case
-Given I create a prospect with "simon" "pin" "simon@bbc.com" "EN" "FB"
+Given I create a prospect with "simon" "pin" "simon@bbc.com" "FB" "EN"
 And I save his identity details with result "REVIEW_PENDING"
 When I add a product "CDIGPK" to the prospect
 Then the response status is "400"
@@ -149,7 +156,7 @@ And I have 1 error code "BRC0002" with the message "The chosen pack is not valid
 
 
 # Scenario Outline: Create a prospect with missing required fields
-# Given I create a prospect with empty fields <firstName> <lastName> "" <language> <brand>
+# Given I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 # Then the response status is "400"
 # And I get a message with the missing required fields
 

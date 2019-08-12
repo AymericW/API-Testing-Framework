@@ -11,7 +11,7 @@ const IDENTIFICATION_URL = "https://i-net1938a-test.be.fortis.bank:51088/OCAL-ap
 const callApiPost = (url, body, callback) => {
    return api.post(url, body)
    .then((response) => {
-      console.log(response.body)  
+      // console.log(response.body)  
       if(response.body !== undefined){
             global.data = response.body;
             global.statusCode = response.statusCode;
@@ -35,7 +35,7 @@ const callApiGet = (url, callback) => api.get(url)
 
 /*############################################## POST (create) a prospect with generated random data ##############################################*/
 
-Given('I create a prospect with {string} {string} {string} {string} {string}', (firstName, lastName, email, language, brand, callback) => {
+Given('I create a prospect with {string} {string} {string} {string} {string}', (firstName, lastName, email, brand, language, callback) => {
    callApiPost(PROSPECT_URL, {
       firstName,
       lastName,
@@ -45,7 +45,7 @@ Given('I create a prospect with {string} {string} {string} {string} {string}', (
    }, callback);
 });
 
-Given('I create a prospect with empty fields {string} {string} {string} {string} {string}', (firstName, lastName, email, language, brand, callback) => {
+Given('I create a prospect with empty fields {string} {string} {string} {string} {string}', (firstName, lastName, email, brand, language, callback) => {
    
    let body = {};
    
@@ -188,7 +188,7 @@ When('I add a product {string} to the prospect', function (product, callback) {
 
 /*############################################## Validate POST prospect response ##############################################*/
 
-Then('I get the correct prospect details in the response {string} {string} {string} {string} {string}', function (firstName, lastName, email, language, brand) { 
+Then('I get the correct prospect details in the response {string} {string} {string} {string} {string}', function (firstName, lastName, email, brand, language) { 
    assert.equal(global.data.firstName, firstName, "Request and response firstname doesn't match");
    assert.equal(global.data.lastName, lastName, "Request and response lastname doesn't match");
    assert.equal(global.data.email, email, "Request and response email doesn't match");
@@ -210,31 +210,24 @@ Then('I get the prospect status as identity {string}', function (status) {
 
 //  ---------------------------------    Missing field validation   -------------------------------------------
 
-Then('I have {int} error code {string} with the message {string}', function (int, code, message) {
+ Then('I have {int} error code {string}', (int, codes) => {
    const response = global.data;
-   const validateCode = (response, code) => response.filter(error => (error.code)===code).length == 1;
-   const validateMessage = (response, message) => response.filter(error => (error.message)===message).length == 1;
-
-   assert.isTrue(validateCode(response, code));
-   assert.isTrue(validateMessage(response, message));
-});
-
-Then('I have {int} error codes {string} and {string}', function (int, error1, error2) {
-   const response = global.data;
-
+   const listCode = codes.split(', ');
    const validateCode = (response, errorCode) => response.filter(error => (error.code)==errorCode).length == 1;
 
-   assert.isTrue(validateCode(response, error1));
-   assert.isTrue(validateCode(response, error2));
+   for (let code of listCode){
+      assert.isTrue(validateCode(response, code));
+   }
  });
 
- Then('I have {int} messages {string} and {string}', function (int, message1, message2) {
+ Then('I have {int} error message {string}', (int, messages) => {
    const response = global.data;
+   const listMessage = messages.split(', ');
+   const validateMessage = (response, errorMessage) => response.filter(error => (error.message)==errorMessage).length == 1;
 
-   const validateMessage = (response, message) => response.filter(error => (error.message)==message).length == 1;
-
-   assert.isTrue(validateMessage(response, message1));
-   assert.isTrue(validateMessage(response, message2));
+   for(let message of listMessage){
+      assert.isTrue(validateMessage(response, message));
+   }
  });
 
  Then('I see the product {string} in the prospect', function (product) {
