@@ -91,7 +91,7 @@
  
 # ---------------------------------    Missing brand field    -------------------------------------------
 
-@error_missing_field
+@error @error_missing_field @error_missing_one_field
 Scenario Outline: Create a prospect with one missing field
 When I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 Then the response status is "400"
@@ -105,7 +105,7 @@ Examples:
 |   "Simon"     |    "Pin"       |   ""         |  "FR"         |   "BRC0003"       |   "Brand (brand) is required."            |
 |   "Simon"     |    "Pin"       |   "FB"       |  ""           |   "BRC0004"       |   "Language (language)  is required."     |
 
-@error_missing_field
+@error @error_missing_field @error_missing_two_field
 Scenario Outline: Create a prospect with two missing fields
 When I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 Then the response status is "400"
@@ -121,7 +121,7 @@ Examples:
 |   "Simon"     |    ""          |   "FB"       |  ""           |   "BRC0002, BRC0004"       |   "Last name (lastName) is required., Language (language)  is required."   |
 |   "Simon"     |    "Pin"       |   ""         |  ""           |   "BRC0003, BRC0004"       |   "Brand (brand) is required., Language (language)  is required."   |
 
-@error_missing_field
+@error @error_missing_field @error_missing_three_field
 Scenario Outline: Create a prospect with three missing fields
 When I create a prospect with empty fields <firstName> <lastName> "" <brand> <language>
 Then the response status is "400"
@@ -134,7 +134,7 @@ Examples:
 |   ""          |    ""          |   "FB"       |  ""             |   "BRC0001, BRC0002, BRC0004"       |   "First name (firstName) is required., Last name (lastName) is required., Language (language)  is required."  |
 |   "Simon"     |    ""          |   ""         |  ""             |   "BRC0002, BRC0003, BRC0004"       |   "Last name (lastName) is required., Brand (brand) is required., Language (language)  is required."           |
 
-@error_missing_field
+@error @error_missing_field @error_missing_four_field
 Scenario: Create a prospect with four missing fields
 When I create a prospect with empty fields "" "" "" "" ""
 Then the response status is "400"
