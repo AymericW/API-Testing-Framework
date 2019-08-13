@@ -116,8 +116,8 @@ Examples:
 |   firstName   |    lastName    |   brand      |   language    |   code                     |   message                                                                    |
 |   ""          |    ""          |   "FB"       |  "FR"         |   "BRC0001, BRC0002"       |   "First name (firstName) is required., Last name (lastName) is required."   |
 |   ""          |    "Pin"       |   ""         |  "FR"         |   "BRC0001, BRC0003"       |   "First name (firstName) is required., Brand (brand) is required."   |
-|   ""          |    "Pin"       |   "FB"       |  ""           |   "BRC0001, BRC0004"       |   "First name (firstName) is required., Language (language)  is required."   |
 |   "Simon"     |    ""          |   ""         |  "FR"         |   "BRC0002, BRC0003"       |   "Last name (lastName) is required., Brand (brand) is required."   |
+|   ""          |    "Pin"       |   "FB"       |  ""           |   "BRC0001, BRC0004"       |   "First name (firstName) is required., Language (language)  is required."   |
 |   "Simon"     |    ""          |   "FB"       |  ""           |   "BRC0002, BRC0004"       |   "Last name (lastName) is required., Language (language)  is required."   |
 |   "Simon"     |    "Pin"       |   ""         |  ""           |   "BRC0003, BRC0004"       |   "Brand (brand) is required., Language (language)  is required."   |
 
@@ -132,6 +132,7 @@ Examples:
 |   firstName   |    lastName    |   brand      |   language      |   code                              |   message                                                                                                      |
 |   ""          |    ""          |   ""         |  "FR"           |   "BRC0001, BRC0002, BRC0003"       |   "First name (firstName) is required., Last name (lastName) is required., Brand (brand) is required."         |
 |   ""          |    ""          |   "FB"       |  ""             |   "BRC0001, BRC0002, BRC0004"       |   "First name (firstName) is required., Last name (lastName) is required., Language (language)  is required."  |
+|   ""          |    "Pin"       |   ""         |  ""             |   "BRC0001, BRC0003, BRC0004"       |   "First name (firstName) is required., Brand (brand) is required., Language (language)  is required."         |
 |   "Simon"     |    ""          |   ""         |  ""             |   "BRC0002, BRC0003, BRC0004"       |   "Last name (lastName) is required., Brand (brand) is required., Language (language)  is required."           |
 
 @error @error_missing_field @error_missing_four_field
