@@ -1,10 +1,17 @@
 #!groovy
 @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
 
-node ('Customers_slave'){
+node ('master'){
 
     // Init CIPaaS Services
-    def cipaas = new CIPaaServices(docker,steps,env)
+    env.APPLICATION_CODE = "TF01"
+
+    env.APPLICATION_COMPONENT = "TF01-pr90"
+
+    env.APPLICATION_COMPONENT_TYPE = "Javascript"
+
+    def cipaas = new CIPaaServices(this)
+ 
     def cipaasDockerRegistryName = cipaas.getCIPaaSDockerRegistryName()
     def centralNPMPublicGroupURL = cipaas.getCentralNPMPublicGroupURL()
     def localNPMHostedRepositoryURL = cipaas.getLocalNPMHostedRepositoryURL()
@@ -30,7 +37,7 @@ node ('Customers_slave'){
             steps.sh "sh ./scripts/run.sh 'ocpl_prospect'"
         }
         stage ('Upload the Report') {
-            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "ocpl_prospect.json" "http://wpdm0006.be.fortis.bank:8080/"'
+            steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "ocpl_prospect.json" "http://10.213.184.184:8888/"'
         }
     }
     stage ('End pipeline') {println "End pipeline"}
