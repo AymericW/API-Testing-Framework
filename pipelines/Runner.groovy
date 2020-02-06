@@ -1,7 +1,7 @@
 #!groovy
 @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
 
-node ('master'){
+node ('Customers_slave'){
 
     // Init CIPaaS Services
     def cipaas = new CIPaaServices(docker,steps,env)
