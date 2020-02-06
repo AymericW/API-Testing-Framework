@@ -7,5 +7,5 @@ var assert = require('chai').assert;
 
 // http status code validation
 Then('the response status is {string}', (code) => {
-  assert.equal(global.statusCode, code);
+    assert.equal(global.statusCode, code);
 });
