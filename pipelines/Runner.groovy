@@ -40,6 +40,7 @@ node ('master'){
         stage('Generate HTML report') {
             cucumber buildStatus: 'UNSTABLE'
             fileIncludePattern: '*/**.json'
+            jsonReportDirectory: 'target'
         }
     }
     stage ('End pipeline') {println "End pipeline"}
