@@ -32,9 +32,11 @@ node ('master'){
         stage ('Install NPM local dependencies') {
             steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
             steps.sh "npm install"
+            steps.sh "npm install custom-cucumber-report-generator"
         }
         stage ('Run the script(ocpl_prospect.feature)') {
             steps.sh "sh ./scripts/run.sh 'ocpl_prospect'"
+            steps.sh "./node_modules/.bin/custom-cucumber-report-generator -f ocpl_prospect.json"
         }
         stage ('Upload the Report') {
             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Prospect API" "API" "Full Test" "API" "QA+1" "ocpl_prospect.json" "http://10.213.184.184:8888/"'
