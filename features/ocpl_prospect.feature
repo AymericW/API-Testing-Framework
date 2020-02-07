@@ -79,12 +79,6 @@
 #         |   "Simon"     |    "Pin"          |    "simon.pin@hotmail.com"        |  "FB"   |   "FR"       |  "CCOMF" |  "Rue du progrès"    |   "55"    |   "Saint-Josse-ten-Noode" |   "1210"      | "REVIEW_PENDING" |
 
 
-#     Scenario: Add Product to Prospect
-#     Given I create a prospect with "Simon" "Pin" "simon@bbc.com" "FB" "EN"
-#     And I save his identity details with result "REVIEW_PENDING"
-#     When I add a product "CCOMF" to the prospect 
-#     Then the response status is "200"
-#     And I see the product "CCOMF" in the prospect
 
 
 # ######################################## 400 error code scenarios ##########################################

@@ -13,4 +13,4 @@ npm start features/$Feature.feature -- --format json:$Feature.json || true
 # export HTTP_PROXY="http://nwbcproxy.res.sys.shared.fortis:8080"  
 # ./node_modules/cucumber/bin/cucumber.js -f json:ocpl_prospect.json || true
 
-npm start features/ocpl_prospect.feature -f json:ocpl_prospect.json || true
+#npm start features/ocpl_prospect.feature -f json:ocpl_prospect.json || true
