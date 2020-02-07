@@ -37,11 +37,6 @@ node ('master'){
         stage ('Run the script(ocpl_prospect.feature)') {
             steps.sh "sh ./scripts/run.sh 'ocpl_prospect'"
         }
-        stage('Generate HTML report') {
-            cucumber buildStatus: 'UNSTABLE'
-            fileIncludePattern: '*/ocpl_prospect.json'
-            jsonReportDirectory: 'target'
-        }
     }
     stage ('End pipeline') {println "End pipeline"}
 }
