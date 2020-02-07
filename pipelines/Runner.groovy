@@ -39,7 +39,7 @@ node ('master'){
         }
         stage('Generate HTML report') {
             cucumber buildStatus: 'UNSTABLE'
-            fileIncludePattern: '*/**.json'
+            fileIncludePattern: '*/ocpl_prospect.json'
             jsonReportDirectory: 'target'
         }
     }
