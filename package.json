@@ -1,25 +1,25 @@
 {
-  "name": "api-testing",
-  "version": "0.0.1",
-  "description": "Test Client for API Integration Tests",
-  "private": true,
-  "scripts": {
-    "start": "cucumber-js"
-  },
-  "devDependencies": {
-    "chai": "3.5.0",
-    "cucumber": "^5.0.2",
-    "cucumber-html-reporter": "^5.1.0",
-    "json-find": "^2.0.5",
-    "json-stringify-safe": "5.0.1",
-    "jsonschema": "^1.2.4",
-    "swagger-client": "2.1.13",
-    "tv4": "^1.2.7",
-    "underscore": "~1.5.2"
-  },
-  "dependencies": {
-    "custom-cucumber-report-generator": "0.0.4",
-    "request-promise": "^3.0.0",
-    "superagent": "^2.0.0"
-  }
+    "name": "api-testing",
+    "version": "0.0.1",
+    "description": "Test Client for API Integration Tests",
+    "private": true,
+    "scripts": {
+        "start": "cucumber-js -t @contactpoints"
+    },
+    "devDependencies": {
+        "chai": "3.5.0",
+        "cucumber": "^5.0.2",
+        "cucumber-html-reporter": "^5.1.0",
+        "json-find": "^2.0.5",
+        "json-stringify-safe": "5.0.1",
+        "jsonschema": "^1.2.4",
+        "swagger-client": "2.1.13",
+        "tv4": "^1.2.7",
+        "underscore": "~1.5.2"
+    },
+    "dependencies": {
+        "custom-cucumber-report-generator": "0.0.4",
+        "request-promise": "^3.0.0",
+        "superagent": "^2.0.0"
+    }
 }
