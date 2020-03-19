@@ -1,10 +1,14 @@
 const { Given, When, Then } = require("cucumber");
 const api = require('../../util/api');
 const root_url = "https://p1.easybanking.qabnpparibasfortis.be"
+const Shell = require('node-powershell');
 const distributorId = '52FB001'
+let ucrToken;
+let ucrTokenFinal;
+let errorlog;
 const user = {
     smid: "7151929767",
-    cardnumber: "67030417206822842",
+    cardnumber: "67030417223625475",
     name: 'Demo User'
 }
 var randHex = function(len) {
@@ -19,6 +23,11 @@ var randHex = function(len) {
     return r;
 };
 
+const ps = new Shell({
+    executionPolicy: 'Bypass',
+    noProfile: true
+})
+
 const csrf = randHex(128);
 let agreementId;
 
@@ -30,7 +39,7 @@ const headers = {
 }
 
 function processcallback(response) {
-    console.log(response.req);
+    console.log(response.body);
 }
 
 Given('I am logged in as {string}', function(string) {
@@ -53,7 +62,6 @@ Given('I am logged in as {string}', function(string) {
             }, headers)
 
         }).then((response) => {
-
             agreementId = response.body.value.channelAgreements[0].agreementId;
 
             response.headers['set-cookie'].forEach(header => {
@@ -82,25 +90,73 @@ Given('I am logged in as {string}', function(string) {
             }, headers)
 
         }).then((response) => {
-            return api.get('https://i-net800.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP')
-                /*return api.post('https://i-net800.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP', {
-                    clientNumber: user.smid,
-                    callMode: '01',
-                    previousWindowFlag: '0'
-                }, {
-                    Cookie: 'CSRF=7J2vNthZH8qrMarOBTirxJZT9IT0aTeKEftAQvHT1Q0zzwK5V8tzobkb6vxoCch0ixLknFdv6qkmUrGrdLu0imsAuTamQBiwAEKBCPWX15oPhTI7Ag8w17OIPNul6phI',
-                    CSRF: '7J2vNthZH8qrMarOBTirxJZT9IT0aTeKEftAQvHT1Q0zzwK5V8tzobkb6vxoCch0ixLknFdv6qkmUrGrdLu0imsAuTamQBiwAEKBCPWX15oPhTI7Ag8w17OIPNul6phI',
-                    'Content-Type': 'application/json'
-                })*/
+            response.headers['set-cookie'].forEach(header => {
+                headers.Cookie += header + ';'
 
-        }).then((response) => { console.log(response.body) });
+            });
+
+
+            ps.addCommand('../../bypass.ps1');
+
+
+            ps.invoke().then((output) => {
+                console.log(output)
+                ucrToken = JSON.parse(output)
+                errorlog = ucrToken.errorArea;
+
+
+                ucrTokenFinal = ucrToken.token;
+
+
+                console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
+                console.log(ucrTokenFinal);
+                console.log(errorlog);
+                return api.post(root_url + '/EBIA-pr01/rpc/identAuth/checkLoginResult', {
+                    smid: user.smid,
+                    distributorId,
+                    ucr: {
+                        signature: ucrTokenFinal
+                    }
+                }, headers)
+            }).then((response) => {
+
+                var auth = "";
+                auth += "<DIST_ID>52FB001</DIST_ID>";
+                auth += "<MEAN_ID>UCR</MEAN_ID>";
+                auth += "<EAI_AUTH_TYPE>UCR</EAI_AUTH_TYPE>";
+                auth += "<EBANKING_USER_ID><SMID>" + user.smid + "</SMID></EBANKING_USER_ID>";
+                auth += "<EBANKING_USER_AUTHENTICITY_VALIDATION>";
+                auth += "<VALIDATION_DATE></VALIDATION_DATE>";
+                auth += "<VALID></VALID>";
+                auth += "<AUTHENTICATION_MEAN_ID>08</AUTHENTICATION_MEAN_ID>";
+                auth += "</EBANKING_USER_AUTHENTICITY_VALIDATION>";
+
+                var encoded = encodeURIComponent(encodeURIComponent(auth));
+                var auth_string = "AUTH=" + encoded;
+
+                return api.post(root_url + '/SEEA-pa01/SEEAServer', {
+
+                    auth_string
+
+                }, {
+                    'CSRF': csrf,
+                    'Cookie': 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';',
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                })
+
+
+            }).then((response) => { console.log(response.body) });;
+
+
+        }).then((response) => {});
 
 });
 
 
 When('I retrieve my contactpoints', function(callback) {
     // Write code here that turns the phrase above into concrete actions
-    //api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}).then(processcallback);
+    return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}).then(response => { console.log(response.body) });
 });
 
 
