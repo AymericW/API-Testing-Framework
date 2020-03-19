@@ -1,4 +1,4 @@
-const request = require('request-promise').defaults({ jar: true });;
+const request = require('request-promise').defaults({ jar: true });
 const tough = require('tough-cookie');
 
 
@@ -21,7 +21,7 @@ let cookie2 = new tough.Cookie({
 //Put cookie in an jar which can be used across multiple requests
 var cookiejar = request.jar();
 cookiejar.setCookie(cookie.toString(), 'https://i-net800-qa.be.fortis.bank');
-cookiejar.setCookie(cookie2.toString(), 'https://i-net800-qa.be.fortis.bank')
+cookiejar.setCookie(cookie2.toString(), 'https://i-net800-qa.be.fortis.bank');
 
 const ENV_URL = {
     "TEST2": "https://app.easybanking.test2access.qabnpparibasfortis.be",
@@ -52,6 +52,7 @@ module.exports = {
         rejectUnauthorized: false,
         proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
     }),
+    
     post: (url, body, headers) => request({
         url: url,
         body,
