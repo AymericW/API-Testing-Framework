@@ -119,7 +119,7 @@ Given('I am logged in as {string}', function(string) {
                     }
                 }, headers)
             }).then((response) => {
-
+                ps.dispose();
                 var auth = "";
                 auth += "<DIST_ID>52FB001</DIST_ID>";
                 auth += "<MEAN_ID>UCR</MEAN_ID>";
@@ -142,7 +142,7 @@ Given('I am logged in as {string}', function(string) {
                     'CSRF': csrf,
                     'Cookie': 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';',
                     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    //'Content-Type': 'application/x-www-form-urlencoded'
                 })
 
 
