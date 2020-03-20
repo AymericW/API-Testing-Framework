@@ -1,4 +1,6 @@
 const { Given, When, Then } = require('cucumber');
+const file = require('../../util/file');
+const JsonFind = require('json-find');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const fs = require('fs')
 const path = require('path')
@@ -43,7 +45,7 @@ When('I create a psd2 consent', () => {
         cert: fs.readFileSync(certFile),
         key: fs.readFileSync(keyFile),
         passphrase: 'oS1U5USKMJqMMH3flgQe',
-        body: bodyBrand,
+        body: fortisBody,
         json: true
     };
 
