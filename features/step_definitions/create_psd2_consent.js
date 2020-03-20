@@ -25,7 +25,7 @@ const fintroHeader = {
     'Content-Type': 'application/json'
 }
 
-Given('I get the list of accounts of a user in {string}', (brand) => {
+Given('I get the list of accounts of a user in {string}', (brand, callback) => {
     let headerBrand = brand == "Fintro"? fintroHeader: fortisHeader;
 
     const options = {
@@ -36,7 +36,7 @@ Given('I get the list of accounts of a user in {string}', (brand) => {
         passphrase: 'oS1U5USKMJqMMH3flgQe'
     };
 
-    request(options);
+    request(options, callback);
 });
 
 When('I create a psd2 consent in {string}', (brand) => {
