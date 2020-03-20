@@ -1,41 +1,41 @@
-{
-    "clientId":"k4QztmnS20",
+{  
+    "clientId":"rH1fkWUS20",
     "purposeAndAttributeValues":[  
-        {  
-            "purposeValue":"BE62001653031661",
-            "listOfAttributes":[  
-                {  
+       {  
+          "purposeValue":"BE33001134167446",
+          "listOfAttributes":[  
+             {  
                 "attributeName":"CURRENCY",
                 "attributeValue":"EUR"
-                }
-            ]
-        },
-        {  
-            "purposeValue":"BE77001743268842",
-            "listOfAttributes":[  
-                {  
+             }
+          ]
+       },
+       {  
+          "purposeValue":"BE45001334845389",
+          "listOfAttributes":[  
+             {  
                 "attributeName":"CURRENCY",
                 "attributeValue":"EUR"
-                }
-            ]
-        },
-        {  
-            "purposeValue":"BE91001835975176",
-            "listOfAttributes":[  
-                {  
+             }
+          ]
+       },
+       {  
+          "purposeValue":"BE98001515042693",
+          "listOfAttributes":[  
+             {  
                 "attributeName":"CURRENCY",
                 "attributeValue":"EUR"
-                }
-            ]
-        },
-        {  
-            "purposeValue":"BE36001806128781",
-            "listOfAttributes":[  
-                {  
+             }
+          ]
+       },
+       {  
+          "purposeValue":"BE06001840907022",
+          "listOfAttributes":[  
+             {  
                 "attributeName":"CURRENCY",
                 "attributeValue":"EUR"
-                }
-            ]
-        }
+             }
+          ]
+       }
     ]
-}
+ }
