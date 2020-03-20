@@ -9,11 +9,6 @@ const keyFile = path.resolve('./', 'psd2Certif.pem')
 const request = require('request-promise');
 const assert = require('chai').assert;
 
-const fortisBody = file.read('configuration/psd2Fortis.json')
-const fintroBody = file.read('configuration/psd2Fintro.json')
-
-let bodyBrand = ($brand == "Fintro")? bodyBrand = fintroBody: bodyBrand = fortisBody;
-
 Given('I get the list of accounts of a user', () => {
     const options = {
         url: "https://i-net4018a-qa.be.fortis.bank:50990/PYIA-pa02/v1/filter-accounts/INFO",
@@ -31,8 +26,12 @@ Given('I get the list of accounts of a user', () => {
     request(options);
 });
 
-When('I create a psd2 consent', () => {
-    console.log($brand)
+When('I create a psd2 consent in {string}', (brand) => {
+    const fortisBody = file.read('configuration/psd2Fortis.json')
+    const fintroBody = file.read('configuration/psd2Fintro.json')
+
+    let bodyBrand = brand == "Fintro"? fintroBody: fortisBody;
+    
     const options = {
         method: 'POST',
         url: "https://i-net4018a-qa.be.fortis.bank:50990/PYIA-pa02/v1/authorizations/cbpi",
@@ -45,7 +44,7 @@ When('I create a psd2 consent', () => {
         cert: fs.readFileSync(certFile),
         key: fs.readFileSync(keyFile),
         passphrase: 'oS1U5USKMJqMMH3flgQe',
-        body: fortisBody,
+        body: bodyBrand,
         json: true
     };
 
