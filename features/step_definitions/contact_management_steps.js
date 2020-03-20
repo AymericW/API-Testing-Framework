@@ -6,6 +6,7 @@ const distributorId = '52FB001'
 let ucrToken;
 let ucrTokenFinal;
 let errorlog;
+
 const user = {
     smid: "7151929767",
     cardnumber: "67030417223625475",
@@ -23,10 +24,10 @@ var randHex = function(len) {
     return r;
 };
 
-const ps = new Shell({
-    executionPolicy: 'Bypass',
-    noProfile: true
-})
+// const ps = new Shell({
+//     executionPolicy: 'Bypass',
+//     noProfile: true
+// })
 
 const csrf = randHex(128);
 let agreementId;
@@ -146,7 +147,7 @@ Given('I am logged in as {string}', function(string) {
                 })
 
 
-            }).then((response) => { console.log(response.body) });;
+            }).then((response) => { console.log(response.body) });
 
 
         }).then((response) => {});
