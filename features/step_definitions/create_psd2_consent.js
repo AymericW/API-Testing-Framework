@@ -25,10 +25,8 @@ const fintroHeader = {
     'Content-Type': 'application/json'
 }
 
-Given('I get the list of accounts of a user in {string}', (brand, callback) => {
+Given('I get the list of accounts of a user in {string}', (brand) => {
     let headerBrand = brand == "Fintro"? fintroHeader: fortisHeader;
-
-    console.log(headerBrand)
 
     const options = {
         url: "https://i-net4018a-qa.be.fortis.bank:50990/PYIA-pa02/v1/filter-accounts/INFO",
@@ -38,7 +36,7 @@ Given('I get the list of accounts of a user in {string}', (brand, callback) => {
         passphrase: 'oS1U5USKMJqMMH3flgQe'
     };
 
-    request(options, callback);
+    request(options);
 });
 
 When('I create a psd2 consent in {string}', (brand) => {
