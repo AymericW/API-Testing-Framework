@@ -23,5 +23,5 @@ $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
                   $cookie2.Value =  $PDSessioncookie;
                   $session.Cookies.Add($cookie2);
                   
-                  $response = Invoke-WebRequest 'https://i-net800.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP\' -UseDefaultCredentials -Method Post -Body $content -ContentType 'application/json' -Headers $headers -WebSession $session;
+                  $response = Invoke-WebRequest 'https://i-net800-qa.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP\' -UseDefaultCredentials -Method Post -Body $content -ContentType 'application/json' -Headers $headers -WebSession $session;
                   $response.Content
