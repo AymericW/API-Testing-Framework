@@ -14,11 +14,11 @@ $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
                   $cookie = New-Object System.Net.Cookie;
                   $cookie.Name = "CSRF";
                   $cookie.Value = "7J2vNthZH8qrMarOBTirxJZT9IT0aTeKEftAQvHT1Q0zzwK5V8tzobkb6vxoCch0ixLknFdv6qkmUrGrdLu0imsAuTamQBiwAEKBCPWX15oPhTI7Ag8w17OIPNul6phI";
-                  $cookie.Domain = 'i-net800.be.fortis.bank';
+                  $cookie.Domain = 'i-net800-qa.be.fortis.bank';
                   $session.Cookies.Add($cookie);
 
                   $cookie2 = New-Object System.Net.Cookie;
-                  $cookie2.Domain = 'i-net800.be.fortis.bank';
+                  $cookie2.Domain = 'i-net800-qa.be.fortis.bank';
                   $cookie2.Name = "PD-S-SESSION-ID";
                   $cookie2.Value =  $PDSessioncookie;
                   $session.Cookies.Add($cookie2);

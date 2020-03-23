@@ -7,6 +7,11 @@ let ucrToken;
 let ucrTokenFinal;
 let errorlog;
 
+const ps = new Shell({
+    executionPolicy: 'Bypass',
+    noProfile: true
+})
+
 const user = {
     smid: "7151929767",
     cardnumber: "67030417223625475",
@@ -24,10 +29,7 @@ var randHex = function(len) {
     return r;
 };
 
-const ps = new Shell({
-    executionPolicy: 'Bypass',
-    noProfile: true
-})
+
 
 const csrf = randHex(128);
 let agreementId;
@@ -112,6 +114,7 @@ Given('I am logged in as {string}', function(string) {
                 console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
                 console.log(ucrTokenFinal);
                 console.log(errorlog);
+                ps.dispose();
                 return api.post(root_url + '/EBIA-pr01/rpc/identAuth/checkLoginResult', {
                     smid: user.smid,
                     distributorId,
@@ -120,7 +123,7 @@ Given('I am logged in as {string}', function(string) {
                     }
                 }, headers)
             }).then((response) => {
-                ps.dispose();
+
                 var auth = "";
                 auth += "<DIST_ID>52FB001</DIST_ID>";
                 auth += "<MEAN_ID>UCR</MEAN_ID>";
@@ -147,17 +150,24 @@ Given('I am logged in as {string}', function(string) {
                 })
 
 
-            }).then((response) => { console.log(response.body) });
+            }).then((response) => {
+                api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {});
+                console.log(response.body);
+                console.log("connard");
+            })
 
 
-        }).then((response) => {});
+        }).then((response) => {
+
+
+        });
 
 });
 
 
-When('I retrieve my contactpoints', function(callback) {
+When('I retrieve my contactpoints', function() {
     // Write code here that turns the phrase above into concrete actions
-    // return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}).then(response => { console.log(response.body) });
+
 });
 
 
