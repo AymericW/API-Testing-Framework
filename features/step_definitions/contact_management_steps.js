@@ -7,10 +7,7 @@ let ucrToken;
 let ucrTokenFinal;
 let errorlog;
 
-const ps = new Shell({
-    executionPolicy: 'Bypass',
-    noProfile: true
-})
+
 
 const user = {
     smid: "7151929767",
@@ -97,7 +94,10 @@ Given('I am logged in as {string}', function(string) {
                 headers.Cookie += header + ';'
 
             });
-
+            const ps = new Shell({
+                executionPolicy: 'Bypass',
+                noProfile: true
+            })
 
             ps.addCommand('../../bypass.ps1');
 
@@ -151,9 +151,14 @@ Given('I am logged in as {string}', function(string) {
 
 
             }).then((response) => {
-                api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {});
+
                 console.log(response.body);
                 console.log("connard");
+                return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {});
+
+
+            }).then((response) => {
+                console.log(response.body);
             })
 
 
