@@ -24,10 +24,10 @@ var randHex = function(len) {
     return r;
 };
 
-// const ps = new Shell({
-//     executionPolicy: 'Bypass',
-//     noProfile: true
-// })
+const ps = new Shell({
+    executionPolicy: 'Bypass',
+    noProfile: true
+})
 
 const csrf = randHex(128);
 let agreementId;
@@ -157,7 +157,7 @@ Given('I am logged in as {string}', function(string) {
 
 When('I retrieve my contactpoints', function(callback) {
     // Write code here that turns the phrase above into concrete actions
-    return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}).then(response => { console.log(response.body) });
+    // return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}).then(response => { console.log(response.body) });
 });
 
 
