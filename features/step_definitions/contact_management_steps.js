@@ -123,25 +123,32 @@ Given('I am logged in as {string}', function(string) {
                     }
                 }, headers)
             }).then((response) => {
+                console.log(response.body)
 
                 var auth = "";
-                auth += "<DIST_ID>52FB001</DIST_ID>";
-                auth += "<MEAN_ID>UCR</MEAN_ID>";
-                auth += "<EAI_AUTH_TYPE>UCR</EAI_AUTH_TYPE>";
-                auth += "<EBANKING_USER_ID><SMID>" + user.smid + "</SMID></EBANKING_USER_ID>";
-                auth += "<EBANKING_USER_AUTHENTICITY_VALIDATION>";
-                auth += "<VALIDATION_DATE></VALIDATION_DATE>";
-                auth += "<VALID></VALID>";
-                auth += "<AUTHENTICATION_MEAN_ID>08</AUTHENTICATION_MEAN_ID>";
-                auth += "</EBANKING_USER_AUTHENTICITY_VALIDATION>";
+                // auth += "<DIST_ID>52FB001</DIST_ID>";
+                // auth += "<MEAN_ID>UCR</MEAN_ID>";
+                // auth += "<EAI_AUTH_TYPE>UCR</EAI_AUTH_TYPE>";
+                // auth += "<EBANKING_USER_ID><SMID>" + user.smid + "</SMID></EBANKING_USER_ID>";
+                // auth += "<EBANKING_USER_AUTHENTICITY_VALIDATION>";
+                // auth += "<VALIDATION_DATE></VALIDATION_DATE>";
+                // auth += "<VALID></VALID>";
+                // auth += "<AUTHENTICATION_MEAN_ID>08</AUTHENTICATION_MEAN_ID>";
+                // auth += "</EBANKING_USER_AUTHENTICITY_VALIDATION>";
+
+                auth += '<DIST_ID>' + distributorId + '</DIST_ID>'
+                auth += '<MEAN_ID>UCRS</MEAN_ID>'
+                auth += '<EAI_AUTH_TYPE>UCRS</EAI_AUTH_TYPE>'
+                auth += '<EBANKING_USER_ID><SMID>' + user.smid + '</SMID></EBANKING_USER_ID>'
+                auth += '<EBANKING_USER_AUTHENTICITY_VALIDATION><AUTHENTICATION_MEAN_ID>08</AUTHENTICATION_MEAN_ID></EBANKING_USER_AUTHENTICITY_VALIDATION>'
 
                 var encoded = encodeURIComponent(encodeURIComponent(auth));
                 var auth_string = "AUTH=" + encoded;
 
                 return api.post(root_url + '/SEEA-pa01/SEEAServer', {
-
-                    auth_string
-
+                    form: {
+                        auth_string
+                    }
                 }, {
                     'CSRF': csrf,
                     'Cookie': 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';',
@@ -153,12 +160,11 @@ Given('I am logged in as {string}', function(string) {
             }).then((response) => {
 
                 console.log(response.body);
-                console.log("connard");
-                return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {});
+                // return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}, headers);
 
 
             }).then((response) => {
-                console.log(response.body);
+                //console.log(response.body);
             })
 
 
@@ -170,7 +176,7 @@ Given('I am logged in as {string}', function(string) {
 });
 
 
-When('I retrieve my contactpoints', function() {
+When('I retrieve my contactpoints', function(callback) {
     // Write code here that turns the phrase above into concrete actions
 
 });
