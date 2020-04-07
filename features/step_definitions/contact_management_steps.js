@@ -76,9 +76,6 @@ Given('I am logged in as {string}', function(string) {
             }, headers)
 
         }).then((response) => {
-
-            console.log('The response for get login means');
-            console.log(response.body.value.authenticationMeans[0]);
             const requestedMeanId = response.body.value.authenticationMeans[0].authenticationMeanId;
             response.headers['set-cookie'].forEach(header => {
                 headers.Cookie += header + ';'
@@ -117,11 +114,9 @@ Given('I am logged in as {string}', function(string) {
                 console.log(ucrTokenFinal);
                 console.log(errorlog);
                 ps.dispose();
-                console.log("check login result cookie");
+                
                 seea_server_cookies = headers.Cookie;
-                console.log(headers.Cookie);
-                console.log("SEEA_SERVER_COOKIES");
-                console.log(seea_server_cookies);
+               
                 return api.post(root_url + '/EBIA-pr01/rpc/identAuth/checkLoginResult', {
                     smid: user.smid,
                     distributorId,
@@ -162,18 +157,28 @@ Given('I am logged in as {string}', function(string) {
             }).then((response) => {
                 response.headers['set-cookie'].forEach(header => {
                     headers.Cookie += header + ';'
-            
                 });
 
                 console.log("response code");
                 console.log(response.statusCode);
                 console.log(response.headers['location']);
+                var locationSeeaServer = response.headers['location'];
+                return api.get( locationSeeaServer, headers);
 
-                // return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}, headers);
+                }).then((response) => {
+                response.headers['set-cookie'].forEach(header => {
+                    headers.Cookie += header + ';'
+                console.log("SEEA server");
+                console.log(response.statusCode);
+                console.log(response.body);
+                });
+               
+                return api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList", {}, headers);
 
 
             }).then((response) => {
-                //console.log(response.body);
+                console.log("I AM HERE");
+                console.log(response.body);
             })
 
 
