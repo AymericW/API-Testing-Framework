@@ -52,7 +52,21 @@ module.exports = {
         rejectUnauthorized: false,
         proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
     }),
-    
+
+    postForm: (url, body, headers) => request({
+        url: url,
+        body,
+        method: 'POST',
+        json: false,
+        resolveWithFullResponse: true,
+        simple: false,
+        rejectUnauthorized: false,
+        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080",
+        headers,
+        insecure: true,
+        jar: cookiejar
+    }),
+
     post: (url, body, headers) => request({
         url: url,
         body,
