@@ -34,7 +34,7 @@ node ('master'){
             steps.sh "npm install"
         }
         stage ('Run the script(ocpl_prospect.feature)') {
-            steps.sh "sh ./scripts/run.sh 'ocpl_prospect'"
+            steps.sh "sh ./scripts/run.sh 'contact_management'"
         }
     }
     stage ('End pipeline') {println "End pipeline"}
