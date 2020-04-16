@@ -160,8 +160,8 @@ const login = (smid, cardNumber, callback) => {
 }
 
 
-Given('I am logged with smid {string} and {string} as cardnumber', function(string, string2, callback) {
-    login(string, string2, callback);
+Given('I am logged with smid {string} and {string} as cardnumber', function(smid, cardnumber, callback) {
+    login(smid, cardnumber, callback);
 });
 
 
