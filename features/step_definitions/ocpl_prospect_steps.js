@@ -5,44 +5,17 @@ const file = require('../../util/file');
 const JsonFind = require('json-find');
 const assert = require('chai').assert;
 
+
 const PROSPECT_URL = "https://easybanking.testaccess.qabnpparibasfortis.be/OCPL-pr90/rpc/v1/prospects";
 //const IDENTIFICATION_URL = "https://i-net1938a-test.be.fortis.bank:51088/OCAL-ap55-war/api/scan-id/identifications";
 
-const callApiPost = (url, body, callback) => {
-    return api.post(url, body)
-        .then((response) => {
-            //console.log(response.body)
-            if (response.body !== undefined) {
-                global.data = response.body;
-                global.statusCode = response.statusCode;
-            }
-            callback();
-        })
-        .catch(function(err) {
-            callback(err);
-        });
-}
 
-const callApiGet = (url, callback) => api.get(url)
-    .then((response) => {
-        global.data = response.body;
-        global.statusCode = response.statusCode;
-        callback();
-    })
-    .catch(function(err) {
-        callback(err);
-    });
 
 // /*############################################## POST (create) a prospect with generated random data ##############################################*/
 
 Given('I create a prospect with {string} {string} {string} {string} {string}', (firstName, lastName, email, brand, language, callback) => {
-    callApiPost(PROSPECT_URL, {
-        firstName,
-        lastName,
-        email,
-        language,
-        brand
-    }, callback);
+    //
+
 });
 
 /*Given('I create a prospect with empty fields {string} {string} {string} {string} {string}', (firstName, lastName, email, brand, language, callback) => {
@@ -62,7 +35,7 @@ Given('I create a prospect with {string} {string} {string} {string} {string}', (
 // *############################################## WHEN - GET a prospect with an ID ##############################################*/
 
 When('I retrieve the prospect with the id received from the creation', (callback) => {
-    callApiGet(PROSPECT_URL + "/" + global.data.id, callback)
+    //
 });
 
 /*When('I save his identity details with result {string}', (result, callback) => {
@@ -189,16 +162,7 @@ When('I retrieve the prospect with the id received from the creation', (callback
 // *############################################## Validate POST prospect response ##############################################*/
 
 Then('I get the correct prospect details in the response {string} {string} {string} {string} {string}', function(firstName, lastName, email, brand, language) {
-    assert.equal(global.data.firstName, firstName, "Request and response firstname doesn't match");
-    assert.equal(global.data.lastName, lastName, "Request and response lastname doesn't match");
-    assert.equal(global.data.email, email, "Request and response email doesn't match");
-    assert.isNotNull(global.data.id, "id is null");
-    assert.isDefined(global.data.id, "id is not defined");
-    assert.isNotNull(global.data.identId, "identId is null");
-    assert.isDefined(global.data.identId, "identId is not defined");
-    assert.equal(global.data.status, "ID_PENDING", "status is null");
-    assert.isNotNull(global.data.status, "status is null");
-    assert.isDefined(global.data.status, "status is not defined");
+    callback();
 });
 
 /*Then('I get the prospect status as identity {string}', function(status) {

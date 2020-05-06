@@ -1,3 +1,3 @@
-var {setDefaultTimeout} = require('cucumber');
+var { setDefaultTimeout } = require('cucumber');
 
-setDefaultTimeout(30 * 1000);
+setDefaultTimeout(300 * 1000);
