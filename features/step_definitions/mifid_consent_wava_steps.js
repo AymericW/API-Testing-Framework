@@ -8,6 +8,7 @@ let bodyResponse;
 let statusResponse;
 let mifidConsentId;
 let msmcRequest;
+let dataConsentId;
 
 const csrf = '2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2';
 
@@ -67,6 +68,34 @@ When('I update my mifid consent to {string} with an invalid signature', function
 
 });
 
+
+When('I update my data consent to {string}', function(consent, callback) {
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList', {}, headers)
+        .then((response) => {
+            console.log("Got Consent Lists");
+            bodyResponse = response.body;
+            statusResponse = response.statusCode;
+            console.log(bodyResponse);
+            dataConsentId = bodyResponse.value.dataConsent.consentId;
+            let dataType = bodyResponse.value.dataConsent.type;
+            console.log(dataConsentId);
+            console.log(dataType);
+
+            return api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/modifyConsentList', {
+                "consents": [{ "consent": consent, "consentId": dataConsentId, "type": dataType }]
+            }, headers)
+
+        }).then((response) => {
+            console.log(response.body);
+            callback();
+        })
+});
+
+
+
+
+
+
 Then('the mifid consent is updated to {string}', function(consent, callback) {
     //Check if consent is "OUT"
     api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList', {}, headers)
@@ -84,6 +113,16 @@ Then('the mifid consent is not updated', function(callback) {
         .then((response) => {
             assert.equal(response.body.value.mifidCommunicationConsent.consentId, mifidConsentId);
             console.log("Mifid consent not updated");
+            callback();
+        })
+});
+
+Then('the data consent is updated to {string}', function(consent, callback) {
+    // Assert consent is not updated
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList', {}, headers)
+        .then((response) => {
+            assert.notEqual(response.body.value.dataConsent.consentId, dataConsentId);
+            console.log("Data consent is updated");
             callback();
         })
 });

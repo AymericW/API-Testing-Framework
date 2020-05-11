@@ -22,25 +22,70 @@ Given('I am logged with smid {string} and {string} as cardnumber', function(smid
     login(smid, cardnumber, callback);
 });
 
+Given('my general consent is opt in', function(callback) {
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList', {}, headers)
+        .then((response) => {
+            //console.log(response.body);
+            callback();
+        })
+
+});
+
+When('I introduce a new email address {string} with {string} usage and communication consent to {string}', function(email, usage, com_consent, callback) {
+    // Write code here that turns the phrase above into concrete actions
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/insertContactPoint', {
+        "consents": [{
+            "value": com_consent,
+            "id": "",
+            "usage": usage,
+        }],
+        "id": "",
+        "type": "03",
+        "value": email
+    }, headers).then((response) => {
+        console.log(response.body);
+        return api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList', {}, headers)
+
+
+    }).then((response) => {
+        console.log(response.body.value.eMailAddressList);
+    })
+    callback();
+});
+
+
 
 When('I retrieve my contactpoints', function(callback) {
-    api.post("https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList", {}, headers)
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList', {}, headers)
         .then((response) => {
             responseBody = response.body;
             responseStatusCode = response.statusCode;
-            console.log(responseBody);
+            //console.log(responseBody);
             console.log(responseStatusCode);
             callback();
         })
 });
 
 
+Then('I see an error message', function() {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
+
+
+Then('I see {string} in the email list', function(string) {
+    // Write code here that turns the phrase above into concrete actions
+    return 'pending';
+});
 
 Then('status code is {string}', function(status, callback) {
     // Write code here that turns the phrase above into concrete actions
     assert.equal(responseStatusCode, status);
     callback();
 });
+
+
+
 
 //POST https: //p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentData/getContactPointList
 
@@ -52,6 +97,7 @@ Then('status code is {string}', function(status, callback) {
 // 	"type":"04",
 // 	"value":"azerty@test.com",
 // 	"consents": [
-// 		{"value":"IN"}
+// 		{"value":"IN", usage: "private"}
+// 
 // 	]
 // }
