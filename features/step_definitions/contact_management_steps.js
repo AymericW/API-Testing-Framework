@@ -71,7 +71,10 @@ When('I introduce a new email address {string} with private usage and communicat
         }],
         "type": "03",
         "value": email,
-    }, headers).then((response) => IncorrectContacpointBodyResponse = response.body, callback())
+    }, headers).then((response) => {
+        IncorrectContacpointBodyResponse = response.body;
+        callback();
+    })
 });
 
 
@@ -88,7 +91,7 @@ When('I retrieve my contactpoints', function(callback) {
 
 
 Then('I see an error message', function(callback) {
-    assert.isTrue(IncorrectContacpointBodyResponse.value == true);
+    assert.isTrue(IncorrectContacpointBodyResponse.value != true);
     callback();
 });
 

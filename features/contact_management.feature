@@ -17,5 +17,5 @@ Feature: As a customer i want to manage my contact points
      Given I am logged with smid "1180546302" and "67030417188221005" as cardnumber
      And my general consent is opt "in"
      And I have no email contactpoints
-     When I introduce a new email address "j<?=->@doe.com" with private usage and communication consent to "IN"
+     When I introduce a new email address "<=->@doe.com" with private usage and communication consent to "IN"
      Then I see an error message
