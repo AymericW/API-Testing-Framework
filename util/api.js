@@ -42,14 +42,16 @@ module.exports = {
         proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
     }),
 
-    get: (url,headers) => request({
+    get: (url, headers) => request({
         url: url,
         json: true,
         resolveWithFullResponse: true,
         simple: false,
         rejectUnauthorized: false,
         headers,
-        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
+        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080",
+        insecure: true,
+        jar: cookiejar
     }),
 
     post: (url, body) => request({

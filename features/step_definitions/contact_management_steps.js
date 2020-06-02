@@ -10,7 +10,7 @@ let responseStatusCode;
 let IncorrectContacpointBodyResponse;
 
 //URLS
-const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be'
+const EASYBANKING_URL = 'https://easybanking.qabnpparibasfortis.be'
 const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01'
 
 

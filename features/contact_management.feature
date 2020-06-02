@@ -19,3 +19,16 @@ Feature: As a customer i want to manage my contact points
      And I have no email contactpoints
      When I introduce a new email address "<=->@doe.com" with private usage and communication consent to "IN"
      Then I see an error message
+
+
+  ###TO IMPLEMENT-----
+  #Add domestic phone
+  #Add domestic fixed line phone no
+  #Add foreign no
+  #Add foreign fixed line
+  #Delete email
+  #Delete mobile phone
+  #Delete fixed line
+  #Modify email
+  #Modify mobile phone
+  #Modify fixed line
