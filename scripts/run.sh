@@ -1,7 +1,6 @@
 Feature=$1
 kinit -k -t G47594.keytab G47594@INT.SYS.SHARED.FORTIS
 unset HTTP_PROXY
-npm config set registry http://cipcentral-prod.be.net.intra/nexus/repository/BNPPF_NPM/
 npm install
 export HTTP_PROXY="http://nwbcproxy.res.sys.shared.fortis:8080"
 npm start features/$Feature.feature -- --format json:$Feature.json || true

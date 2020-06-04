@@ -49,13 +49,20 @@ When('I try to modify the details of non_related_smid', function(callback) {
 });
 
 When('I start the e-contract flow', function(callback) {
-    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest', {}, headers)
+    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest', { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.body);
             callback();
         })
-})
+});
 
+When('I create an Ocu Request for a non_related_smid', function(callback) {
+    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest/1858973291', { "updateType": "EID" }, headers)
+        .then((response) => {
+            console.log(response.body);
+            callback();
+        })
+});
 
 
 Then('I should see the eID update button', function(callback) {
