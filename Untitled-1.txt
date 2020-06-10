@@ -1,0 +1,10 @@
+curl --insecure --negotiate --user : --cookie-jar cookies.txt --location https://i-net800-qa.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP
+
+
+curl -L --cookie cookies.txt --negotiate --user : -vk \
+          -H \'Cookie: CSRF=7J2vNthZH8qrMarOBTirxJZT9IT0aTeKEftAQvHT1Q0zzwK5V8tzobkb6vxoCch0ixLknFdv6qkmUrGrdLu0imsAuTamQBiwAEKBCPWX15oPhTI7Ag8w17OIPNul6phI\' \
+          -H \'CSRF: 7J2vNthZH8qrMarOBTirxJZT9IT0aTeKEftAQvHT1Q0zzwK5V8tzobkb6vxoCch0ixLknFdv6qkmUrGrdLu0imsAuTamQBiwAEKBCPWX15oPhTI7Ag8w17OIPNul6phI\' \\
+          -H \'Content-Type: application/json\' \
+          -d \'{"clientNumber": "' + $smid.to_s + '", "callMode": "01", "previousWindowFlag": "0"}\' \
+          https://i-net800-qa.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP
+

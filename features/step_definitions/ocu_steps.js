@@ -3,6 +3,7 @@ const assert = require('chai').assert;
 const api = require('../../util/api');
 const login = require('../../util/login');
 let bodyResponse;
+let surnameResponse;
 const csrf = '2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2';
 
 const headers = {
@@ -27,7 +28,9 @@ Given('I am on the personal data page', function(callback) {
             console.log(response.body);
             callback();
         })
-})
+});
+
+
 
 When('I click on modify details', function(callback) {
     api.get(OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions', headers)
@@ -48,6 +51,18 @@ When('I try to modify the details of non_related_smid', function(callback) {
         })
 });
 
+
+
+When('I try to modify the details of related_smid', function(callback) {
+    api.get(OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions/"TODO"', headers)
+        .then((response) => {
+            bodyResponse = response.body;
+            console.log(response.body);
+            callback();
+        })
+});
+
+
 When('I start the e-contract flow', function(callback) {
     api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest', { "updateType": "EID" }, headers)
         .then((response) => {
@@ -64,6 +79,36 @@ When('I create an Ocu Request for a non_related_smid', function(callback) {
         })
 });
 
+When('I create an Ocu Request for a related_smid', function(callback) {
+    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest/"TODO"', { "updateType": "EID" }, headers)
+        .then((response) => {
+            console.log(response.body);
+            callback();
+        })
+});
+
+When('I request the e-contract URL', function(callback) {
+    api.get(OCPL_PR01 + '/rpc/e-contract', headers)
+        .then((response) => {
+            console.log(response.body);
+            callback();
+        })
+})
+
+When('I retrieve my personal data', function(callback) {
+    api.get(OCPL_PR01 + '/rpc/customers/getPersonalData', headers)
+        .then((response) => {
+            console.log(response.body);
+            surnameResponse = response.body;
+            callback();
+        })
+})
+
+
+Then('I should receive the correct URL', function(callback) {
+    //TODO
+    callback();
+})
 
 Then('I should see the eID update button', function(callback) {
     //TODO
@@ -71,5 +116,12 @@ Then('I should see the eID update button', function(callback) {
 });
 
 Then('I should see an error', function(callback) {
+    //TODO
     callback();
 });
+
+Then("The surname is smid {string}", function(surname, callback) {
+    //TODO
+    assert.equal(surnameResponse, surname);
+    callback();
+})

@@ -10,7 +10,7 @@ let responseStatusCode;
 let IncorrectContacpointBodyResponse;
 
 //URLS
-const EASYBANKING_URL = 'https://easybanking.qabnpparibasfortis.be'
+const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be'
 const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01'
 
 
@@ -39,6 +39,7 @@ Given('I am logged with smid {string} and {string} as cardnumber', function(smid
 Given('my general consent is opt {string}', function(consent, callback) {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
+            console.log(response.body);
             consentId = response.body.value.dataConsent.consentId
             if (response.body.value.dataConsent.consent == "NC" || response.body.value.dataConsent.consent == "OU") {
                 api.post(MODIFY_CONSENT_LIST_URL, {

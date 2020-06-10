@@ -21,10 +21,10 @@ Then I should see an error
 # When I try to modify the details of <related_smid>
 # Then I can see the list of restrictions
 
-# Scenario: Create an Ocu Request for your smid
-# Given I am logged with smid
-# When I start the e-contract flow
-# Then I should see the waiting screen
+Scenario: Create an Ocu Request for your smid
+Given I am logged with smid
+When I start the e-contract flow
+Then I should see the waiting screen
 
 # Scenario: Create an Ocu Request for a <related_smid>
 # Given I am logged with smid
@@ -44,7 +44,7 @@ Then I should see an error
 # Scenario: Retrieve personal data
 # Given I am logged with smid
 # When I retrieve my personal data
-# Then the surname is <surname>
+# Then The surname is "smid"
 
 # Scenario: Retrieve personal data for a <non_related_smid>
 # Given I am logged with smid
