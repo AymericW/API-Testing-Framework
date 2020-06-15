@@ -78,7 +78,24 @@ When('I introduce a new email address {string} with private usage and communicat
     })
 });
 
-
+When('I introduce a new domestic phone number {string} with {string}', function(phone_number, type, callback) {
+    api.post(INSERT_CONCTACTPOINT_URL, {
+        "consents": [{
+                "value": "NC",
+                "usage": "SMS"
+            },
+            {
+                "value": "NC",
+                "usage": "CALL"
+            }
+        ],
+        "type": type,
+        "value": phone_number
+    }, headers).then((response) => {
+        console.log(response.body);
+        callback();
+    })
+});
 
 When('I retrieve my contactpoints', function(callback) {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
@@ -109,6 +126,28 @@ Then('I see {string} in the email list', function(expectedEmail, callback) {
 
             //assert.isNotEmpty(filteredEmails);
         });
+});
+
+Then('I see {string} in the phone number list with {string}', function(expectedPhoneNumber, expectedType, callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            //console.log(response.body);
+            //console.log(response.body.value.mobilePhoneList);
+            const phoneNumbers = response.body.value.mobilePhoneList;
+
+            const filteredTypes = phoneNumbers.filter(phoneNumbers => phoneNumbers.type == expectedType);
+            const filteredNumbers = phoneNumbers.filter(phoneNumbers => phoneNumbers.value == expectedPhoneNumber);
+
+            if (!assert.isNotEmpty(filteredTypes)) {
+                console.log(filteredTypes);
+                callback();
+            }
+            if (!assert.isNotEmpty(filteredNumbers)) {
+                console.log(filteredNumbers);
+                callback();
+            }
+            callback();
+        })
 });
 
 Then('status code is {string}', function(status, callback) {
