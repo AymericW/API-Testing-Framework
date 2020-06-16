@@ -65,6 +65,37 @@ Given('I have no email contactpoints', function(callback) {
         })
 })
 
+Given('I have no phone number contact points', function(callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const phoneNumbers = response.body.value.mobilePhoneList;
+
+            const promises = phoneNumbers.map(number =>
+                api.post(DELETE_CONTACTPOINT_URL, {
+                    "id": number.id
+                }, headers)
+            );
+            Promise.all(promises).then(() => callback())
+        })
+})
+
+Given('There is <phone_number> number in the list with type <type>', function(phoneNumber, type, callback) {
+    api.post(INSERT_CONCTACTPOINT_URL, {
+        "consents": [{
+                "value": "NC",
+                "usage": "SMS"
+            },
+            {
+                "value": "NC",
+                "usage": "CALL"
+            }
+        ],
+        "type": type,
+        "value": phoneNumber
+    }, headers).then(() => callback())
+});
+
+
 When('I introduce a new email address {string} with private usage and communication consent to {string}', function(email, com_consent, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
@@ -81,10 +112,12 @@ When('I introduce a new email address {string} with private usage and communicat
 When('I introduce a new domestic phone number {string} with {string}', function(phone_number, type, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
-                "value": "NC"
+                "value": "NC",
+                "usage": "SMS"
             },
             {
-                "value": "NC"
+                "value": "NC",
+                "usage": "CALL"
             }
         ],
         "type": type,
@@ -105,6 +138,21 @@ When('I retrieve my contactpoints', function(callback) {
         })
 });
 
+When('I delete all the mobile phones', function(callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const phoneNumbers = response.body.value.mobilePhoneList;
+
+            const promises = phoneNumbers.map(number =>
+                api.post(DELETE_CONTACTPOINT_URL, {
+                    "id": number.id
+                }, headers)
+            );
+            Promise.all(promises).then(() => callback())
+        })
+});
+
+
 
 Then('I see an error message', function(callback) {
     assert.isTrue(IncorrectContacpointBodyResponse.value != true);
@@ -122,28 +170,31 @@ Then('I see {string} in the email list', function(expectedEmail, callback) {
             assert.notEqual(filteredEmails.length, 0);
             callback();
 
-            //assert.isNotEmpty(filteredEmails);
         });
 });
 
+
+//TODO
 Then('I see {string} in the phone number list with {string}', function(expectedPhoneNumber, expectedType, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
             //console.log(response.body);
             //console.log(response.body.value.mobilePhoneList);
+
+
             const phoneNumbers = response.body.value.mobilePhoneList;
+            console.log('PHONENUMBERS');
+            console.log(phoneNumbers);
 
-            const filteredTypes = phoneNumbers.filter(phoneNumbers => phoneNumbers.type == expectedType);
-            const filteredNumbers = phoneNumbers.filter(phoneNumbers => phoneNumbers.value == expectedPhoneNumber);
+            //We do the substring to remove the 0032 that the API adds
+            // The substring on ExpectedPhone is to delete the "0" at the front. The API switches the 0 to 0032 during the insertion.
+            const filteredNumbers = phoneNumbers.filter(phoneNumbers => phoneNumbers.value.substring(4) == expectedPhoneNumber.substring(1));
+            console.log('FILTEREDNUMBERS');
+            console.log(filteredNumbers);
 
-            if (!assert.isNotEmpty(filteredTypes)) {
-                console.log(filteredTypes);
-                callback();
-            }
-            if (!assert.isNotEmpty(filteredNumbers)) {
-                console.log(filteredNumbers);
-                callback();
-            }
+            //     assert.isNotEmpty(filteredTypes);
+
+            //    assert.isNotEmpty(filteredNumbers);
             callback();
         })
 });
@@ -152,3 +203,14 @@ Then('status code is {string}', function(status, callback) {
     assert.equal(responseStatusCode, status);
     callback();
 });
+
+Then('I should not see any mobile phone in the list', function(callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const phoneNumbers = response.body.value.mobilePhoneList;
+
+            assert.isEmpty(phoneNumbers);
+
+            callback();
+        })
+})
