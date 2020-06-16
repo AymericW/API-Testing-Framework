@@ -36,15 +36,15 @@ Feature: As a customer I want to be able to modify my customer data
 #  When I create an Ocu Request for a non_related_smid
 #  Then I should see an errorcode
 
- Scenario: Get the e-contract URL
- Given I am logged with smid
- When I request the e-contract URL
- Then I should receive the correct URL
+#  Scenario: Get the e-contract URL
+#  Given I am logged with smid
+#  When I request the e-contract URL
+#  Then I should receive the correct URL
 
-# Scenario: Retrieve personal data
-# Given I am logged with smid
-# When I retrieve my personal data
-# Then The surname is "smid"
+ Scenario: Retrieve personal data
+ Given I am logged with smid
+ When I retrieve my personal data
+ Then The surname is "MUKUNDAY"
 
 # Scenario: Retrieve personal data for a <non_related_smid>
 # Given I am logged with smid

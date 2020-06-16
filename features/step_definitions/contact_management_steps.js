@@ -81,12 +81,10 @@ When('I introduce a new email address {string} with private usage and communicat
 When('I introduce a new domestic phone number {string} with {string}', function(phone_number, type, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
-                "value": "NC",
-                "usage": "SMS"
+                "value": "NC"
             },
             {
-                "value": "NC",
-                "usage": "CALL"
+                "value": "NC"
             }
         ],
         "type": type,

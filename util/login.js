@@ -4,6 +4,7 @@ const root_url = "https://p1.easybanking.qabnpparibasfortis.be";
 const Shell = require('node-powershell');
 // const { exec, spawn } = require("child_process");
 // let child;
+// let command;
 
 
 const distributorId = '52FB001';
@@ -80,7 +81,8 @@ const login = (smid, cardNumber, callback) => {
 
             ps.addCommand('./../bypass.ps1');
 
-            // exec('"../scripts/script.sh"', (error, stdout, stderr) => {
+            // command = "../scripts/script.sh";
+            // exec(command, (error, stdout, stderr) => {
             //     if (error) {
             //         throw error;
             //     }

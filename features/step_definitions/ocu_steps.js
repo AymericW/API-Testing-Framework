@@ -19,8 +19,13 @@ const headers = {
 }
 
 //URLS
-const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be'
-const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01'
+const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be';
+const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01';
+
+
+const GET_CONTACTPOINT_LIST_URL = OCPL_PR01 + '/rpc/consentData/getContactPointList';
+const CHECK_UPDATE_RESTRICTIONS_URL = OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions';
+const CREATE_OCU_REQUEST_URL = OCPL_PR01 + '/rpc/updateRequest/createOcuRequest';
 
 //Gherkin Steps
 
@@ -30,8 +35,9 @@ Given('I am logged with smid', (callback) => {
 
 
 Given('I am on the personal data page', function(callback) {
-    api.post(OCPL_PR01 + '/rpc/consentData/getContactPointList', {}, headers)
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
+            assert.equal(response, '200');
             callback();
         })
 });
@@ -39,7 +45,7 @@ Given('I am on the personal data page', function(callback) {
 
 
 When('I click on modify details', function(callback) {
-    api.get(OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions', headers)
+    api.get(CHECK_UPDATE_RESTRICTIONS_URL, headers)
         .then((response) => {
             EidUpdateResponse = response.body.value.isEidUpdateAvailable;
             console.log(EidUpdateResponse);
@@ -49,7 +55,7 @@ When('I click on modify details', function(callback) {
 
 
 When('I try to modify the details of non_related_smid', function(callback) {
-    api.get(OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions/1353974538', headers)
+    api.get(CHECK_UPDATE_RESTRICTIONS_URL + '/1353974538', headers)
         .then((response) => {
             console.log('Non related SMID checkUpdateRestrictions');
             EidUpdateResponse = response.body.value.isEidUpdateAvailable;
@@ -61,7 +67,7 @@ When('I try to modify the details of non_related_smid', function(callback) {
 
 
 When('I try to modify the details of related_smid', function(callback) {
-    api.get(OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions/"TODO"', headers)
+    api.get(CHECK_UPDATE_RESTRICTIONS_URL + '/TODO', headers)
         .then((response) => {
             bodyResponse = response.body;
             console.log(response.body);
@@ -71,7 +77,7 @@ When('I try to modify the details of related_smid', function(callback) {
 
 
 When('I start the e-contract flow', function(callback) {
-    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest', { "updateType": "EID" }, headers)
+    api.post(CREATE_OCU_REQUEST_URL, { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.statusCode);
             OcuRequestStatusCode = response.statusCode;
@@ -80,7 +86,7 @@ When('I start the e-contract flow', function(callback) {
 });
 
 When('I create an Ocu Request for a non_related_smid', function(callback) {
-    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest/1858973291', { "updateType": "EID" }, headers)
+    api.post(CREATE_OCU_REQUEST_URL + '/1858973291', { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.statusCode);
             OcuRequestStatusCode = response.statusCode
@@ -89,7 +95,7 @@ When('I create an Ocu Request for a non_related_smid', function(callback) {
 });
 
 When('I create an Ocu Request for a related_smid', function(callback) {
-    api.post(OCPL_PR01 + '/rpc/updateRequest/createOcuRequest/"TODO"', { "updateType": "EID" }, headers)
+    api.post(CREATE_OCU_REQUEST_URL + '/TODO', { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.body);
             callback();
@@ -108,15 +114,13 @@ When('I request the e-contract URL', function(callback) {
 When('I retrieve my personal data', function(callback) {
     api.get(OCPL_PR01 + '/rpc/customers/getPersonalData', headers)
         .then((response) => {
-            console.log(response.body);
-            surnameResponse = response.body;
+            surnameResponse = response.body.value.identity.firstName;
             callback();
         })
 })
 
 
 Then('I should receive the correct URL', function(callback) {
-    //TODO
     assert.isNotEmpty(eContractUrlResponse.value.url);
     callback();
 })
@@ -137,8 +141,7 @@ Then('I should see an errorcode', function(callback) {
 });
 
 
-Then("The surname is smid {string}", function(surname, callback) {
-    //TODO
+Then("The surname is {string}", function(surname, callback) {
     assert.equal(surnameResponse, surname);
     callback();
 });
