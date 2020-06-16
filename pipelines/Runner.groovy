@@ -33,6 +33,7 @@ node ('Customers_slave'){
             steps.sh "npm install"
         }
         stage ('Run the script(contact_management.feature)') {
+            steps.sh "sh ./scripts/script.sh"
             steps.sh "sh ./scripts/run.sh 'contact_management'"
         }
     
