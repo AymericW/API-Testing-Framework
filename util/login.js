@@ -2,6 +2,7 @@ const querystring = require('querystring');
 const api = require('./api');
 const root_url = "https://p1.easybanking.qabnpparibasfortis.be";
 const Shell = require('node-powershell');
+const execute = require('execute-shell-promise');
 // const { exec, spawn } = require("child_process");
 // let child;
 // let command;
@@ -88,6 +89,10 @@ const login = (smid, cardNumber, callback) => {
             //     }
             //     console.log(stdout);
             // });
+
+            // execute('../scripts/script.sh').then((response) => {
+            //     console.log(response);
+            // })
 
             return ps.invoke().then((output) => {
                 console.log(output)

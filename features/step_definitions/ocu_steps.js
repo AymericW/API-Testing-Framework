@@ -37,7 +37,7 @@ Given('I am logged with smid', (callback) => {
 Given('I am on the personal data page', function(callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
-            assert.equal(response, '200');
+            assert.equal(response.statusCode, '200');
             callback();
         })
 });
