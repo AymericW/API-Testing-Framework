@@ -60,20 +60,30 @@ Feature: As a customer i want to manage my contact points
  
   #Modify email
   Scenario Outline: Modifying an email
-    Given I am logged with smid "1180546302" and "67030417188221005" as cardnumber with token
+    Given I am logged with smid "1180546302" and "67030417188221005" as cardnumber
     And <email> is added to current smid
     When I modify an existing email address <email> to <new_email>
     Then I see the modified <new_email> email in the list
 
     Examples:
-    | email             | new_email       | 
-    | simondoe@doe.com  | test@gmail.be   | 
-    | aymeric@doe.com   | joy@gmail.be    | 
+    | email               | new_email         | 
+    | "simondoe@doe.com"  | "test@gmail.be"   | 
+    | "aymeric@doe.com"   | "joy@gmail.be"    | 
 
 
 
-  #Modify mobile phone
-  #Modify fixed line
+  #Modify mobile phone and fixed line 
+  Scenario Outline: Modify mobile phone
+  Given I am logged with smid "1180546302" and "67030417188221005" as cardnumber
+  And There is <number> number in the list with type <type>
+  When I modify an existing phone number <number> to <new_Number>
+  Then I see <new_Number> in the phone number list with <type>
+
+  Examples:
+       |    number    |  type  |   new_Number  |
+       | "014145896"  |  "01"  | "33856895600" |
+       | "0489145890" |  "05"  | "0470068956"  |
+  
 
   # 03 is private Email and 04 is professional Email
   # 05 is GSM

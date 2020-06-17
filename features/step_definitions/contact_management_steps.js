@@ -32,8 +32,8 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
-function FilterContactPoints(list, base, actualValue, expectedValue) {
-    return filteredArray = list.filter(base => actualValue == expectedValue);
+function FilterContactPoints(list, expectedValue) {
+    return filteredArray = list.filter(base => base.value == expectedValue);
 }
 
 
@@ -105,7 +105,7 @@ Given('There is {string} number in the list with type {string}', function(phoneN
 Given('{string} is added to current smid', function(email, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
-            "value": com_consent,
+            "value": "IN",
         }],
         "type": "03",
         "value": email,
@@ -113,12 +113,30 @@ Given('{string} is added to current smid', function(email, callback) {
 });
 
 
+When('I modify an existing phone number {string} to {string}', function(baseNumber, newNumber, callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const phoneNumbers = response.body.value.mobilePhoneList
+
+            const filteredNumbers = FilterContactPoints(phoneNumbers, baseNumber);
+
+            api.post(MODIFY_CONTACTPOINT_URL, {
+                "consents": [{
+                    "value": "OU",
+                }],
+                "id": filteredNumbers[0].id,
+                "type": filteredNumbers[0].type,
+                "value": newNumber
+            }, headers).then(() => callback())
+        })
+});
+
 When('I modify an existing email address {string} to {string}', function(baseEmail, newEmail, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
             const emails = response.body.value.eMailAddressList;
 
-            const filteredEmails = emails.filter(email => email.value == baseEmail);
+            const filteredEmails = FilterContactPoints(emails, baseEmail);
 
             api.post(MODIFY_CONTACTPOINT_URL, {
                 "consents": [{
@@ -135,7 +153,7 @@ When('I modify an existing email address {string} to {string}', function(baseEma
 When('I introduce a new email address {string} with private usage and communication consent to {string}', function(email, com_consent, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
-            "value": "IN",
+            "value": com_consent,
         }],
         "type": "03",
         "value": email,
@@ -219,8 +237,6 @@ Then('I see {string} in the phone number list with {string}', function(expectedP
         .then((response) => {
 
             const phoneNumbers = response.body.value.mobilePhoneList;
-            console.log('PHONENUMBERS');
-            console.log(phoneNumbers);
 
             //We do the substring to remove the 0032 that the API adds
             // The substring on ExpectedPhone is to delete the "0" at the front. The API switches the 0 to 0032 during the insertion.
@@ -229,6 +245,8 @@ Then('I see {string} in the phone number list with {string}', function(expectedP
             console.log(filteredNumbers);
 
             assert.isNotEmpty(filteredNumbers);
+            assert.equal(filteredNumbers[0].type, expectedType);
+
             callback();
         })
 });
@@ -254,8 +272,7 @@ Then('I see the modified {string} email in the list', function(newEmail, callbac
         .then((response) => {
             const modifiedEmailList = response.body.value.eMailAddressList
 
-            FilterContactPoints(modifiedEmailList, email, email.value, newEmail);
-            //filteredEmails = modifiedEmailList.filter(email => email.value == newEmail);
+            filteredEmails = FilterContactPoints(modifiedEmailList, newEmail);
 
             assert.isNotEmpty(filteredEmails);
 
