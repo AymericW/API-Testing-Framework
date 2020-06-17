@@ -7,7 +7,7 @@ const login = require('../../util/login');
 const csrf = '2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2';
 let responseBody;
 let responseStatusCode;
-let IncorrectContacpointBodyResponse;
+let IncorrectContactpointBodyResponse;
 
 //URLS
 const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be'
@@ -17,6 +17,8 @@ const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01'
 const GET_CONTACTPOINT_LIST_URL = OCPL_PR01 + '/rpc/consentData/getContactPointList';
 const DELETE_CONTACTPOINT_URL = OCPL_PR01 + '/rpc/consentData/deleteContactPoint';
 const INSERT_CONCTACTPOINT_URL = OCPL_PR01 + '/rpc/consentData/insertContactPoint';
+const MODIFY_CONTACTPOINT_URL = OCPL_PR01 + '/rpc/consentData/modifyContactPoint';
+
 
 const GET_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/getConsentList';
 const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsentList';
@@ -29,6 +31,11 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
     'Content-Type': 'application/json'
 }
+
+function FilterContactPoints(list, base, actualValue, expectedValue) {
+    return filteredArray = list.filter(base => actualValue == expectedValue);
+}
+
 
 
 
@@ -79,7 +86,7 @@ Given('I have no phone number contact points', function(callback) {
         })
 })
 
-Given('There is <phone_number> number in the list with type <type>', function(phoneNumber, type, callback) {
+Given('There is {string} number in the list with type {string}', function(phoneNumber, type, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
                 "value": "NC",
@@ -95,16 +102,45 @@ Given('There is <phone_number> number in the list with type <type>', function(ph
     }, headers).then(() => callback())
 });
 
-
-When('I introduce a new email address {string} with private usage and communication consent to {string}', function(email, com_consent, callback) {
+Given('{string} is added to current smid', function(email, callback) {
     api.post(INSERT_CONCTACTPOINT_URL, {
         "consents": [{
             "value": com_consent,
         }],
         "type": "03",
         "value": email,
+    }, headers).then(() => callback())
+});
+
+
+When('I modify an existing email address {string} to {string}', function(baseEmail, newEmail, callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const emails = response.body.value.eMailAddressList;
+
+            const filteredEmails = emails.filter(email => email.value == baseEmail);
+
+            api.post(MODIFY_CONTACTPOINT_URL, {
+                "consents": [{
+                    "value": "OU",
+                }],
+                "id": filteredEmails[0].id,
+                "type": "03",
+                "value": newEmail
+            }, headers).then(() => callback())
+        })
+});
+
+
+When('I introduce a new email address {string} with private usage and communication consent to {string}', function(email, com_consent, callback) {
+    api.post(INSERT_CONCTACTPOINT_URL, {
+        "consents": [{
+            "value": "IN",
+        }],
+        "type": "03",
+        "value": email,
     }, headers).then((response) => {
-        IncorrectContacpointBodyResponse = response.body;
+        IncorrectContactpointBodyResponse = response.body;
         callback();
     })
 });
@@ -154,8 +190,11 @@ When('I delete all the mobile phones', function(callback) {
 
 
 
+
+
+
 Then('I see an error message', function(callback) {
-    assert.isTrue(IncorrectContacpointBodyResponse.value != true);
+    assert.isTrue(IncorrectContactpointBodyResponse.value != true);
     callback();
 });
 
@@ -178,9 +217,6 @@ Then('I see {string} in the email list', function(expectedEmail, callback) {
 Then('I see {string} in the phone number list with {string}', function(expectedPhoneNumber, expectedType, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
-            //console.log(response.body);
-            //console.log(response.body.value.mobilePhoneList);
-
 
             const phoneNumbers = response.body.value.mobilePhoneList;
             console.log('PHONENUMBERS');
@@ -192,9 +228,7 @@ Then('I see {string} in the phone number list with {string}', function(expectedP
             console.log('FILTEREDNUMBERS');
             console.log(filteredNumbers);
 
-            //     assert.isNotEmpty(filteredTypes);
-
-            //    assert.isNotEmpty(filteredNumbers);
+            assert.isNotEmpty(filteredNumbers);
             callback();
         })
 });
@@ -210,6 +244,20 @@ Then('I should not see any mobile phone in the list', function(callback) {
             const phoneNumbers = response.body.value.mobilePhoneList;
 
             assert.isEmpty(phoneNumbers);
+
+            callback();
+        })
+});
+
+Then('I see the modified {string} email in the list', function(newEmail, callback) {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const modifiedEmailList = response.body.value.eMailAddressList
+
+            FilterContactPoints(modifiedEmailList, email, email.value, newEmail);
+            //filteredEmails = modifiedEmailList.filter(email => email.value == newEmail);
+
+            assert.isNotEmpty(filteredEmails);
 
             callback();
         })

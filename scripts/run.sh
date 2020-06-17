@@ -1,9 +1,10 @@
 Feature=$1
+token=$2
 kinit -k -t G47594.keytab G47594@INT.SYS.SHARED.FORTIS
 unset HTTP_PROXY
 npm install
 export HTTP_PROXY="http://nwbcproxy.res.sys.shared.fortis:8080"
-npm start features/$Feature.feature -- --format json:$Feature.json || true
+npm start features/$Feature.feature -- --format json:$Feature.json --token || true
 
 
 # unset HTTP_PROXY  
