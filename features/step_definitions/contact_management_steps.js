@@ -117,8 +117,12 @@ When('I modify an existing phone number {string} to {string}', function(baseNumb
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
             const phoneNumbers = response.body.value.mobilePhoneList
+            console.log(phoneNumbers);
 
-            const filteredNumbers = FilterContactPoints(phoneNumbers, baseNumber);
+            const filteredNumbers = phoneNumbers.filter(number => number.value.substring(4) == baseNumber.substring(1));
+            // const filteredNumbers = FilterContactPoints(phoneNumbers, baseNumber);
+
+            console.log(filteredNumbers);
 
             api.post(MODIFY_CONTACTPOINT_URL, {
                 "consents": [{
@@ -127,7 +131,10 @@ When('I modify an existing phone number {string} to {string}', function(baseNumb
                 "id": filteredNumbers[0].id,
                 "type": filteredNumbers[0].type,
                 "value": newNumber
-            }, headers).then(() => callback())
+            }, headers).then((response) => {
+                console.log(response.body);
+                callback()
+            })
         })
 });
 
@@ -227,7 +234,7 @@ Then('I see {string} in the phone number list with {string}', function(expectedP
         .then((response) => {
 
             const phoneNumbers = response.body.value.mobilePhoneList;
-
+            console.log(phoneNumbers);
             //We do the substring to remove the 0032 that the API adds
             // The substring on ExpectedPhone is to delete the "0" at the front. The API switches the 0 to 0032 during the insertion.
             const filteredNumbers = phoneNumbers.filter(phoneNumbers => phoneNumbers.value.substring(4) == expectedPhoneNumber.substring(1));
