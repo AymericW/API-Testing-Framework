@@ -66,4 +66,10 @@ Then('I see the list of countries and {string} is included', function(Oldcountry
 Then('I see nationality is Belgian', function(callback) {
     assert.equal(nationalityResponse, 'BELGE');
     callback();
+});
+
+Then('I do not see the incorrect country in the list', function(callback) {
+    const filteredcountry = countryList.filter(country => country.code == '00');
+    assert.isEmpty(filteredcountry);
+    callback();
 })
