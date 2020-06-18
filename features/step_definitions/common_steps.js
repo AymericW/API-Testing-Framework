@@ -18,7 +18,3 @@ const headers = {
 Then('the response status is {string}', (code) => {
     assert.equal(global.statusCode, code);
 });
-
-// Given('I am logged with smid', (callback) => {
-//     login('1151379451', '67030417199845727', callback);
-// });

@@ -27,6 +27,7 @@ const GET_CONTACTPOINT_LIST_URL = OCPL_PR01 + '/rpc/consentData/getContactPointL
 const CHECK_UPDATE_RESTRICTIONS_URL = OCPL_PR01 + '/rpc/ocuVerify/checkUpdateRestrictions';
 const CREATE_OCU_REQUEST_URL = OCPL_PR01 + '/rpc/updateRequest/createOcuRequest';
 
+//SMID 1180546302 , 67030417188221005
 //Gherkin Steps
 
 Given('I am logged with smid', (callback) => {
@@ -47,6 +48,7 @@ Given('I am on the personal data page', function(callback) {
 When('I click on modify details', function(callback) {
     api.get(CHECK_UPDATE_RESTRICTIONS_URL, headers)
         .then((response) => {
+            console.log(response.body);
             EidUpdateResponse = response.body.value.isEidUpdateAvailable;
             console.log(EidUpdateResponse);
             callback();

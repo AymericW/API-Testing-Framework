@@ -182,16 +182,6 @@ When('I introduce a new domestic phone number {string} with {string}', function(
     })
 });
 
-When('I retrieve my contactpoints', function(callback) {
-    api.post(GET_CONSENT_LIST_URL, {}, headers)
-        .then((response) => {
-            responseBody = response.body;
-            responseStatusCode = response.statusCode;
-            console.log(responseStatusCode);
-            callback();
-        })
-});
-
 When('I delete all the mobile phones', function(callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {

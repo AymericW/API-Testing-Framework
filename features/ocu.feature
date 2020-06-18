@@ -11,10 +11,10 @@ Feature: As a customer I want to be able to modify my customer data
  When I click on modify details
  Then I should see the eID update button
 
-#  Scenario: Verify update restrictions for a <non_related_smid>
-#  Given I am logged with smid
-#  When I try to modify the details of non_related_smid
-#  Then I should see an error
+  Scenario: Verify update restrictions for a <non_related_smid>
+  Given I am logged with smid
+  When I try to modify the details of non_related_smid
+  Then I should see an error
 
 # Scenario: Verify update restrictions for a <related_smid>
 # Given I am logged with smid
