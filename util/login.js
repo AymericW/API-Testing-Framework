@@ -80,7 +80,8 @@ const login = (smid, cardNumber, callback) => {
                 noProfile: true
             })
 
-            ps.addCommand('./../bypass.ps1');
+            //ps.addCommand('./../bypass.ps1');
+            ps.addCommand("powershell -command '& { . ./../bypass.ps1; MyUcrbypass "+smid+"}'")
 
             // command = "curl -vk --negotiate --user : --cookie-jar cookies.txt --location https://i-net800-qa.be.fortis.bank/EBPGJ01"
 
