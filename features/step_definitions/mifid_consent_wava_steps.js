@@ -31,6 +31,7 @@ When('I update my mifid consent to {string}', function(consent, callback) {
     api.post('https://easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/consentManagement/getConsentList', {}, headers)
         .then((response) => {
             console.log("Got Consent Lists")
+            console.log(response.body)
             bodyResponse = response.body
             statusResponse = response.statusCode
             mifidConsentId = response.body.value.mifidCommunicationConsent.consentId
