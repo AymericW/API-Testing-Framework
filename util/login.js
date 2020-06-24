@@ -80,7 +80,8 @@ const login = (smid, cardNumber, callback) => {
                 noProfile: true
             })
 
-            ps.addCommand('./../bypass.ps1');
+            //ps.addCommand('./../bypass.ps1');
+            ps.addCommand("powershell -command '& { . ./../bypass.ps1; MyUcrbypass "+smid+"}'")
 
 
             return ps.invoke().then((output) => {
