@@ -60,7 +60,6 @@ When('I try to modify the details of non_related_smid', function(callback) {
     api.get(CHECK_UPDATE_RESTRICTIONS_URL + '/1353974538', headers)
         .then((response) => {
             console.log('Non related SMID checkUpdateRestrictions');
-            //EidUpdateResponse = response.body.value.isEidUpdateAvailable;
             console.log(response.body);
             callback();
         })
