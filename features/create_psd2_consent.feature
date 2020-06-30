@@ -15,6 +15,5 @@ Feature: Revoke consent
     Then The psd2 consent is created
 
     Scenario: Create 20 + PDS2 consents in fintro
-    Given I get the list of accounts of a user in "Fortis"
-    When I create a psd2 consent in "Fortis"
+    When I create more than twenty psd2 consents in "Fintro"
     Then The psd2 consent is created

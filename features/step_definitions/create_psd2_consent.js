@@ -131,11 +131,14 @@ When('I create a psd2 consent in {string}', (brand) => {
 
 When('I create more than twenty psd2 consents in {string}', (brand, callback) => {
     const headers = brand == "Fintro"? fintroLoadMoreHeader: fortisLoadMoreHeader;
+    const fortisAccountNumberList = ["BE47001257225080", "BE68001826823834"];
+    const fintroAccountNumberList = ["BE38143086336872", "BE38143086336872"];
+    const accountNumberList = brand =="Fintro"? fintroAccountNumberList: fortisAccountNumberList;
+
     const clientIdList =  ["k4QztmnS20", "NvWt0TLS20", "pWnsrsTS20", "ssI8usTS20",
         "kXqD7uTS20", "QPg0suTS20", "3YSBIvTS20", "5mszewTS20", 
         "JQQFnwTS20", "Y5PyIxTS20", "BNJBtBUS20", "nwsQ5DUS20", 
         "ra84kDUS20", "NTUSQVUS20", "sFTQ6WUS20", "rH1fkWUS20"];
-    const accountNumberList = ["BE47001257225080", "BE68001826823834"];
 
     const createConsentPromise = (headers, clientId, accountNumber) => {
         return getListOfAccounts(headers)
