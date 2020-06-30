@@ -195,10 +195,7 @@ When('I introduce a new domestic phone number {string} with {string}', function(
         ],
         "type": type,
         "value": phone_number
-    }, headers).then((response) => {
-        console.log(response.body);
-        callback();
-    })
+    }, headers).then(() => callback())
 });
 
 When('I delete all the mobile phones', function(callback) {
@@ -230,13 +227,11 @@ Then('I see an error message', function(callback) {
 Then('I see {string} in the email list', function(expectedEmail, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
-            const emails = response.body.value.eMailAddressList
 
-            const filteredEmails = FilterContactPoints(emails, expectedEmail);
+            const filteredEmails = FilterContactPoints(response.body.value.eMailAddressList, expectedEmail);
 
             assert.notEqual(filteredEmails.length, 0);
             callback();
-
         });
 });
 
@@ -269,9 +264,8 @@ Then('status code is {string}', function(status, callback) {
 Then('I should not see any mobile phone in the list', function(callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
-            const phoneNumbers = response.body.value.mobilePhoneList;
 
-            assert.isEmpty(phoneNumbers);
+            assert.isEmpty(response.body.value.mobilePhoneList);
 
             callback();
         })
@@ -280,9 +274,8 @@ Then('I should not see any mobile phone in the list', function(callback) {
 Then('I see the modified {string} email in the list', function(newEmail, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
-            const modifiedEmailList = response.body.value.eMailAddressList
 
-            filteredEmails = FilterContactPoints(modifiedEmailList, newEmail);
+            filteredEmails = FilterContactPoints(response.body.value.eMailAddressList, newEmail);
 
             assert.isNotEmpty(filteredEmails);
 

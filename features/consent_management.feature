@@ -1,3 +1,5 @@
+ Feature: As a customer I'd like to change my consents without any troubles
+ 
  Scenario Outline: Set every consent to yes
         Given I log in
         And I go to the contact details settings
