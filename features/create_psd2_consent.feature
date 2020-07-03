@@ -17,3 +17,8 @@ Feature: Revoke consent
     Scenario: Create 20 + PDS2 consents in fintro
     When I create more than twenty psd2 consents in "Fintro"
     Then The psd2 consent is created
+
+    Scenario: Delete all PSD2 consents
+    Given I am logged in with a smid that has PSD2 consents
+    When I delete all PSD2 consents
+    Then The list is empty
