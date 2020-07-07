@@ -2,8 +2,9 @@ const querystring = require('querystring');
 const api = require('./api');
 const root_url = "https://p1.easybanking.qabnpparibasfortis.be";
 const Shell = require('node-powershell');
-//const execute = require('execute-shell-promise');
-const { exec, spawn } = require("child_process");
+const bypass = require('../bypass');
+
+
 let child;
 let command;
 
@@ -23,6 +24,8 @@ const headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
     'Content-Type': 'application/json'
 }
+
+
 
 
 const login = (smid, cardNumber, callback) => {
@@ -75,28 +78,12 @@ const login = (smid, cardNumber, callback) => {
                 tempCookieHeader += header + ';'
 
             });
-            const ps = new Shell({
-                executionPolicy: 'Bypass',
-                noProfile: true
-            })
 
-            //ps.addCommand('./../bypass.ps1');
-            ps.addCommand("powershell -command '& { . ./../bypass.ps1; MyUcrbypass "+smid+"}'")
-
-
-            return ps.invoke().then((output) => {
-                console.log(output)
-                ucrToken = JSON.parse(output)
-                errorlog = ucrToken.errorArea;
-
-
+                ucrToken = bypass();
+                console.log('!!!CHECK StOP!!!!!');
                 ucrTokenFinal = ucrToken.token;
-
-
                 console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
                 console.log(ucrTokenFinal);
-                console.log(errorlog);
-                ps.dispose();
 
                 seea_server_cookies = headers.Cookie;
 
@@ -107,7 +94,7 @@ const login = (smid, cardNumber, callback) => {
                         signature: ucrTokenFinal
                     }
                 }, headers)
-            }).then((response) => {
+            .then((response) => {
                 console.log("check login result");
                 console.log(response.body);
                 response.headers['set-cookie'].forEach(header => {

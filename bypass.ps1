@@ -2,7 +2,7 @@ function MyUcrbypass {
  param( [String]$smid)
 
 $session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$response = Invoke-WebRequest 'https://i-net800-qa.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP' -UseDefaultCredentials -Method Get -ContentType \'application/json\' -WebSession $session
+$response = Invoke-WebRequest 'https://i-net800-qa.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP' -UseDefaultCredentials -Method Get -ContentType 'application/json' -WebSession $session
 $cookies = $session.Cookies.GetCookies('https://i-net800-qa.be.fortis.bank/EBPGJ01/BE_FORTIS_EBPG-pr01-war/rpc/ucr/CalculateOTP');
                       
 $cookies | Out-File -FilePath cookies.txt

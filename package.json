@@ -23,6 +23,7 @@
         "node-fetch": "^2.6.0",
         "node-powershell": "^4.0.0",
         "request-promise": "^3.0.0",
+        "shelljs": "^0.8.4",
         "superagent": "^2.0.0"
     }
 }
