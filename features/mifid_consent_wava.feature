@@ -1,7 +1,7 @@
 Feature: As a customer I want to update my mifid consent securly
 
  Scenario: Set MIFID consent to OUT
- Given that i am a logged in user with "1151379451" as smid and "67030417199845727" as cardnumber
+ Given that i am a logged in user with "1180546302" as smid and "67030417188221005" as cardnumber
  When I update my mifid consent to "OU"
  Then the mifid consent is updated to "OU"
 
