@@ -1,9 +1,7 @@
 const querystring = require('querystring');
 const api = require('./api');
 const root_url = "https://p1.easybanking.qabnpparibasfortis.be";
-const Shell = require('node-powershell');
-const bypass = require('../bypass');
-
+const shell = require('shelljs');
 
 let child;
 let command;
@@ -25,7 +23,20 @@ const headers = {
     'Content-Type': 'application/json'
 }
 
+const bypass = (command,cb) => {
+    shell.exec(command, function(err, stdout,stderr) {
+        if (err) {
+            cb(stderr);
+        } else {
+            cb(stdout)
 
+        }
+    })
+}
+
+function sleep(ms) {
+     return new Promise(resolve => setTimeout(resolve, ms));
+ }
 
 
 const login = (smid, cardNumber, callback) => {
@@ -79,11 +90,28 @@ const login = (smid, cardNumber, callback) => {
 
             });
 
-                ucrToken = bypass();
-                console.log('!!!CHECK StOP!!!!!');
-                ucrTokenFinal = ucrToken.token;
-                console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
-                console.log(ucrTokenFinal);
+
+                function UCRBypass() {
+                bypass('sh ./scripts/script.sh ' + smid, function(result) {
+                    let R2;
+                    console.log(result);
+                    let tableau = (result.split(' '));
+                    let test = tableau[tableau.length - 1].split(':');
+                    let test3 = (test[1]).split(',');
+                    R2 = (test3[0].substr(1, test3[0].length - 2));
+
+                    ucrTokenFinal = R2;
+                });
+                return ucrTokenFinal;
+                }
+                UCRBypass();
+                sleep(3000).then(() => {
+                    console.log('!!!CHECK StOP!!!!!');
+
+                    console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
+                    console.log(ucrTokenFinal);
+
+
 
                 seea_server_cookies = headers.Cookie;
 
@@ -94,7 +122,7 @@ const login = (smid, cardNumber, callback) => {
                         signature: ucrTokenFinal
                     }
                 }, headers)
-            .then((response) => {
+                }).then((response) => {
                 console.log("check login result");
                 console.log(response.body);
                 response.headers['set-cookie'].forEach(header => {
