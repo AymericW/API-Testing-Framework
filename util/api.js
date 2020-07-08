@@ -91,6 +91,19 @@ module.exports = {
         headers,
         insecure: true,
         jar: cookiejar
+    }),
+
+    delete: (url, headers) => request({
+        url: url,
+        method: 'DELETE',
+        json: true,
+        resolveWithFullResponse: true,
+        simple: false,
+        rejectUnauthorized: false,
+        headers,
+        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080",
+        insecure: true,
+        jar: cookiejar
     })
 
 }

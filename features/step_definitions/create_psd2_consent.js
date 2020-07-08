@@ -1,6 +1,5 @@
 const { Given, When, Then } = require('cucumber');
 const file = require('../../util/file');
-const JsonFind = require('json-find');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const fs = require('fs')
 const path = require('path')
@@ -8,6 +7,10 @@ const certFile = path.resolve('./', 'psd2Certif.pem')
 const keyFile = path.resolve('./', 'psd2Certif.pem')
 const request = require('request-promise');
 const assert = require('chai').assert;
+const api = require('../../util/api');
+const login = require('../../util/login');
+
+let consents;
 
 const fortisBody = file.read('configuration/psd2Fortis.json')
 const fortisHeader = {
@@ -52,24 +55,20 @@ function getListOfAccounts(headers) {
     };
 
     return request(options)
-    .catch(() => true );
+        .catch(() => true);
 };
 
 function createPsd2Consent(headers, clientId, accountNumber) {
     console.log("In createPsd2Consent")
-    const body = {  
+    const body = {
         clientId: clientId,
-        purposeAndAttributeValues:[  
-           {  
-              purposeValue: accountNumber,
-              listOfAttributes:[  
-                 {  
-                    attributeName:"CURRENCY",
-                    attributeValue:"EUR"
-                 }
-              ]
-           }
-        ]
+        purposeAndAttributeValues: [{
+            purposeValue: accountNumber,
+            listOfAttributes: [{
+                attributeName: "CURRENCY",
+                attributeValue: "EUR"
+            }]
+        }]
     };
     const options = {
         method: 'POST',
@@ -83,17 +82,32 @@ function createPsd2Consent(headers, clientId, accountNumber) {
     };
 
     return request(options)
-    .catch(() => {
+        .catch(() => {
 
-    });
+        });
 };
+const csrf = '2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2';
+
+
+//Headers are necessary for every API call to OCPL_PR01
+const headers = {
+    'CSRF': csrf,
+    'Cookie': 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+    'Content-Type': 'application/json'
+}
 
 // --------------------------------     Step definitions    ------------------------------------
+
+Given('I am logged in with a smid that has PSD2 consents', (callback) => {
+    login('1010318102', '67030417166474212', callback);
+})
+
 
 // Grouped accounts steps
 
 Given('I get the list of accounts of a user in {string}', (brand, callback) => {
-    let headerBrand = brand == "Fintro"? fintroHeader: fortisHeader;
+    let headerBrand = brand == "Fintro" ? fintroHeader : fortisHeader;
 
     const options = {
         url: "https://i-net4018a-qa.be.fortis.bank:50990/PYIA-pa02/v1/filter-accounts/INFO",
@@ -107,9 +121,9 @@ Given('I get the list of accounts of a user in {string}', (brand, callback) => {
 });
 
 When('I create a psd2 consent in {string}', (brand) => {
-    let bodyBrand = brand == "Fintro"? fintroBody: fortisBody;
-    let headerBrand = brand == "Fintro"? fintroHeader: fortisHeader;
-    
+    let bodyBrand = brand == "Fintro" ? fintroBody : fortisBody;
+    let headerBrand = brand == "Fintro" ? fintroHeader : fortisHeader;
+
     const options = {
         method: 'POST',
         url: "https://i-net4018a-qa.be.fortis.bank:50990/PYIA-pa02/v1/authorizations/cbpi",
@@ -122,46 +136,70 @@ When('I create a psd2 consent in {string}', (brand) => {
     };
 
     request(options)
-    .catch(function (err) {
-    });
+        .catch(function(err) {});
 });
 
 
 // Load more steps
 
 When('I create more than twenty psd2 consents in {string}', (brand, callback) => {
-    const headers = brand == "Fintro"? fintroLoadMoreHeader: fortisLoadMoreHeader;
+    const headers = brand == "Fintro" ? fintroLoadMoreHeader : fortisLoadMoreHeader;
     const fortisAccountNumberList = ["BE47001257225080", "BE68001826823834"];
     const fintroAccountNumberList = ["BE38143086336872", "BE38143086336872"];
-    const accountNumberList = brand =="Fintro"? fintroAccountNumberList: fortisAccountNumberList;
+    const accountNumberList = brand == "Fintro" ? fintroAccountNumberList : fortisAccountNumberList;
 
-    const clientIdList =  ["k4QztmnS20", "NvWt0TLS20", "pWnsrsTS20", "ssI8usTS20",
-        "kXqD7uTS20", "QPg0suTS20", "3YSBIvTS20", "5mszewTS20", 
-        "JQQFnwTS20", "Y5PyIxTS20", "BNJBtBUS20", "nwsQ5DUS20", 
-        "ra84kDUS20", "NTUSQVUS20", "sFTQ6WUS20", "rH1fkWUS20"];
+    const clientIdList = ["k4QztmnS20", "NvWt0TLS20", "pWnsrsTS20", "ssI8usTS20",
+        "kXqD7uTS20", "QPg0suTS20", "3YSBIvTS20", "5mszewTS20",
+        "JQQFnwTS20", "Y5PyIxTS20", "BNJBtBUS20", "nwsQ5DUS20",
+        "ra84kDUS20", "NTUSQVUS20", "sFTQ6WUS20", "rH1fkWUS20"
+    ];
 
     const createConsentPromise = (headers, clientId, accountNumber) => {
         return getListOfAccounts(headers)
-        .then(() => createPsd2Consent(headers, clientId, accountNumber));
+            .then(() => createPsd2Consent(headers, clientId, accountNumber));
     }
 
     const executeSequentially = (headers, accountNumber, itemsOriginal) => {
         const items = Array.from(itemsOriginal)
 
         return createConsentPromise(headers, items.shift(), accountNumber)
-        .then(() => {
-            if (items.length > 0){
-                return executeSequentially(headers, accountNumber, items)
-            }
-        });
+            .then(() => {
+                if (items.length > 0) {
+                    return executeSequentially(headers, accountNumber, items)
+                }
+            });
     }
 
     executeSequentially(headers, accountNumberList[0], clientIdList)
-    .then(() => executeSequentially(headers, accountNumberList[1], clientIdList))
-    .then(callback);
-    
+        .then(() => executeSequentially(headers, accountNumberList[1], clientIdList))
+        .then(callback);
+
 });
 
-Then('The psd2 consent is created', () => {
-    // OK
+When('I delete all PSD2 consents', (callback) => {
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/v1/customer/consents', {}, headers)
+        .then((response) => {
+            consents = response.body.consents
+
+            const promises = consents.map(consent =>
+                api.delete('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/v1/customer/consents/' + consent.id, headers)
+            );
+            Promise.all(promises).then(() => callback())
+        })
 });
+
+
+
+Then('The psd2 consent is created', (callback) => {
+    // OK
+    callback();
+});
+
+Then('The list is empty', (callback) => {
+    api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/v1/customer/consents', {}, headers)
+        .then((response) => {
+            console.log(response.body.consents)
+            assert.isTrue(consents > response.body.consents);
+            callback();
+        })
+})
