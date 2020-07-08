@@ -2,6 +2,8 @@
 @Library('CIPaaS')
 import com.bnpparibasfortis.CIPaaServices
 node ('Customers_slave'){
+    def brand = env.getProperty("brand")
+
     stage ('Start pipeline') {
         println "Start pipeline"
     }
@@ -17,7 +19,7 @@ node ('Customers_slave'){
     dir('customers-apiautomation') {
         stage ('Create multiple psd2 consents') {
             steps.sh 'npm install'
-            if (brandParam == 'Fintro') {
+            if (brand == 'Fintro') {
                 steps.sh 'npm start features/create_psd2_consent.feature:17'
             }else{
                 steps.sh 'npm start features/create_psd2_consent.feature:13'
