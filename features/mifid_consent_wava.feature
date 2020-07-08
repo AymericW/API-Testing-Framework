@@ -17,8 +17,8 @@ Feature: As a customer I want to update my mifid consent securly
 
 Scenario: Set data consent with an MSMC request
 Given that i am a logged in user with "1180546302" as smid and "67030417188221005" as cardnumber
-When I update my data consent to "IN"
-Then the data consent is updated to "IN"
+When I update my data consent to "OU"
+Then the data consent is updated to "OU"
 
 # Scenario: Set mutiple consents including a MIFID consent to IN with an unsigned MSMC request
 # Given that i am a logged in user <psp>

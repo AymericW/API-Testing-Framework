@@ -1,7 +1,7 @@
 #!groovy
 @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
 
-node ('Customers_slave'){
+node ('Customers_slave2'){
 
     // Init CIPaaS Services
     // env.APPLICATION_CODE = "TF01"
@@ -33,8 +33,7 @@ node ('Customers_slave'){
             steps.sh "npm install"
         }
         stage ('Run the script(contact_management.feature)') {
-            steps.sh "sh ./scripts/script.sh"
-            steps.sh "sh ./scripts/run.sh 'contact_management'"
+            steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
         }
     
     stage ('End pipeline') {println "End pipeline"}

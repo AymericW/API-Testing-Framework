@@ -1,24 +1,45 @@
- Feature: As a customer I'd like to change my consents without any troubles
- 
- Scenario: Set every consent to yes
-        Given I log in
-        And I reset my emails to none
-        And I reset my phone numbers to none
-        And I check I have at least one contact point for each type "simon@pin.le" "0489145897" "025692356"
-        And I check general optout is on "OU"
-        # And I check general optin is on
-        # When I change my email consent to yes
-        # Then I see a success message
+Feature: Privacy and direct marketing
+       I want to manage the consent of my contact details
 
-# Scenario: General optout
-#         Given I log in 
-#         And I check general optin is on
-#         When I check general optout is on
-#         Then I see all consents to no
+       Scenario: I want general consent to be optin
+              Given I am logged in with user
+              And I have an email, fixed number and mobile number
+              And My general consent is optout
+              When I change my general consent to optin
+              Then All my consents are set to "Not yet captured"
 
-# Scenario: General optin
-#         Given I log in
-#         And I check general optout is on
-#         When I check general optin is on
-#         Then I see all consents to nyc
+       Scenario: I want general consent to be optout
+              Given I am logged in with user
+              And I have an email, fixed number and mobile number
+              And My general consent is optin
+              When I change my general consent to optout
+              Then All my consents are set to "No"
 
+       Scenario: I want to give one consent in general optout
+              Given I am logged in with user
+              And I have an email, fixed number and mobile number
+              And My general consent is optout
+              When I give consent to the "email" contact point
+              Then I see an error message
+
+       Scenario: I want to give one consent in general optin
+              Given I am logged in with user
+              And I have an email, fixed number and mobile number
+              And My general consent is optin
+              And All my consents are on "Not yet captured"
+              When I give consent to the "email" contact point
+              Then The consent of the selected contact point is set to "YES"
+              And I see the success message
+
+       Scenario Outline: I want to change the consent of a contact point
+              Given I am logged in with user
+              And I have an email, fixed number and mobile number
+              And My general consent is optin
+              And My email consent is on <consent>
+              When I modify the consent to <newConsent>
+              Then I should see a success message
+
+              Examples:
+                     |consent  | newConsent  |
+                     | "YES"   | "NO"        |
+                     | "NO"    | "YES"       |

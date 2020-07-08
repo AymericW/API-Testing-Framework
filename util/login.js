@@ -1,26 +1,26 @@
-const querystring = require('querystring');
-const api = require('./api');
+const querystring = require("querystring");
+const api = require("./api.js");
 const root_url = "https://p1.easybanking.qabnpparibasfortis.be";
-const shell = require('shelljs');
+const shell = require("shelljs");
 
 let child;
 let command;
 
 
-const distributorId = '52FB001';
+const distributorId = "52FB001";
 let ucrToken;
 let ucrTokenFinal;
 let errorlog;
 let seea_server_cookies;
 let agreementId;
-const csrf = '2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2';
+const csrf = "2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2";
 let tempCookieHeader;
 
 const headers = {
-    'CSRF': csrf,
-    'Cookie': 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';',
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
-    'Content-Type': 'application/json'
+    "CSRF": csrf,
+    "Cookie": "distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=" + csrf + ';',
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36",
+    "Content-Type": "application/json"
 }
 
 const bypass = (command,cb) => {
@@ -40,44 +40,44 @@ function sleep(ms) {
 
 
 const login = (smid, cardNumber, callback) => {
-    tempCookieHeader = 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';';
-    return api.post(root_url + '/EBIA-pr01/rpc/identAuth/retrieveLoginProfiles', { distributorId }, headers)
+    tempCookieHeader = "distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=" + csrf + ";";
+    return api.post(root_url + "/EBIA-pr01/rpc/identAuth/retrieveLoginProfiles", { distributorId }, headers)
         .then((response) => {
 
-            response.headers['set-cookie'].forEach(header => {
-                tempCookieHeader += header + ';'
+            response.headers["set-cookie"].forEach(header => {
+                tempCookieHeader += header + ";"
 
             });
 
-            return api.post(root_url + '/EBIA-pr01/rpc/identAuth/initiateLoginTransaction', {
-                saveAlias: '0',
+            return api.post(root_url + "/EBIA-pr01/rpc/identAuth/initiateLoginTransaction", {
+                saveAlias: "0",
                 distributorId,
                 smid: smid,
                 authenticationFactorId: cardNumber,
-                minimumDacLevel: '5',
-                language: 'EN'
+                minimumDacLevel: "5",
+                language: "EN"
             }, headers)
 
         }).then((response) => {
             agreementId = response.body.value.channelAgreements[0].agreementId;
-            response.headers['set-cookie'].forEach(header => {
-                tempCookieHeader += header + ';'
+            response.headers["set-cookie"].forEach(header => {
+                tempCookieHeader += header + ";"
 
             });
 
-            return api.post(root_url + '/EBIA-pr01/rpc/identAuth/getLoginMeans', {
+            return api.post(root_url + "/EBIA-pr01/rpc/identAuth/getLoginMeans", {
                 distributorId,
                 smid: smid,
-                minimumDacLevel: '5'
+                minimumDacLevel: "5"
             }, headers)
 
         }).then((response) => {
             const requestedMeanId = response.body.value.authenticationMeans[0].authenticationMeanId;
-            response.headers['set-cookie'].forEach(header => {
-                tempCookieHeader += header + ';'
+            response.headers["set-cookie"].forEach(header => {
+                tempCookieHeader += header + ";"
             });
 
-            return api.post(root_url + '/EBIA-pr01/rpc/identAuth/executeLoginTransaction', {
+            return api.post(root_url + "/EBIA-pr01/rpc/identAuth/executeLoginTransaction", {
                 distributorId,
                 smid: smid,
                 requestedMeanId,
@@ -85,18 +85,18 @@ const login = (smid, cardNumber, callback) => {
             }, headers)
 
         }).then((response) => {
-            response.headers['set-cookie'].forEach(header => {
-                tempCookieHeader += header + ';'
+            response.headers["set-cookie"].forEach(header => {
+                tempCookieHeader += header + ";"
 
             });
 
 
                 function UCRBypass() {
-                bypass('sh ./scripts/script.sh ' + smid, function(result) {
+                bypass("sh ./scripts/script.sh " + smid, function(result) {
                     let R2;
                     console.log(result);
                     let tableau = (result.split(' '));
-                    let test = tableau[tableau.length - 1].split(':');
+                    let test = tableau[tableau.length - 1].split(":");
                     let test3 = (test[1]).split(',');
                     R2 = (test3[0].substr(1, test3[0].length - 2));
 
@@ -106,7 +106,7 @@ const login = (smid, cardNumber, callback) => {
                 }
                 UCRBypass();
                 sleep(3000).then(() => {
-                    console.log('!!!CHECK StOP!!!!!');
+                    console.log("!!!CHECK StOP!!!!!");
 
                     console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
                     console.log(ucrTokenFinal);
@@ -115,7 +115,7 @@ const login = (smid, cardNumber, callback) => {
 
                 seea_server_cookies = headers.Cookie;
 
-                return api.post(root_url + '/EBIA-pr01/rpc/identAuth/checkLoginResult', {
+                return api.post(root_url + "/EBIA-pr01/rpc/identAuth/checkLoginResult", {
                     smid: smid,
                     distributorId,
                     ucr: {
