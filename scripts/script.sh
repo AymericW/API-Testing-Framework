@@ -6,4 +6,5 @@ response= $(curl -L --cookie cookies.txt --negotiate --user : -vk -H 'CSRF: 7J2v
 
 logText="Token : "
 echo $logText $response
+echo $response
 echo $logText > token.txt

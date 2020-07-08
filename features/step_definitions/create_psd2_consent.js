@@ -1,6 +1,5 @@
 const { Given, When, Then } = require('cucumber');
 const file = require('../../util/file');
-const JsonFind = require('json-find');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const fs = require('fs')
 const path = require('path')
@@ -10,6 +9,8 @@ const request = require('request-promise');
 const assert = require('chai').assert;
 const api = require('../../util/api');
 const login = require('../../util/login');
+
+let consents;
 
 const fortisBody = file.read('configuration/psd2Fortis.json')
 const fortisHeader = {
@@ -178,7 +179,7 @@ When('I create more than twenty psd2 consents in {string}', (brand, callback) =>
 When('I delete all PSD2 consents', (callback) => {
     api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/v1/customer/consents', {}, headers)
         .then((response) => {
-            const consents = response.body.consents
+            consents = response.body.consents
 
             const promises = consents.map(consent =>
                 api.delete('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/v1/customer/consents/' + consent.id, headers)
@@ -189,14 +190,16 @@ When('I delete all PSD2 consents', (callback) => {
 
 
 
-Then('The psd2 consent is created', () => {
+Then('The psd2 consent is created', (callback) => {
     // OK
+    callback();
 });
 
 Then('The list is empty', (callback) => {
     api.post('https://p1.easybanking.qabnpparibasfortis.be/OCPL-pr01/rpc/v1/customer/consents', {}, headers)
         .then((response) => {
             console.log(response.body.consents)
+            assert.isTrue(consents > response.body.consents);
             callback();
         })
 })

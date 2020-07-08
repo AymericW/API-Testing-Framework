@@ -2,10 +2,8 @@ const querystring = require('querystring');
 const api = require('./api');
 const root_url = "https://p1.easybanking.qabnpparibasfortis.be";
 const Shell = require('node-powershell');
+const childProcess = require('child_process');
 //const execute = require('execute-shell-promise');
-const { exec, spawn } = require("child_process");
-let child;
-let command;
 
 
 const distributorId = '52FB001';
@@ -81,8 +79,10 @@ const login = (smid, cardNumber, callback) => {
             })
 
             //ps.addCommand('./../bypass.ps1');
-            ps.addCommand("powershell -command '& { . ./../bypass.ps1; MyUcrbypass "+smid+"}'")
-
+            ps.addCommand("powershell -command '& { . ./../bypass.ps1; MyUcrbypass " + smid + "}'")
+                // childProcess.exec('sh ./scripts/script.sh', (err, stdout) => {
+                //     console.log(stdout);
+                // })
 
             return ps.invoke().then((output) => {
                 console.log(output)
@@ -157,10 +157,7 @@ const login = (smid, cardNumber, callback) => {
                 } else {
                     callback();
                 }
-                //     
 
-
-                //callback();
             })
 
 

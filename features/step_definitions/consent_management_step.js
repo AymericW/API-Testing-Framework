@@ -1,0 +1,115 @@
+const { Given, When, Then } = require("cucumber");
+const assert = require('chai').assert;
+const api = require('../../util/api');
+const login = require('../../util/login');
+
+//Login variables
+const csrf = '2e9312a346129e623ca0c830b874fcd3e25a8a0c1919f2d03414b7a13c5d9e65f447255cb9b2b69d485e13066c14cd0cf9e8bd8777be028ae468ffece305bef5627ce76f8d4c68d6a70880eae33b41e6407ab1c14f48830e50369b607042bfc8c9d0a6c601606b81545f3cb1c32818338924b4c1c9c8a27e87bba7140555fca2';
+const headers = {
+    'CSRF': csrf,
+    'Cookie': 'distributorid=52FB001;axes=fr|PC|fb|priv|PC|9578d0619aa64d1d932fde87bee3033d|;europolicy=optin;CSRF=' + csrf + ';',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+    'Content-Type': 'application/json'
+}
+
+//URLS
+const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be';
+const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01';
+
+//ContactPointURLS
+const GET_CONTACTPOINT_LIST_URL = OCPL_PR01 + '/rpc/consentData/getContactPointList';
+const DELETE_CONTACTPOINT_URL = OCPL_PR01 + '/rpc/consentData/deleteContactPoint';
+const INSERT_CONCTACTPOINT_URL = OCPL_PR01 + '/rpc/consentData/insertContactPoint';
+const MODIFY_CONTACTPOINT_URL = OCPL_PR01 + '/rpc/consentData/modifyContactPoint';
+
+//ConsentURLS
+const GET_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/getConsentList';
+const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsentList';
+
+
+
+
+Given('I log in', (callback) => {
+    login('1180546302', '67030417188221005', callback);
+});
+
+
+Given('I reset my emails to none', (callback) => {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const emails = response.body.value.eMailAddressList;
+            const emailPromises = emails.map(email =>
+                api.post(DELETE_CONTACTPOINT_URL, {
+                    "id": email.id
+                }, headers)
+            );
+            Promise.all(emailPromises).then(() => callback())
+        })
+})
+
+
+Given('I reset my phone numbers to none', (callback) => {
+    api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
+        .then((response) => {
+            const phoneNumbers = response.body.value.mobilePhoneList;
+
+            const phonePromises = phoneNumbers.map(number =>
+                api.post(DELETE_CONTACTPOINT_URL, {
+                    "id": number.id
+                }, headers)
+            );
+            Promise.all(phonePromises).then(() => callback())
+        })
+})
+
+Given('I check I have at least one contact point for each type {string} {string} {string}', (email, gsm, phone, callback) => {
+    api.post(INSERT_CONCTACTPOINT_URL, {
+        "consents": [{
+                "value": "NC",
+                "usage": "SMS"
+            },
+            {
+                "value": "NC",
+                "usage": "CALL"
+            }
+        ],
+        "type": "02",
+        "value": phone
+    }, headers).then(() => {
+        api.post(INSERT_CONCTACTPOINT_URL, {
+            "consents": [{
+                    "value": "NC",
+                    "usage": "SMS"
+                },
+                {
+                    "value": "NC",
+                    "usage": "CALL"
+                }
+            ],
+            "type": "06",
+            "value": gsm
+        }, headers).then(() => {
+            api.post(INSERT_CONCTACTPOINT_URL, {
+                "consents": [{
+                    "value": "IN",
+                }],
+                "type": "03",
+                "value": email,
+            }, headers).then(() => {
+                callback();
+            })
+        })
+    })
+})
+
+Given('I check general optout is on {string}', (consent, callback) => {
+    //TODO
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            const consentId = response.body.dataConsent.consentId;
+            api.post(MODIFY_CONSENT_LIST_URL, {
+                    "consents": [{ consent, consentId }]
+                }, headers)
+                .then(() => callback())
+        })
+})
