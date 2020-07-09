@@ -33,7 +33,11 @@ node('Customers_slave2') {
         steps.sh "npm install"
     }
     stage ('Run the script(contact_management.feature)') {
-        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
+        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava' --plugin json -o result.json || true"
+    }
+
+    stage ('Generate HTML report') {
+        cucumber buildStatus: 'FAILURE', fileIncludePattern: 'results/Web_Fortis.json', sortingMethod: 'ALPHABETICAL'
     }
 
     stage ('End pipeline') {println "End pipeline"}
