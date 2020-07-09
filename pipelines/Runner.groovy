@@ -1,7 +1,8 @@
 #!groovy
-@Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
+@Library('CIPaaS')
+import com.bnpparibasfortis.CIPaaServices
 
-node ('Customers_slave2'){
+node('Customers_slave2') {
 
     // Init CIPaaS Services
     // env.APPLICATION_CODE = "TF01"
@@ -11,7 +12,7 @@ node ('Customers_slave2'){
     // env.APPLICATION_COMPONENT_TYPE = "Javascript"
 
     // def cipaas = new CIPaaServices(this)
- 
+
     // def cipaasDockerRegistryName = cipaas.getCIPaaSDockerRegistryName()
     // def centralNPMPublicGroupURL = cipaas.getCentralNPMPublicGroupURL()
     // def localNPMHostedRepositoryURL = cipaas.getLocalNPMHostedRepositoryURL()
@@ -19,24 +20,28 @@ node ('Customers_slave2'){
     // println "centralNPMPublicGroupURL is ${centralNPMPublicGroupURL}"
     // println "localNPMHostedRepositoryURL is ${localNPMHostedRepositoryURL}"
 
-
-    // // Node image used in this pipeline 
+    // // Node image used in this pipeline
     // def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
     // def nodeImage = docker.image("${nodeImageName}")
 
-    stage ('Start pipeline') {println "Start pipeline"}
+    stage('Start pipeline') { println "Start pipeline" }
 
-    stage ('Checkout') {checkout scm}
+    stage('Checkout') { checkout scm }
 
-        stage ('Install NPM local dependencies') {
-            //steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
-            steps.sh "npm install"
-        }
-        stage ('Run the script(contact_management.feature)') {
-            steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
-        }
-    
-    stage ('End pipeline') {println "End pipeline"}
+    stage('Install NPM local dependencies') {
+        //steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
+        steps.sh "npm install"
+    }
+    stage('Run the script(contact_management.feature)') {
+        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'" + ' --format html > ' + currentFolder + "/" + pipelineName.replaceAll("\\s", "_") + '.html -f json -o results/Mifid_result.json || true'
+        cucumber buildStatus: 'FAILURE', fileIncludePattern: 'results/Web_Fortis.json', sortingMethod: 'ALPHABETICAL'
+    }
+    stage('Publish test report') {
+        steps.sh 'chmod +x ./scripts/uploadscript.sh'
+        steps.sh './scripts/uploadscript.sh  "Channels NRT" "Chrome" "Customers" "EBW_Fortis" "NRT" "API" "QAP1" "results/Mifid_result.json" "http://wpdm0006.be.fortis.bank:8080"'
+    }
+
+    stage('End pipeline') { println "End pipeline" }
 }
 
 // #!groovy
@@ -53,15 +58,14 @@ node ('Customers_slave2'){
 //     println "centralNPMPublicGroupURL is ${centralNPMPublicGroupURL}"
 //     println "localNPMHostedRepositoryURL is ${localNPMHostedRepositoryURL}"
 
-
-//     // Node image used in this pipeline 
+//     // Node image used in this pipeline
 //     def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
 //     def nodeImage = docker.image("${nodeImageName}")
 
 //     stage ('Start pipeline') {println "Start pipeline"}
 
 //     stage ('Checkout') {checkout scm}
-    
+
 //     nodeImage.inside('-u root') {
 //         stage ('Install NPM local dependencies') {
 //             steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
@@ -70,7 +74,7 @@ node ('Customers_slave2'){
 //         stage ('Run the script') {
 //             steps.sh "./scripts/run.sh"
 //         }
-        
+
 //         stage ('Upload the Report') {
 //             steps.sh 'sh ./scripts/uploadscript.sh "CUSTOMERS" "Current_Release" "Become a Retail Customer (QAP1)" "API" "CUSTOMERS" "1.0" "API" "cucumberQA.json" "http://wpdm0006:8080"'
 //         }
@@ -79,9 +83,6 @@ node ('Customers_slave2'){
 //     stage ('End pipeline') {println "End pipeline"}
 
 // }
-
-
-
 
 // #!groovy
 // @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
@@ -96,7 +97,7 @@ node ('Customers_slave2'){
 //     env.APPLICATION_COMPONENT_TYPE = "Javascript"
 
 //     def cipaas = new CIPaaServices(this)
- 
+
 //     def cipaasDockerRegistryName = cipaas.getCIPaaSDockerRegistryName()
 //     def centralNPMPublicGroupURL = cipaas.getCentralNPMPublicGroupURL()
 //     def localNPMHostedRepositoryURL = cipaas.getLocalNPMHostedRepositoryURL()
@@ -104,15 +105,14 @@ node ('Customers_slave2'){
 //     println "centralNPMPublicGroupURL is ${centralNPMPublicGroupURL}"
 //     println "localNPMHostedRepositoryURL is ${localNPMHostedRepositoryURL}"
 
-
-//     // Node image used in this pipeline 
+//     // Node image used in this pipeline
 //     def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
 //     def nodeImage = docker.image("${nodeImageName}")
 
 //     stage ('Start pipeline') {println "Start pipeline"}
 
 //     stage ('Checkout') {checkout scm}
-    
+
 //     nodeImage.inside('-u root') {
 //         stage ('Install NPM local dependencies') {
 //             steps.sh "npm config set registry ${centralNPMPublicGroupURL}"

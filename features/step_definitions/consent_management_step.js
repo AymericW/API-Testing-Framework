@@ -179,10 +179,34 @@ When('I change my general consent to optout', (callback) => {
         })
 })
 
+When('I give consent to the email contact point', (callback) => {
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            const consentId = response.body.value.emailAddressList[0].consentId
 
-Then('All my consents are set to {string}', (state) => {
+            api.post(MODIFY_CONSENT_LIST_URL, {
+                "consents": [{ "consent": "IN", "consentId": consentId }]
+            }, headers)
+                .then((response) => {
+                    console.log(response.body);
+                    callback();
+                })
+
+        })
+})
+
+
+Then('All my consents are set to {string}', (state, callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
             assert.equal(response.body.value.emailAddressList[0].consent, state);
+            callback();
         })
 });
+
+Then('there is an error', (callback) => {
+    //OK
+    callback();
+})
+
+

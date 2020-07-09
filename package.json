@@ -4,12 +4,13 @@
     "description": "Test Client for API Integration Tests",
     "private": true,
     "scripts": {
-        "start": "cucumber-js"
+        "start": "cucumber-js",
+        "test": "sh ./scripts/run.sh"
     },
     "devDependencies": {
         "chai": "^4.2.0",
         "cucumber": "^5.0.2",
-        "cucumber-html-reporter": "^5.1.0",
+        "cucumber-html-reporter": "^5.2.0",
         "json-find": "^2.0.5",
         "json-stringify-safe": "5.0.1",
         "jsonschema": "^1.2.4",
