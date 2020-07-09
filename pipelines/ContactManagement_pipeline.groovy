@@ -33,7 +33,7 @@ node ('Customers_slave2'){
             steps.sh "npm install"
         }
         stage ('Run the script(contact_management.feature)') {
-            steps.sh "sh ./scripts/run.sh 'ocu'"
+            steps.sh "sh ./scripts/run.sh 'contact_management'"
         }
     
     stage ('End pipeline') {println "End pipeline"}
