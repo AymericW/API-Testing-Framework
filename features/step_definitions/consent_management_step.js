@@ -29,7 +29,7 @@ const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsen
 
 
 
-Given('I log in', (callback) => {
+Given('I am logged in with user', (callback) => {
     login('1180546302', '67030417188221005', callback);
 });
 
@@ -102,14 +102,87 @@ Given('I check I have at least one contact point for each type {string} {string}
     })
 })
 
-Given('I check general optout is on {string}', (consent, callback) => {
+Given('My general consent is optout', (callback) => {
     //TODO
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
-            const consentId = response.body.dataConsent.consentId;
+            console.log(response.body);
+            const consentId = response.body.value.dataConsent.consentId;
+            if (response.body.value.dataConsent.consent == "IN"){
             api.post(MODIFY_CONSENT_LIST_URL, {
-                    "consents": [{ consent, consentId }]
+                    "consents": [{ "consent": "OU", "consentId": consentId }]
                 }, headers)
                 .then(() => callback())
+            }
+            else {
+                console.log("Consent is already " + response.body.value.dataConsent.consent);
+                callback();
+            }
+        })
+
+})
+
+Given('My general consent is optin', (callback) => {
+    //TODO
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            console.log(response.body);
+            const consentId = response.body.value.dataConsent.consentId;
+            if (response.body.value.dataConsent.consent == "OU"){
+                api.post(MODIFY_CONSENT_LIST_URL, {
+                    "consents": [{ "consent": "IN", "consentId": consentId }]
+                }, headers)
+                    .then(() => callback())
+            }
+            else {
+                console.log("Consent is already " + response.body.value.dataConsent.consent);
+                callback();
+            }
+        })
+
+})
+
+When('I change my general consent to optin', (callback) => {
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            const consentState = response.body.value.dataConsent.consent;
+            const consentId = response.body.value.dataConsent.consentId;
+            console.log(consentState);
+
+            api.post(MODIFY_CONSENT_LIST_URL, {
+                "consents": [{ "consent": "IN", "consentId": consentId }]
+            }, headers)
+                .then((response) => {
+                    console.log(response.body);
+                    console.log("Consent updates");
+                    callback();
+                })
         })
 })
+
+
+When('I change my general consent to optout', (callback) => {
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            const consentState = response.body.value.dataConsent.consent;
+            const consentId = response.body.value.dataConsent.consentId;
+            console.log(consentState);
+
+            api.post(MODIFY_CONSENT_LIST_URL, {
+                "consents": [{ "consent": "OU", "consentId": consentId }]
+            }, headers)
+                .then((response) => {
+                    console.log(response.body);
+                    console.log("Consent updates");
+                    callback();
+                })
+        })
+})
+
+
+Then('All my consents are set to {string}', (state) => {
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            assert.equal(response.body.value.emailAddressList[0].consent, state);
+        })
+});
