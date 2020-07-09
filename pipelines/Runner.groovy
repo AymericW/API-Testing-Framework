@@ -24,24 +24,19 @@ node('Customers_slave2') {
     // def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
     // def nodeImage = docker.image("${nodeImageName}")
 
-    stage('Start pipeline') { println "Start pipeline" }
+    stage ('Start pipeline') {println "Start pipeline"}
 
-    stage('Checkout') { checkout scm }
+    stage ('Checkout') {checkout scm}
 
-    stage('Install NPM local dependencies') {
+    stage ('Install NPM local dependencies') {
         //steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
         steps.sh "npm install"
     }
-    stage('Run the script(contact_management.feature)') {
-        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'" + ' --format html > ' + currentFolder + "/" + pipelineName.replaceAll("\\s", "_") + '.html -f json -o results/Mifid_result.json || true'
-        cucumber buildStatus: 'FAILURE', fileIncludePattern: 'results/Web_Fortis.json', sortingMethod: 'ALPHABETICAL'
-    }
-    stage('Publish test report') {
-        steps.sh 'chmod +x ./scripts/uploadscript.sh'
-        steps.sh './scripts/uploadscript.sh  "Channels NRT" "Chrome" "Customers" "EBW_Fortis" "NRT" "API" "QAP1" "results/Mifid_result.json" "http://wpdm0006.be.fortis.bank:8080"'
+    stage ('Run the script(contact_management.feature)') {
+        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
     }
 
-    stage('End pipeline') { println "End pipeline" }
+    stage ('End pipeline') {println "End pipeline"}
 }
 
 // #!groovy
