@@ -37,7 +37,7 @@ node('Customers_slave2') {
     }
 
     stage ('Generate HTML report') {
-        cucumber buildStatus: 'FAILURE', fileIncludePattern: '**/*.json', sortingMethod: 'ALPHABETICAL'
+        cucumber buildStatus: 'UNSTABLE', fileIncludePattern: 'result.json', sortingMethod: 'ALPHABETICAL'
     }
 
     stage ('End pipeline') {println "End pipeline"}
