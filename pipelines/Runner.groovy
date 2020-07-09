@@ -37,7 +37,7 @@ node('Customers_slave2') {
     }
 
     stage ('Generate HTML report') {
-        cucumber buildStatus: 'FAILURE', fileIncludePattern: 'results/Web_Fortis.json', sortingMethod: 'ALPHABETICAL'
+        cucumber buildStatus: 'FAILURE', fileIncludePattern: 'result.json', sortingMethod: 'ALPHABETICAL'
     }
 
     stage ('End pipeline') {println "End pipeline"}
