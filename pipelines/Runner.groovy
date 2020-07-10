@@ -34,12 +34,11 @@ node('Customers_slave2') {
     }
     stage ('Run the script(contact_management.feature)') {
         //steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
-        steps.sh "npm run start features/mifid_consent_wava.feature"
-        steps.sh "cucumber features/mifid_consent_wava.feature  -f json -o result.json || true"
+        steps.sh "npm run start features/mifid_consent_wava.feature -f json:reports/result.json"
     }
 
     stage ('Generate HTML report') {
-        cucumber buildStatus: 'UNSTABLE', fileIncludePattern: 'result.json', sortingMethod: 'ALPHABETICAL'
+        cucumber buildStatus: 'UNSTABLE', fileIncludePattern: 'reports/result.json', sortingMethod: 'ALPHABETICAL'
     }
 
     stage ('End pipeline') {println "End pipeline"}
