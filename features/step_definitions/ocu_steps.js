@@ -122,6 +122,7 @@ When('I retrieve my personal data', function(callback) {
 
 
 Then('I should receive the correct URL', function(callback) {
+
     assert.isNotEmpty(eContractUrlResponse.value.url);
     callback();
 })
