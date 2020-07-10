@@ -34,7 +34,7 @@ node('Customers_slave2') {
     }
     stage ('Run the script(contact_management.feature)') {
         //steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
-        steps.sh "cucumber features/mifid_consent_wava.feature -f json -o result.json || true"
+        steps.sh "npm run start features/mifid_consent_wava.feature -f json -o result.json || true"
     }
 
     stage ('Generate HTML report') {
