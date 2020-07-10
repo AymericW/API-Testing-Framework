@@ -33,8 +33,7 @@ node('Customers_slave2') {
         steps.sh "npm install"
     }
     stage ('Run the script(contact_management.feature)') {
-        //steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
-        steps.sh "npm run start features/mifid_consent_wava.feature"
+        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
     }
 
     stage ('Generate HTML report') {
