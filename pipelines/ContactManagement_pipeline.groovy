@@ -35,6 +35,9 @@ node ('Customers_slave2'){
         stage ('Run the script(contact_management.feature)') {
             steps.sh "sh ./scripts/run.sh 'contact_management'"
         }
+        stage ('Generate HTML report') {
+            cucumber buildStatus: 'UNSTABLE', fileIncludePattern: 'reports/result.json', sortingMethod: 'ALPHABETICAL'
+        }
     
     stage ('End pipeline') {println "End pipeline"}
 }
