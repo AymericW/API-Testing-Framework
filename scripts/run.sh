@@ -7,7 +7,7 @@ export HTTP_PROXY="http://nwbcproxy.res.sys.shared.fortis:8080"
 npm start features/$Feature.feature --plugin json -o result.json || true
 
 
-#npm start features/$Feature.feature  --plugin json -o result.json || true
+#npm start features/$Feature.feature  --plugin json -o reports/result.json || true
 
 
 
