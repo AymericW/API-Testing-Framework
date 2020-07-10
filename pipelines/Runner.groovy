@@ -33,7 +33,8 @@ node('Customers_slave2') {
         steps.sh "npm install"
     }
     stage ('Run the script(contact_management.feature)') {
-        steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
+        //steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
+        steps.sh "cucumber features/mifid_consent_wava.feature -f json -o results/Web_Fortis.json || true"
     }
 
     stage ('Generate HTML report') {
