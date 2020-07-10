@@ -4,7 +4,7 @@ kinit -k -t G47594.keytab G47594@INT.SYS.SHARED.FORTIS
 unset HTTP_PROXY
 npm install
 export HTTP_PROXY="http://nwbcproxy.res.sys.shared.fortis:8080"
-npm start features/$Feature.feature  --plugin json -o result.json || true
+npm start features/$Feature.feature  -f json:result.json || true
 
 #npm start features/$Feature.feature  --plugin json -o result.json || true
 
