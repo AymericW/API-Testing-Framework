@@ -19,7 +19,6 @@
         "underscore": "~1.5.2"
     },
     "dependencies": {
-        "custom-cucumber-report-generator": "0.0.4",
         "execute-shell-promise": "^1.0.1",
         "node-fetch": "^2.6.0",
         "node-powershell": "^4.0.0",
