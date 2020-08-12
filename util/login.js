@@ -23,8 +23,8 @@ const headers = {
     "Content-Type": "application/json"
 }
 
-const bypass = (command,cb) => {
-    shell.exec(command, function(err, stdout,stderr) {
+const bypass = (command, cb) => {
+    shell.exec(command, function(err, stdout, stderr) {
         if (err) {
             cb(stderr);
         } else {
@@ -35,8 +35,8 @@ const bypass = (command,cb) => {
 }
 
 function sleep(ms) {
-     return new Promise(resolve => setTimeout(resolve, ms));
- }
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 
 const login = (smid, cardNumber, callback) => {
@@ -91,7 +91,7 @@ const login = (smid, cardNumber, callback) => {
             });
 
 
-                function UCRBypass() {
+            function UCRBypass() {
                 bypass("sh ./scripts/script.sh " + smid, function(result) {
                     let R2;
                     console.log(result);
@@ -103,13 +103,13 @@ const login = (smid, cardNumber, callback) => {
                     ucrTokenFinal = R2;
                 });
                 return ucrTokenFinal;
-                }
-                UCRBypass();
-                sleep(3000).then(() => {
-                    console.log("!!!CHECK StOP!!!!!");
+            }
+            UCRBypass();
+            sleep(5000).then(() => {
+                console.log("!!!CHECK StOP!!!!!");
 
-                    console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
-                    console.log(ucrTokenFinal);
+                console.log("!!!!!!!!!!!!!!!!!!!!!UCR TOKEN!!!!!!!!!!!!!!!!!");
+                console.log(ucrTokenFinal);
 
 
 
@@ -122,7 +122,7 @@ const login = (smid, cardNumber, callback) => {
                         signature: ucrTokenFinal
                     }
                 }, headers)
-                }).then((response) => {
+            }).then((response) => {
                 console.log("check login result");
                 console.log(response.body);
                 response.headers['set-cookie'].forEach(header => {

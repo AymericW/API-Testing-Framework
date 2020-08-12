@@ -11,8 +11,8 @@ let responseStatusCode;
 let IncorrectContactpointBodyResponse;
 
 //URLS
-const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be'
-const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01'
+const EASYBANKING_URL = 'https://p1.easybanking.qabnpparibasfortis.be';
+const OCPL_PR01 = EASYBANKING_URL + '/OCPL-pr01';
 
 //ContactPointURLS
 const GET_CONTACTPOINT_LIST_URL = OCPL_PR01 + '/rpc/consentData/getContactPointList';
