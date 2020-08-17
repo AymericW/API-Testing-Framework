@@ -105,7 +105,7 @@ When('I update my data consent to {string}', function(consent, callback) {
 Then('the mifid consent is updated to {string}', function(consent, callback) {
     //Check if consent is "OUT"
     api.post(GET_CONSENT_LIST_URL, {}, headers)
-        .then((response) => {
+        .then((response) => { 
             assert.equal(response.body.value.mifidCommunicationConsent.consent, consent);
             console.log("Mifid consent updated");
             callback();
