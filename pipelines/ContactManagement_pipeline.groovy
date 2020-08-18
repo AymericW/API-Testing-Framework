@@ -1,4 +1,4 @@
-    #!groovy
+#!groovy
 @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
 
 node ('Customers_slave2'){
@@ -22,7 +22,7 @@ node ('Customers_slave2'){
 
     // // Node image used in this pipeline
     // def nodeImageName = "${cipaasDockerRegistryName}/cip/node:8.9.4-R1.7"
-    // def nodeImage = docker.image("${nodeImageName}")
+    // def nodeImage = docker.image("${nodeImsageName}")
 
     stage ('Start pipeline') {println "Start pipeline"}
 
