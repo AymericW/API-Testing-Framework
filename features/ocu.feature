@@ -36,7 +36,7 @@ Feature: As a customer I want to be able to modify my customer data
  Scenario: Retrieve personal data
  Given I am logged with smid
  When I retrieve my personal data
- Then The surname is "MUKUNDAY"
+  Then The surname is "MUKUNDAY"
 
 # Scenario: Retrieve personal data for a <non_related_smid>
 # Given I am logged with smid
