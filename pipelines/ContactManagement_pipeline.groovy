@@ -1,4 +1,4 @@
-#!groovy
+    #!groovy
 @Library('CIPaaS') import com.bnpparibasfortis.CIPaaServices
 
 node ('Customers_slave2'){

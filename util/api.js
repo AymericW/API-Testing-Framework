@@ -41,6 +41,18 @@ module.exports = {
         rejectUnauthorized: false,
         proxy: "http://nwbcproxy.res.sys.shared.fortis:8080"
     }),
+    getPdf: (url, headers) => request({
+        url: url,
+        json: true,
+        resolveWithFullResponse: true,
+        simple: false,
+        rejectUnauthorized: false,
+        headers,
+        proxy: "http://nwbcproxy.res.sys.shared.fortis:8080",
+        insecure: true,
+        encoding: null,
+        jar: cookiejar
+    }),
 
     get: (url, headers) => request({
         url: url,
