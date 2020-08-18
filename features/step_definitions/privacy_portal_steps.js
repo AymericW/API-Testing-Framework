@@ -35,7 +35,7 @@ When("I download the pdf of my information", (callback) => {
         {
         "format": "pdf"
     }, headers)
-        .then((response) => {
+        .then(() => {
             api.get(STATUS_DSAR_REQUEST, headers)
                 .then((response) => {
                     console.log(response.body);
@@ -114,7 +114,7 @@ Then("I can view my information on the CSV", (callback) => {
         })
         .on('end', function() {
             assert.include(output, "1453637078");
-        })
+        });
 
         callback();
 });
