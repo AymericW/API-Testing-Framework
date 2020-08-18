@@ -18,3 +18,8 @@ const headers = {
 Then('the response status is {string}', (code) => {
     assert.equal(global.statusCode, code);
 });
+
+
+Given("I am logged with smid and are on the Privacy portal page", (callback) => {
+    login('1453637078', '67030417181622761', callback);
+});
