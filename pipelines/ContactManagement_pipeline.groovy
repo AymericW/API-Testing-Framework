@@ -31,6 +31,7 @@ node ('Customers_slave2'){
         stage ('Install NPM local dependencies') {
             //steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
             steps.sh "npm install"
+            steps.sh "npm i pdf-parse"
         }
         stage ('Run the script(contact_management.feature)') {
             steps.sh "sh ./scripts/run.sh 'contact_management'"
