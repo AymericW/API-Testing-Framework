@@ -23,3 +23,7 @@ Then('the response status is {string}', (code) => {
 Given("I am logged with smid and are on the Privacy portal page", (callback) => {
     login('1453637078', '67030417181622761', callback);
 });
+
+Given("that i am a logged in user", (callback) => {
+    login('1353974538', '67030417216403435', callback);
+})

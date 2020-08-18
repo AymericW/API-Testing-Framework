@@ -26,10 +26,6 @@ const GET_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/getConsentList'
 const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsentList';
 
 
-Given('that i am a logged in user with {string} as smid and {string} as cardnumber', function(smid, cardNumber, callback) {
-    login(smid, cardNumber, callback);
-});
-
 
 When('I update my mifid consent to {string}', function(consent, callback) {
     // Get the MIFID Consent and Then Udate the Mifid consent

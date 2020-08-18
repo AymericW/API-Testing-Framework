@@ -31,7 +31,7 @@ const CREATE_OCU_REQUEST_URL = OCPL_PR01 + '/rpc/updateRequest/createOcuRequest'
 //Gherkin Steps
 
 Given('I am logged with smid', (callback) => {
-    login('1180546302', '67030417188221005', callback);
+    login('1353974538', '67030417216403435', callback);
 });
 
 

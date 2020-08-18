@@ -30,7 +30,7 @@ const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsen
 
 
 Given('I am logged in with user', (callback) => {
-    login('1180546302', '67030417188221005', callback);
+    login('1353974538', '67030417216403435', callback);
 });
 
 
@@ -140,6 +140,37 @@ Given('My general consent is optin', (callback) => {
             }
         })
 
+});
+
+
+Given('All my consent are on NC', (callback) => {
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            const consentId = response.body.value.dataConsent.consentId;
+            if (response.body.value.dataConsent.consent == "OU"){
+                api.post(MODIFY_CONSENT_LIST_URL, {
+                    "consents": [{ "consent": "IN", "consentId": consentId }]
+                }, headers)
+                    .then(() => callback())
+            }
+            else {
+                api.post(MODIFY_CONSENT_LIST_URL, {
+                    "consents": [{ "consent": "OU", "consentId": consentId }]
+                }, headers)
+                    .then(() => {
+                        api.post(GET_CONSENT_LIST_URL, {}, headers)
+                            .then((response) => {
+                                const consentID2 = response.body.value.dataConsent.consentId;
+                                api.post(MODIFY_CONSENT_LIST_URL, {
+                                    "consents": [{ "consent": "IN", "consentId": consentID2 }]
+                                }, headers)
+                                    .then(() => callback())
+                            })
+                    })
+                callback();
+            }
+
+        })
 })
 
 When('I change my general consent to optin', (callback) => {
@@ -207,6 +238,14 @@ Then('All my consents are set to {string}', (state, callback) => {
 Then('there is an error', (callback) => {
     //OK
     callback();
+});
+
+Then('The consent of the selected contact point is set to {string}', (callback, state) => {
+    api.post(GET_CONSENT_LIST_URL, {}, headers)
+        .then((response) => {
+            assert.equal(response.body.value.emailAddressList[0].consent, state);
+            callback();
+        })
 })
 
 

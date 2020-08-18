@@ -59,6 +59,8 @@ const login = (smid, cardNumber, callback) => {
             }, headers)
 
         }).then((response) => {
+            console.log("TESTESTESTESTESTESTESTESTETSTESTESTEST");
+            console.log(response.body);
             agreementId = response.body.value.channelAgreements[0].agreementId;
             response.headers["set-cookie"].forEach(header => {
                 tempCookieHeader += header + ";"
