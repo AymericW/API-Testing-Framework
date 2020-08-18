@@ -4,7 +4,7 @@
   
 2 - cd api-testing <br>
 
-3 - Checkout to Your new branch from Customers/Aymeric 
+3 - Checkout to Your new branch from Customers/Aymeric or Master
 
     - npm install
 	- Run a feature : npm run start features/feature.name
