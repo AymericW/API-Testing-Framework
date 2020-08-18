@@ -42,7 +42,7 @@ function FilterContactPoints(list, expectedValue) {
 
 //Logging on script refer to login.js
 Given('I am logged with smid {string} and {string} as cardnumber', function(smid, cardnumber, callback) {
-    login('1353974538', '67030417216403435', callback);
+    login(smid, cardnumber, callback);
 });
 
 Given('my general consent is opt {string}', function(consent, callback) {

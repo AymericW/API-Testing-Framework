@@ -28,12 +28,6 @@ const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsen
 
 
 
-
-Given('I am logged in with user', (callback) => {
-    login('1353974538', '67030417216403435', callback);
-});
-
-
 Given('I reset my emails to none', (callback) => {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {

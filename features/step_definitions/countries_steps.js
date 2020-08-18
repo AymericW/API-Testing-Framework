@@ -25,10 +25,6 @@ const COUNTRIES_URL = OCPL_PR01 + '/rpc/countries';
 
 
 
-Given('I am logged in', (callback) => {
-    login('1353974538', '67030417216403435', callback);
-});
-
 When('I request the list of countries', function(callback) {
     api.get(COUNTRIES_URL, headers)
         .then((response) => {
