@@ -29,12 +29,11 @@ const STATUS_DSAR_REQUEST = OCPL_PR01 + "/rpc/dsarDocument/status";
 const RETRIEVE_DSAR_DOCUMENT = OCPL_PR01 + "/rpc/dsarDocument";
 
 
-
 When("I download the pdf of my information", (callback) => {
     api.post(REQUEST_DSAR,
         {
-        "format": "pdf"
-    }, headers)
+            "format": "pdf"
+        }, headers)
         .then(() => {
             api.get(STATUS_DSAR_REQUEST, headers)
                 .then((response) => {
@@ -80,13 +79,10 @@ When("I download the csv of my information", (callback) => {
 })
 
 
-
-
-
 Then("I can view my information on the pdf", (callback) => {
     let dataBuffer = fs.readFileSync('./privacy_portal_fortis.pdf');
 
-    pdf(dataBuffer).then(function(data) {
+    pdf(dataBuffer).then(function (data) {
 
         // number of pages
         console.log(data.numpages);
@@ -106,15 +102,15 @@ Then("I can view my information on the CSV", (callback) => {
     let dataBuffer = fs.readFileSync('./privacy_portal_fortis.csv');
 
     parse(dataBuffer)
-        .on('readable', function() {
-        let record;
-        while (record = this.read()){
-            output.push(record);
-        }
+        .on('readable', function () {
+            let record;
+            while (record = this.read()) {
+                output.push(record);
+            }
         })
-        .on('end', function() {
+        .on('end', function () {
             assert.include(output, "1453637078");
         });
 
-        callback();
+    callback();
 });
