@@ -14,7 +14,7 @@ node('Customers_slave2') {
         //steps.sh "npm config set registry ${centralNPMPublicGroupURL}"
         steps.sh "npm install"
     }
-    stage ('Run the script(contact_management.feature)') {
+    stage ('Run the script(mifid_consent_wava.feature)') {
         steps.sh "sh ./scripts/run.sh 'mifid_consent_wava'"
     }
 
