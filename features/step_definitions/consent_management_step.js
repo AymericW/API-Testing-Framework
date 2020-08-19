@@ -234,7 +234,7 @@ Then('there is an error', (callback) => {
     callback();
 });
 
-Then('The consent of the selected contact point is set to {string}', (callback, state) => {
+Then('The consent of the selected contact point is set to {string}', (state, callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
             assert.equal(response.body.value.emailAddressList[0].consent, state);
