@@ -73,7 +73,7 @@ Given('I have no email contactpoints', function(callback) {
             );
             Promise.all(promises).then(() => callback())
         })
-})
+});
 
 Given('I have no phone number contact points', function(callback) {
     //Here we get the list of all the phone numbers
@@ -90,7 +90,7 @@ Given('I have no phone number contact points', function(callback) {
             //Here we execute all the promises
             Promise.all(promises).then(() => callback())
         })
-})
+});
 
 Given('There is {string} number in the list with type {string}', function(phoneNumber, type, callback) {
     //Insertion of the wanted Phone number
@@ -124,7 +124,7 @@ Given('{string} is added to current smid', function(email, callback) {
 When('I modify an existing phone number {string} to {string}', function(baseNumber, newNumber, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
-            const phoneNumbers = response.body.value.mobilePhoneList
+            const phoneNumbers = response.body.value.mobilePhoneList;
             console.log(phoneNumbers);
 
             //Substring is used for removing the 0032 added by the API so we can do an operation on the base phone number
@@ -236,7 +236,7 @@ Then('I see {string} in the email list', function(expectedEmail, callback) {
 });
 
 
-//TODO
+
 Then('I see {string} in the phone number list with {string}', function(expectedPhoneNumber, expectedType, callback) {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
@@ -281,4 +281,4 @@ Then('I see the modified {string} email in the list', function(newEmail, callbac
 
             callback();
         })
-})
+});

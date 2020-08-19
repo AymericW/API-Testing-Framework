@@ -26,4 +26,4 @@ Given("I am logged with smid and are on the Privacy portal page", (callback) => 
 
 Given("that i am a logged in user", (callback) => {
     login('1353974538', '67030417216403435', callback);
-})
+});

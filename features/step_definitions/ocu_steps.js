@@ -35,7 +35,7 @@ Given('I am logged with smid', (callback) => {
 });
 
 
-Given('I am on the personal data page', function(callback) {
+Given('I am on the personal data page', (callback) => {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
         .then((response) => {
             assert.equal(response.statusCode, '200');
@@ -45,7 +45,7 @@ Given('I am on the personal data page', function(callback) {
 
 
 
-When('I click on modify details', function(callback) {
+When('I click on modify details', (callback) => {
     api.get(CHECK_UPDATE_RESTRICTIONS_URL, headers)
         .then((response) => {
             console.log(response.body);
@@ -56,7 +56,7 @@ When('I click on modify details', function(callback) {
 });
 
 
-When('I try to modify the details of non_related_smid', function(callback) {
+When('I try to modify the details of non_related_smid', (callback) => {
     api.get(CHECK_UPDATE_RESTRICTIONS_URL + '/1353974538', headers)
         .then((response) => {
             console.log('Non related SMID checkUpdateRestrictions');
@@ -67,7 +67,7 @@ When('I try to modify the details of non_related_smid', function(callback) {
 
 
 
-When('I try to modify the details of related_smid', function(callback) {
+When('I try to modify the details of related_smid', (callback) => {
     api.get(CHECK_UPDATE_RESTRICTIONS_URL + '/TODO', headers)
         .then((response) => {
             bodyResponse = response.body;
@@ -77,7 +77,7 @@ When('I try to modify the details of related_smid', function(callback) {
 });
 
 
-When('I start the e-contract flow', function(callback) {
+When('I start the e-contract flow', (callback) => {
     api.post(CREATE_OCU_REQUEST_URL, { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.statusCode);
@@ -86,7 +86,7 @@ When('I start the e-contract flow', function(callback) {
         })
 });
 
-When('I create an Ocu Request for a non_related_smid', function(callback) {
+When('I create an Ocu Request for a non_related_smid', (callback) => {
     api.post(CREATE_OCU_REQUEST_URL + '/1858973291', { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.statusCode);
@@ -95,7 +95,7 @@ When('I create an Ocu Request for a non_related_smid', function(callback) {
         })
 });
 
-When('I create an Ocu Request for a related_smid', function(callback) {
+When('I create an Ocu Request for a related_smid', (callback) => {
     api.post(CREATE_OCU_REQUEST_URL + '/TODO', { "updateType": "EID" }, headers)
         .then((response) => {
             console.log(response.body);
@@ -103,52 +103,51 @@ When('I create an Ocu Request for a related_smid', function(callback) {
         })
 });
 
-When('I request the e-contract URL', function(callback) {
+When('I request the e-contract URL', (callback) => {
     api.get(OCPL_PR01 + '/rpc/e-contract', headers)
         .then((response) => {
             console.log(response.body);
             eContractUrlResponse = response.body;
             callback();
         })
-})
+});
 
-When('I retrieve my personal data', function(callback) {
+When('I retrieve my personal data', (callback) => {
     api.get(OCPL_PR01 + '/rpc/customers/getPersonalData', headers)
         .then((response) => {
             surnameResponse = response.body.value.identity.firstName;
             callback();
         })
-})
+});
 
 
-Then('I should receive the correct URL', function(callback) {
-
+Then('I should receive the correct URL', (callback) => {
     assert.isNotEmpty(eContractUrlResponse.value.url);
     callback();
-})
+});
 
-Then('I should see the eID update button', function(callback) {
+Then('I should see the eID update button', (callback) => {
     assert.isTrue(EidUpdateResponse);
     callback();
 });
 
-Then('I should see an error', function(callback) {
+Then('I should see an error', (callback) => {
     assert.isTrue(EidUpdateResponse);
     callback();
 });
 
-Then('I should see an errorcode', function(callback) {
+Then('I should see an errorcode', (callback) => {
     assert.equal(OcuRequestStatusCode, "404");
     callback();
 });
 
 
-Then("The surname is {string}", function(surname, callback) {
+Then("The surname is {string}", (surname, callback) => {
     assert.equal(surnameResponse, surname);
     callback();
 });
 
-Then('I should see the waiting screen', function(callback) {
+Then('I should see the waiting screen', (callback) => {
     assert.equal(OcuRequestStatusCode, "200");
     callback();
 });

@@ -55,16 +55,20 @@ When("I download the pdf of my information", (callback) => {
 
 
 When("I download the csv of my information", (callback) => {
+    //Request the CSV Download
     api.post(REQUEST_DSAR,
         {
             "format": "csv"
         }, headers)
         .then((response) => {
+            //Request CSV Status
             api.get(STATUS_DSAR_REQUEST, headers)
                 .then((response) => {
                     console.log(response.body);
+                    //Request CSV Binary
                     api.getPdf(RETRIEVE_DSAR_DOCUMENT, headers)
                         .then((response) => {
+                            //create a Writestream in fileSystem
                             let writeStream = fs.createWriteStream('privacy_portal_fortis.csv');
                             writeStream.write(response.body, 'binary');
                             writeStream.on('finish', () => {
@@ -81,7 +85,7 @@ When("I download the csv of my information", (callback) => {
 
 Then("I can view my information on the pdf", (callback) => {
     let dataBuffer = fs.readFileSync('./privacy_portal_fortis.pdf');
-
+    //Create a buffer
     pdf(dataBuffer).then(function (data) {
 
         // number of pages

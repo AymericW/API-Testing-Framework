@@ -44,7 +44,7 @@ Given('I reset my emails to none', (callback) => {
             );
             Promise.all(emailPromises).then(() => callback())
         })
-})
+});
 
 
 Given('I reset my phone numbers to none', (callback) => {
@@ -59,7 +59,7 @@ Given('I reset my phone numbers to none', (callback) => {
             );
             Promise.all(phonePromises).then(() => callback())
         })
-})
+});
 
 Given('I check I have at least one contact point for each type {string} {string} {string}', (email, gsm, phone, callback) => {
     api.post(INSERT_CONCTACTPOINT_URL, {
@@ -99,10 +99,9 @@ Given('I check I have at least one contact point for each type {string} {string}
             })
         })
     })
-})
+});
 
 Given('My general consent is optout', (callback) => {
-    //TODO
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
             console.log(response.body);
@@ -119,10 +118,9 @@ Given('My general consent is optout', (callback) => {
             }
         })
 
-})
+});
 
 Given('My general consent is optin', (callback) => {
-    //TODO
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
             console.log(response.body);
@@ -173,7 +171,7 @@ Given('All my consents are on NC', (callback) => {
             }
 
         })
-})
+});
 
 When('I change my general consent to optin', (callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
@@ -191,7 +189,7 @@ When('I change my general consent to optin', (callback) => {
                     callback();
                 })
         })
-})
+});
 
 
 When('I change my general consent to optout', (callback) => {
@@ -210,7 +208,7 @@ When('I change my general consent to optout', (callback) => {
                     callback();
                 })
         })
-})
+});
 
 When('I give consent to the email contact point', (callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
@@ -238,7 +236,7 @@ Then('All my consents are set to {string}', (state, callback) => {
 });
 
 Then('there is an error', (callback) => {
-    //OK
+    //TODO
     callback();
 });
 
@@ -249,6 +247,6 @@ Then('The consent of the selected contact point is set to {string}', (state, cal
             assert.equal(response.body.value.emailAddressList[0].consent, state);
             callback();
         })
-})
+});
 
 

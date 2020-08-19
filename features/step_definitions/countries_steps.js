@@ -25,7 +25,7 @@ const COUNTRIES_URL = OCPL_PR01 + '/rpc/countries';
 
 
 
-When('I request the list of countries', function(callback) {
+When('I request the list of countries', (callback) => {
     api.get(COUNTRIES_URL, headers)
         .then((response) => {
             countryList = response.body.value;
@@ -33,7 +33,7 @@ When('I request the list of countries', function(callback) {
         })
 });
 
-When('I request the list of countries with a date of 1970', function(callback) {
+When('I request the list of countries with a date of 1970', (callback) => {
     api.get(COUNTRIES_URL + '?date=1970-11-18', headers)
         .then((response) => {
             countryList = response.body.value;
@@ -48,10 +48,10 @@ When('I request details for Belgium', function(callback) {
             nationalityResponse = response.body.value.nationality;
             callback();
         })
-})
+});
 
 
-Then('I see the list of countries and {string} is included', function(Oldcountry, callback) {
+Then('I see the list of countries and {string} is included', (Oldcountry, callback) => {
     const filteredcountry = countryList.filter(country => country.name == Oldcountry);
 
     assert.isNotEmpty(filteredcountry);
@@ -59,13 +59,13 @@ Then('I see the list of countries and {string} is included', function(Oldcountry
     callback();
 });
 
-Then('I see nationality is Belgian', function(callback) {
+Then('I see nationality is Belgian', (callback) => {
     assert.equal(nationalityResponse, 'BELGE');
     callback();
 });
 
-Then('I do not see the incorrect country in the list', function(callback) {
+Then('I do not see the incorrect country in the list', (callback) => {
     const filteredcountry = countryList.filter(country => country.code == '00');
     assert.isEmpty(filteredcountry);
     callback();
-})
+});
