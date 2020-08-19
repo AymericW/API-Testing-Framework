@@ -35,9 +35,8 @@ Feature: Privacy and direct marketing
     And I check I have at least one contact point for each type "simon.pin@gmail.be" "0489145890" "014145896"
     And My general consent is optin
     And All my consents are on NC
-    When I give consent to the "email" contact point
+    When I give consent to the email contact point
     Then The consent of the selected contact point is set to "IN"
-    And I see the success message
 #
 #       Scenario Outline: I want to change the consent of a contact point
 #              Given I am logged in with user

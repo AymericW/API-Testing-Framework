@@ -137,7 +137,7 @@ Given('My general consent is optin', (callback) => {
 });
 
 
-Given('All my consent are on NC', (callback) => {
+Given('All my consents are on NC', (callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
             const consentId = response.body.value.dataConsent.consentId;
