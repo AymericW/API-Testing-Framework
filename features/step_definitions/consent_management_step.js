@@ -27,6 +27,11 @@ const GET_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/getConsentList'
 const MODIFY_CONSENT_LIST_URL = OCPL_PR01 + '/rpc/consentManagement/modifyConsentList';
 
 
+//Functions
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 
 Given('I reset my emails to none', (callback) => {
     api.post(GET_CONTACTPOINT_LIST_URL, {}, headers)
@@ -158,10 +163,13 @@ Given('All my consents are on NC', (callback) => {
                                 api.post(MODIFY_CONSENT_LIST_URL, {
                                     "consents": [{ "consent": "IN", "consentId": consentID2 }]
                                 }, headers)
-                                    .then(() => callback())
+                                    .then(() => {
+                                        sleep(5000);
+                                        callback();
+                                    })
                             })
-                    })
-                callback();
+                    });
+
             }
 
         })
@@ -207,18 +215,18 @@ When('I change my general consent to optout', (callback) => {
 When('I give consent to the email contact point', (callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
-            const consentId = response.body.value.emailAddressList[0].consentId
-
+            const emailConsentId = response.body.value.emailAddressList[0].consentId;
             api.post(MODIFY_CONSENT_LIST_URL, {
-                "consents": [{ "consent": "IN", "consentId": consentId }]
+                "consents": [{ "consent": "IN", "consentId": emailConsentId }]
             }, headers)
                 .then((response) => {
+                    console.log("Consent Updated to IN");
                     console.log(response.body);
                     callback();
                 })
 
         })
-})
+});
 
 
 Then('All my consents are set to {string}', (state, callback) => {
@@ -237,6 +245,7 @@ Then('there is an error', (callback) => {
 Then('The consent of the selected contact point is set to {string}', (state, callback) => {
     api.post(GET_CONSENT_LIST_URL, {}, headers)
         .then((response) => {
+            console.log(response.body.value);
             assert.equal(response.body.value.emailAddressList[0].consent, state);
             callback();
         })
