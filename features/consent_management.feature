@@ -2,7 +2,7 @@ Feature: Privacy and direct marketing
   I want to manage the consent of my contact details
 
   Scenario: I want general consent to be optin
-    Given I am logged in with user
+    Given that i am a logged in user
     And I reset my emails to none
     And I reset my phone numbers to none
     And I check I have at least one contact point for each type "simon.pin@gmail.be" "0489145890" "014145896"
@@ -11,7 +11,7 @@ Feature: Privacy and direct marketing
     Then All my consents are set to "NC"
 
   Scenario: I want general consent to be optout
-    Given I am logged in with user
+    Given that i am a logged in user
     And I reset my emails to none
     And I reset my phone numbers to none
     And I check I have at least one contact point for each type "simon.pin@gmail.be" "0489145890" "014145896"
@@ -20,7 +20,7 @@ Feature: Privacy and direct marketing
     Then All my consents are set to "OU"
 
   Scenario: I want to give one consent in general optout
-    Given I am logged in with user
+    Given that i am a logged in user
     And I reset my emails to none
     And I reset my phone numbers to none
     And I check I have at least one contact point for each type "simon.pin@gmail.be" "0489145890" "014145896"
@@ -29,7 +29,7 @@ Feature: Privacy and direct marketing
     Then there is an error
 
   Scenario: I want to give one consent in general optin
-    Given I am logged in with user
+    Given that i am a logged in user
     And I reset my emails to none
     And I reset my phone numbers to none
     And I check I have at least one contact point for each type "simon.pin@gmail.be" "0489145890" "014145896"
